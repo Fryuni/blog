@@ -5,7 +5,7 @@ uniqueHomePage = true # change to false to add sidebar to homepage
 
 blogDir = "blog" # can be posts, blog e.t.c
 
-repo = "https://github.com/onweru/compose"
+repo = "https://gitlab.com/Fryuni/blog"
 
 time_format_blog = "Monday, January 02, 2006"
 time_format_default = "January 2, 2006"
@@ -34,5 +34,5 @@ codeLineNumbers = false
 # optional
 # attribution. Feel free to delete this
 [author]
-  name = "Weru"
+  name = "Luiz Ferraz"
   url = "https://neuralvibes.com/author/"
