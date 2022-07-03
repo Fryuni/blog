@@ -1,8 +1,7 @@
 +++
 categories = ["life"]
 date = "2022-06-19"
-description = ""
-draft = true
+description = "How humans have learned from the clouds."
 image = "clouds.png"
 tags = ["life", "philosophy"]
 title = "In honor of the clouds"
