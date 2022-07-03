@@ -1,4 +1,4 @@
-baseURL = "https://fryuni.gitlab.io/blog"
+baseURL = "https://blog.lferraz.com"
 title = "Devil in (the) Details"
 enableRobotsTXT = true
 # this example loads the theme as hugo module
