@@ -8,6 +8,7 @@ tags = [
 date = "2022-06-19"
 categories = ["life"]
 image = "clouds.png"
+draft = true
 +++
 
 Today I was observing the clouds through the window of an airplane. It got me into a strange and deep pondering.
