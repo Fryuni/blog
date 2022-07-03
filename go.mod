@@ -1,4 +1,4 @@
-module compose-exampleSite
+module gitlab.com/Fryuni/blog
 
 go 1.15
 

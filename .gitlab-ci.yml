@@ -19,7 +19,6 @@ default:
   before_script:
     - apk add --update --no-cache git go
     - git submodule update --init --recursive
-    - hugo mod init gitlab.com/Fryuni/blog
     - hugo mod get -u github.com/onweru/compose
 
 test:
