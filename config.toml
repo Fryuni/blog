@@ -1,13 +1,8 @@
 baseURL = "https://blog.lferraz.com"
-title = "Devil in (the) Details"
-enableRobotsTXT = true
-# this example loads the theme as hugo module
-# comment out line below, and uncomment the line after it if you prefer to load the theme normally
-theme = ["github.com/onweru/compose"] # edit this if you'ld rather use a fork of this repo
-# theme = "compose"
-enableGitInfo = true
-
 disableKinds = ["taxonomy", "taxonomyTerm"]
-
+enableGitInfo = true
+enableRobotsTXT = true
+theme = ["github.com/onweru/compose"]
+title = "Devil in (the) Details"
 [outputs]
-  home = ["HTML", "RSS","JSON"]
+home = ["HTML", "RSS", "JSON"]
