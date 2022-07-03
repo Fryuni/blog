@@ -1,0 +1,26 @@
+---
+label: Home
+hide_body: false
+fields:
+- type: text
+  name: title
+  label: title
+- type: field_group
+  name: data
+  label: data
+  fields:
+  - type: number
+    name: baseChartOn
+    label: baseChartOn
+  - type: list
+    name: colors
+    label: colors
+  - type: list
+    name: columnTitles
+    label: columnTitles
+  - type: text
+    name: fileLink
+    label: fileLink
+  - type: text
+    name: title
+    label: title
