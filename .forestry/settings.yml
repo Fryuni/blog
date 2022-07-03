@@ -14,13 +14,13 @@ sections:
   label: Default Env
   create: all
   match: "**/*"
-  new_doc_ext: ".toml"
+  new_doc_ext: toml
 - type: directory
   path: config/staging
   label: Staging Env
   create: all
   match: "**/*"
-  new_doc_ext: ".toml"
+  new_doc_ext: toml
 - type: heading
   label: PAGES
 - type: directory
@@ -57,5 +57,6 @@ build:
   preview_docker_image: forestryio/hugo:latest
   mount_path: "/srv"
   working_dir: "/srv"
-  instant_preview_command: hugo server -D -E -F --renderToDisk -d public
+  instant_preview_command: hugo server -D -E -F --renderToDisk -d public --environment
+    staging --port 8080 --bind 0.0.0.0 --baseURL \
 version: 0.101.0
