@@ -9,6 +9,18 @@ sections:
 - type: document
   path: config.toml
   label: Settings
+- type: directory
+  path: config/_default
+  label: Default Env
+  create: all
+  match: "**/*"
+  new_doc_ext: ".toml"
+- type: directory
+  path: config/staging
+  label: Staging Env
+  create: all
+  match: "**/*"
+  new_doc_ext: ".toml"
 - type: heading
   label: PAGES
 - type: directory
