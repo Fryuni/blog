@@ -1,7 +1,7 @@
 ---
-title: "A Language Worth Learning"
-description: "What makes a language worth learning."
-tags: ["studying", "philosophy"]
+title: 'A Language Worth Learning'
+description: 'What makes a language worth learning.'
+tags: ['studying', 'philosophy']
 pubDateTime: 2023-06-17
 ---
 
@@ -11,7 +11,7 @@ pubDateTime: 2023-06-17
 
 [^1]: 19th epigram from: Alan J. Perlis. 1982. Special Feature: Epigrams on programming. SIGPLAN Not. 17, 9 (September 1982), 7–13. https://doi.org/10.1145/947955.1083808
 
-I found this quote in an [article](http://www.norvig.com/21-days.html) by Peter Norvig about the path of learning how to program. It is right at the top of the
+I found this quote when reading the excellent [article](http://www.norvig.com/21-days.html) by Peter Norvig about the path of learning how to program. It is right in the beggining, setting the stage for his post. This post is independent of the one by Peter, but do check it out as well.
 
 The article presents this quote in the context of an example. A programmer versed in BASIC might need to work on some code base written in C; if that programmer only learns C syntax, they can perform the task. By learning solely the language's syntax, the programmer would not know how things can be done differently in C compared to BASIC; they would be programmers in BASIC using C syntax, not programming in C.
 The author believes that this situation is not what learning a new language means; it is merely completing a task.
