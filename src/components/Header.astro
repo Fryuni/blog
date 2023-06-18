@@ -2,8 +2,8 @@
 import { LOGO_IMAGE, SITE } from '@config';
 import Hr from './Hr.astro';
 
-import logoPNG from '/assets/logo.png';
-import logoSVG from '/assets/logo.svg';
+// import logoPNG from '/assets/logo.png';
+// import logoSVG from '/assets/logo.svg';
 
 function getActiveNav(): string {
   const { pathname } = Astro.url;
@@ -31,6 +31,8 @@ const activeNav = getActiveNav();
   <div class="nav-container">
     <div class="top-nav-wrap">
       <a href="/" class="logo">
+        {SITE.shortTitle}
+        <!--
         {
           LOGO_IMAGE.enable ? (
             <img
@@ -40,9 +42,9 @@ const activeNav = getActiveNav();
               height={LOGO_IMAGE.height}
             />
           ) : (
-            SITE.shortTitle
           )
         }
+        !-->
       </a>
       <nav id="nav-menu">
         <button
