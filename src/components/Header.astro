@@ -1,8 +1,13 @@
 ---
+import Hamburguer from './Hamburguer.astro';
 import Navigation from './Navigation.astro';
 ---
 <header>
   <nav>
+    <Hamburguer/>
     <Navigation/>
   </nav>
 </header>
+<script>
+  import '../scripts/menu.ts';
+</script>
