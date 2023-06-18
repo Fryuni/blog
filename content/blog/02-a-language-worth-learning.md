@@ -98,7 +98,7 @@ and Go solved this problem very beautifully in their standard library, so it app
 In fact, Go does it in such a way that the source and the destination might even be in different systems,
 and either can optimize for each other.
 
-Let's look into that. Go has a [method `io.Copy` that accepts any `Writer` and any `Reader`][io.Copy src]
+Let's look into that. Go has a [function `io.Copy` that accepts any `Writer` and any `Reader`][io.Copy src]
 reads from the reader and writes to the writer. That is the general implementation mentioned before,
 implemented independently of which reader or writer is used. The brilliant part is that the writer can
 also [implement `WriterTo`][WriterTo optimization], allowing it to receive the reader and optimize to
