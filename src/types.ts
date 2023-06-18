@@ -1,3 +1,5 @@
+import type { GlobalPlug } from '@croct/plug/plug';
+
 export type Site = {
   website: string;
   author: string;
@@ -41,3 +43,9 @@ export type SocialMedia =
   | 'Steam'
   | 'Telegram'
   | 'Mastodon';
+
+declare global {
+  interface Window {
+    croct: GlobalPlug;
+  }
+}

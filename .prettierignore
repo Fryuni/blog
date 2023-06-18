@@ -4,3 +4,4 @@
 /src/assets/*
 /public/assets/*
 .*ignore
+yarn.lock
