@@ -1,3 +1,4 @@
+import { BaseDatetime, DatetimeFormatting } from "@components/Datetime";
 import satori, { SatoriOptions } from "satori";
 import { SITE } from "@config";
 import { writeFile } from "node:fs/promises";
@@ -21,7 +22,7 @@ const fetchFonts = async () => {
 
 const { fontRegular, fontBold } = await fetchFonts();
 
-const ogImage = (text: string) => {
+const ogImage = (text: string, datetime?: DatetimeFormatting) => {
   return (
     <div
       style={{
@@ -92,7 +93,29 @@ const ogImage = (text: string) => {
             }}
           >
             <span>
-              by{" "}
+              {datetime && (
+                <>
+                  on
+                  <span
+                    style={{
+                      color: "transparent",
+                    }}
+                  >
+                    "
+                  </span>
+                  <span style={{ overflow: "hidden", fontWeight: "bold" }}>
+                    <BaseDatetime {...datetime} />
+                  </span>
+                  <span
+                    style={{
+                      color: "transparent",
+                    }}
+                  >
+                    "
+                  </span>
+                </>
+              )}
+              by
               <span
                 style={{
                   color: "transparent",
@@ -135,8 +158,11 @@ const options: SatoriOptions = {
   ],
 };
 
-const generateOgImage = async (mytext = SITE.title) => {
-  const svg = await satori(ogImage(mytext), options);
+const generateOgImage = async (
+  mytext = SITE.title,
+  datetime?: DatetimeFormatting
+) => {
+  const svg = await satori(ogImage(mytext, datetime), options);
 
   // render png in production mode
   if (import.meta.env.MODE === "production") {

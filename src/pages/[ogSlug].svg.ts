@@ -3,8 +3,10 @@ import generateOgImage from "@utils/generateOgImage";
 import type { APIRoute } from "astro";
 import slugify from "@utils/slugify";
 
-export const get: APIRoute = async ({ params }) => ({
-  body: await generateOgImage(params.ogTitle),
+export const get: APIRoute = async ({ props }) => ({
+  body: await generateOgImage(props.post.title, {
+    datetime: props.post.pubDateTime,
+  }),
 });
 
 const postImportResult = await getCollection("blog", ({ data }) => !data.draft);
@@ -14,6 +16,11 @@ export function getStaticPaths() {
   return posts
     .filter(({ data }) => !data.ogImage)
     .map(({ data }) => ({
-      params: { ogTitle: slugify(data) },
+      params: {
+        ogSlug: slugify(data),
+      },
+      props: {
+        post: data,
+      },
     }));
 }
