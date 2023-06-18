@@ -1,15 +1,18 @@
-import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
-import react from "@astrojs/react";
-import remarkToc from "remark-toc";
-import remarkCollapse from "remark-collapse";
-import sitemap from "@astrojs/sitemap";
-import { SITE } from "./src/config";
+import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
+import react from '@astrojs/react';
+import remarkToc from 'remark-toc';
+import remarkCollapse from 'remark-collapse';
+import sitemap from '@astrojs/sitemap';
+import { SITE } from './src/config';
 
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
-  trailingSlash: "never",
+  trailingSlash: 'never',
+  experimental: {
+    assets: true,
+  },
   integrations: [
     tailwind({
       config: {
@@ -25,19 +28,19 @@ export default defineConfig({
       [
         remarkCollapse,
         {
-          test: "Table of contents",
+          test: 'Table of contents',
         },
       ],
     ],
     shikiConfig: {
-      theme: "one-dark-pro",
+      theme: 'one-dark-pro',
       wrap: true,
     },
     extendDefaultPlugins: true,
   },
   vite: {
     optimizeDeps: {
-      exclude: ["@resvg/resvg-js"],
+      exclude: ['@resvg/resvg-js'],
     },
   },
 });
