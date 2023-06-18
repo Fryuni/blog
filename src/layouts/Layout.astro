@@ -1,4 +1,6 @@
 ---
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
 import { SITE } from "@config";
 import "@styles/base.css";
 
@@ -9,6 +11,7 @@ export interface Props {
   author?: string;
   description?: string;
   ogImage?: string;
+  noFooterMargin?: boolean;
 }
 
 const {
@@ -16,6 +19,7 @@ const {
   author = SITE.author,
   description = SITE.desc,
   ogImage = SITE.ogImage,
+  noFooterMargin = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -40,7 +44,7 @@ const socialImageURL = new URL(
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content={author} />
-    <link rel="sitemap" href="/sitemap-index.xml"/>
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title} />
@@ -78,6 +82,8 @@ const socialImageURL = new URL(
     <script is:inline src="/toggle-theme.js"></script>
   </head>
   <body>
+    <Header />
     <slot />
+    <Footer noMarginTop={noFooterMargin} />
   </body>
 </html>

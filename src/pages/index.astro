@@ -1,8 +1,6 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
 import LinkButton from "@components/LinkButton.astro";
 import Hr from "@components/Hr.astro";
 import Card from "@components/Card";
@@ -14,16 +12,19 @@ import { SOCIALS } from "@config";
 const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
+
+const featurePostSlugs: string[] = [];
+const featuredPosts = featurePostSlugs
+  .map(slug => posts.find(({ data }) => slugify(data) === slug))
+  .filter((entry): entry is NonNullable<typeof entry> => entry != null);
 
 const socialCount = SOCIALS.filter(social => social.active).length;
 ---
 
 <Layout>
-  <Header />
   <main id="main-content">
     <section id="hero">
-      <h1>Mingalaba</h1>
+      <h1>Devil in (the) Details</h1>
       <a
         target="_blank"
         href="/rss.xml"
@@ -41,20 +42,16 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </a>
 
       <p>
-        AstroPaper is a minimal, responsive, accessible and SEO-friendly Astro
-        blog theme. This theme follows best practices and provides accessibility
-        out of the box. Light and dark mode are supported by default. Moreover,
-        additional color schemes can also be configured.
+        This is a place where I talk about the craziness of the development
+        world and how seemingly small things can have huge effects later on. The
+        Devil in <i>the</i> Details.
       </p>
+
       <p>
-        Read the blog posts or check
-        <LinkButton
-          className="hover:text-skin-accent underline underline-offset-4 decoration-dashed"
-          href="https://github.com/satnaing/astro-paper#readme"
-        >
-          README
-        </LinkButton> for more info.
+        It is also where I talk about aspects of life that I found curious and
+        decide to go deeper into them. The Devil in Details.
       </p>
+
       {
         // only display if at least one social link is enabled
         socialCount > 0 && (
@@ -116,14 +113,12 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </div>
     </section>
   </main>
-
-  <Footer />
 </Layout>
 
 <style>
   /* ===== Hero Section ===== */
   #hero {
-    @apply pt-8 pb-6;
+    @apply pb-6 pt-8;
   }
   #hero h1 {
     @apply my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl;
@@ -141,13 +136,13 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     @apply mt-4 flex flex-col sm:flex-row sm:items-center;
   }
   .social-links {
-    @apply mr-2 mb-1 whitespace-nowrap sm:mb-0;
+    @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
   }
 
   /* ===== Featured & Recent Posts Sections ===== */
   #featured,
   #recent-posts {
-    @apply pt-12 pb-6;
+    @apply pb-6 pt-12;
   }
   #featured h2,
   #recent-posts h2 {

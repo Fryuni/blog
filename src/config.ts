@@ -7,7 +7,7 @@ export const SITE: Site = {
   title: "DitD",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
-  postPerPage: 3,
+  postPerPage: 4,
 };
 
 export const LOCALE = ["en-EN"]; // set to [] to use the environment default
@@ -27,7 +27,7 @@ export const SOCIALS: SocialObjects = [
     active: true,
   },
   {
-    name: "Github",
+    name: "GitHub",
     href: "https://github.com/Fryuni",
     linkTitle: "Me on GitHub",
     active: true,

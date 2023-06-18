@@ -2,8 +2,6 @@
 import { SITE } from "@config";
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
 import Card from "@components/Card";
 import LinkButton from "@components/LinkButton.astro";
 import slugify from "@utils/slugify";
@@ -21,8 +19,7 @@ const prev = pageNum > 1 ? "" : "disabled";
 const next = pageNum < totalPages ? "" : "disabled";
 ---
 
-<Layout title={`Posts | ${SITE.title}`}>
-  <Header activeNav="posts" />
+<Layout title={`Posts | ${SITE.title}`} noFooterMargin={totalPages > 1}>
   <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
     <ul>
       {
@@ -61,12 +58,11 @@ const next = pageNum < totalPages ? "" : "disabled";
       </nav>
     )
   }
-  <Footer noMarginTop={totalPages > 1} />
 </Layout>
 
 <style>
   .pagination-wrapper {
-    @apply mt-auto mb-8 flex justify-center;
+    @apply mb-8 mt-auto flex justify-center;
   }
   .disabled {
     @apply pointer-events-none select-none opacity-50 hover:text-skin-base group-hover:fill-skin-base;
