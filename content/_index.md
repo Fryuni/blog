@@ -20,6 +20,7 @@ It is also where I talk about aspects of life that I found curious and decide to
 {{< /column >}}
 
 {{< column >}}
-![diy](/images/scribble.jpg)
+<!-- ![diy](/images/scribble.jpg) -->
+![diy](/images/sinth-sunset.webp)
 {{< /column >}}
 {{< /block >}}
