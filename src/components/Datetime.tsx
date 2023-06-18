@@ -1,12 +1,21 @@
 import { LOCALE } from "@config";
 
-export interface Props {
+export interface DatetimeFormatting {
   datetime: string | Date;
+  includeTime?: boolean;
+}
+
+export interface Props extends DatetimeFormatting {
   size?: "sm" | "lg";
   className?: string;
 }
 
-export default function Datetime({ datetime, size = "sm", className }: Props) {
+export default function Datetime({
+  datetime,
+  includeTime,
+  size = "sm",
+  className,
+}: Props) {
   return (
     <div className={`flex items-center space-x-2 opacity-80 ${className}`}>
       <svg
@@ -21,13 +30,16 @@ export default function Datetime({ datetime, size = "sm", className }: Props) {
       </svg>
       <span className="sr-only">Posted on:</span>
       <span className={`italic ${size === "sm" ? "text-sm" : "text-base"}`}>
-        <FormattedDatetime datetime={datetime} />
+        <BaseDatetime datetime={datetime} includeTime={includeTime} />
       </span>
     </div>
   );
 }
 
-const FormattedDatetime = ({ datetime }: { datetime: string | Date }) => {
+export const BaseDatetime = ({
+  datetime,
+  includeTime = false,
+}: DatetimeFormatting) => {
   const myDatetime = new Date(datetime);
 
   const date = myDatetime.toLocaleDateString(LOCALE, {
@@ -44,9 +56,13 @@ const FormattedDatetime = ({ datetime }: { datetime: string | Date }) => {
   return (
     <>
       {date}
-      <span aria-hidden="true"> | </span>
-      <span className="sr-only">&nbsp;at&nbsp;</span>
-      {time}
+      {includeTime && (
+        <>
+          <span aria-hidden="true"> | </span>
+          <span className="sr-only">&nbsp;at&nbsp;</span>
+          {time}
+        </>
+      )}
     </>
   );
 };
