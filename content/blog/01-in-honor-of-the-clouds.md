@@ -5,7 +5,6 @@ description = "How humans have learned from the clouds."
 image = "clouds.png"
 tags = ["life", "philosophy"]
 title = "In honor of the clouds"
-
 +++
 Today I was observing the clouds through the window of an airplane. It got me into a strange and deep pondering.
 
