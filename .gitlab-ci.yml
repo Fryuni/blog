@@ -19,7 +19,6 @@ default:
   before_script:
     - apk add --update --no-cache git go
     - git submodule update --init --recursive
-    - hugo mod get -u github.com/onweru/compose
 
 test:
   script:
