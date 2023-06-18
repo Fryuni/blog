@@ -1,12 +1,12 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import Tag from "@components/Tag.astro";
-import Datetime from "@components/Datetime";
-import type { CollectionEntry } from "astro:content";
-import slugify, { slugifyStr } from "@utils/slugify";
+import Layout from '@layouts/Layout.astro';
+import Tag from '@components/Tag.astro';
+import Datetime from '@components/Datetime';
+import type { CollectionEntry } from 'astro:content';
+import slugify, { slugifyStr } from '@utils/slugify';
 
 export interface Props {
-  post: CollectionEntry<"blog">;
+  post: CollectionEntry<'blog'>;
 }
 
 const { post } = Astro.props;
@@ -16,7 +16,10 @@ const { title, author, description, ogImage, pubDateTime, tags } = post.data;
 
 const { Content } = await post.render();
 
-const ogUrl = new URL(ogImage ? ogImage : `${slug}.svg`, Astro.url.origin).href;
+const ogUrl = new URL(
+  ogImage ? ogImage : `/posts/${slug}.svg`,
+  Astro.url.origin
+).href;
 ---
 
 <Layout title={title} author={author} description={description} ogImage={ogUrl}>
