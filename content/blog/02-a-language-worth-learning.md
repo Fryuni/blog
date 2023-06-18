@@ -1,7 +1,6 @@
 +++
 title = "A Language Worth Learning"
 description = "What makes a language worth learning."
-draft = true
 categories = ["programming", "philosophy"]
 tags = ["programming", "philosophy"]
 date = "2023-06-17"
