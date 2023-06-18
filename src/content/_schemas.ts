@@ -1,4 +1,4 @@
-import { z } from "astro:content";
+import { z } from 'astro:content';
 
 export const blogSchema = z
   .object({
@@ -7,7 +7,7 @@ export const blogSchema = z
     title: z.string(),
     postSlug: z.string().optional(),
     draft: z.boolean().optional(),
-    tags: z.array(z.string()).default(["others"]),
+    tags: z.array(z.string()).default(['others']),
     ogImage: z.string().optional(),
     description: z.string(),
   })

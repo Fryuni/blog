@@ -23,10 +23,10 @@ The curiosity stemming from observing the clouds and yearning for understanding
 what are they, how, when and where are they formed and will turn into rain has
 guided multiple scientific discoveries throughout the years. It has expanded
 from admiring the fluffy clouds here on Earth to analyzing gigantic
-[nebulae](https://en.wikipedia.org/wiki/Nebula "Nebulas - Wikipedia"), very
+[nebulae](https://en.wikipedia.org/wiki/Nebula 'Nebulas - Wikipedia'), very
 sparse clouds of gas in interstellar space.
 
-The [cloud chamber](https://en.wikipedia.org/wiki/Cloud_chamber "Cloud chamber"),
+The [cloud chamber](https://en.wikipedia.org/wiki/Cloud_chamber 'Cloud chamber'),
 for example, was invented to study cloud formation and their optical properties
 but became one of the first detectors for ionizing radiation. Nowadays, CERN
 has the [CLOUD experiment](https://cloud.web.cern.ch/), an experiment dedicated

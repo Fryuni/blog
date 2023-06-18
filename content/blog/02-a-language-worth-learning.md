@@ -5,13 +5,14 @@ categories = ["programming", "philosophy"]
 tags = ["programming", "philosophy"]
 date = "2023-06-17"
 +++
+
 > A language that doesn't affect the way you think about programming, is not worth knowing.
-> 
+>
 > _Alan J. Perlis, 1982[^1]_
 
 [^1]: 19th epigram from: Alan J. Perlis. 1982. Special Feature: Epigrams on programming. SIGPLAN Not. 17, 9 (September 1982), 7–13. https://doi.org/10.1145/947955.1083808
 
-I found this quote in an [article](http://www.norvig.com/21-days.html) by Peter Norvig about the path of learning how to program. It is right at the top of the 
+I found this quote in an [article](http://www.norvig.com/21-days.html) by Peter Norvig about the path of learning how to program. It is right at the top of the
 
 The article presents this quote in the context of an example. A programmer versed in BASIC might need to work on some code base written in C; if that programmer only learns C syntax, they can perform the task. By learning solely the language's syntax, the programmer would not know how things can be done differently in C compared to BASIC; they would be programmers in BASIC using C syntax, not programming in C.
 The author believes that this situation is not what learning a new language means; it is merely completing a task.
@@ -26,17 +27,17 @@ The existing abstractions were just this:
 
 ```ts
 export interface Blob {
-    getContentType(): Promise<string | undefined>;
-    toBuffer(): Promise<Buffer>;
+  getContentType(): Promise<string | undefined>;
+  toBuffer(): Promise<Buffer>;
 }
 
 export interface ReadOnlyFileStorage {
-    read(identifier: string): Promise<Blob | null>;
+  read(identifier: string): Promise<Blob | null>;
 }
 
 export interface FileStorage extends ReadOnlyFileStorage {
-    save(identifier: string, data: Blob): Promise<void>;
-    delete(identifier: string): Promise<void>;
+  save(identifier: string, data: Blob): Promise<void>;
+  delete(identifier: string): Promise<void>;
 }
 ```
 
@@ -59,31 +60,31 @@ We reverted everything back to the initial interface and made the optimization c
 
 ```ts
 export class GcsBlob implements Blob {
-    // Existing methods unchanged
+  // Existing methods unchanged
 
-    // Added this new method to the class, not part of the interface
-    public async copyTo(other: File): Promise<void> {
-        // `this.handle` is the handle to the original file,
-        // which was already present in this class
-        await this.handle.copy(other);
-    }
+  // Added this new method to the class, not part of the interface
+  public async copyTo(other: File): Promise<void> {
+    // `this.handle` is the handle to the original file,
+    // which was already present in this class
+    await this.handle.copy(other);
+  }
 }
 
 export class GcsFileStorage implements FileStorage {
-    // Other methods unchanged
+  // Other methods unchanged
 
-    public async save(identifier: string, data: Blob): Promise<void> {
-        const file = this.bucket.file(identifier);
+  public async save(identifier: string, data: Blob): Promise<void> {
+    const file = this.bucket.file(identifier);
 
-        // Added this conditional, if the original Blob is from GCS,
-        // we just send the copy request without reading anything.
-        if (data instanceof GcsBlob) {
-            return data.copyTo(file);
-        }
-        
-        // Continues to the existing general save solution by downloading
-        // the data and uploading it to GCS
+    // Added this conditional, if the original Blob is from GCS,
+    // we just send the copy request without reading anything.
+    if (data instanceof GcsBlob) {
+      return data.copyTo(file);
     }
+
+    // Continues to the existing general save solution by downloading
+    // the data and uploading it to GCS
+  }
 }
 ```
 
