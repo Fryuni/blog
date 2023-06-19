@@ -43,9 +43,3 @@ export type SocialMedia =
   | 'Steam'
   | 'Telegram'
   | 'Mastodon';
-
-declare global {
-  interface Window {
-    croct: GlobalPlug;
-  }
-}
