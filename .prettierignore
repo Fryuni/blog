@@ -1,4 +1,6 @@
 # Ignore everything
+/.astro/*
+/.netlify/*
 /dist/*
 /node_modules/*
 /src/assets/*
