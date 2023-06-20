@@ -1,7 +1,7 @@
 import type { Site, SocialObjects } from './types';
 
 export const SITE: Site = {
-  website: 'https://fryuni-blog.netlify.com/',
+  website: 'https://blog.lferraz.com/',
   author: 'Luiz Ferraz',
   desc: '',
   shortTitle: 'DitD',
