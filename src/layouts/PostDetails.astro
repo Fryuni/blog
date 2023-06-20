@@ -72,7 +72,7 @@ const ogUrl = new URL(
   import croct from '@croct/plug';
 
   const metaTags = Array.from(
-    document.querySelectorAll('meta[property="article:tag"]')
+    document.querySelectorAll<HTMLMetaElement>('meta[property="article:tag"]')
   ).map(meta => meta.content);
 
   croct.user.edit().combine('custom.tagsRead', metaTags).save();
