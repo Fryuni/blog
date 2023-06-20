@@ -7,6 +7,7 @@ export const SITE: Site = {
   shortTitle: 'DitD',
   title: 'Devil in (the) Details',
   // ogImage: "astropaper-og.jpg",
+  ogImage: `og-site.${import.meta.env.PROD ? 'png' : 'svg'}`,
   lightAndDarkMode: true,
   postPerPage: 4,
 };
