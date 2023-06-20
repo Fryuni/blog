@@ -2,6 +2,7 @@
 title: In honor of the clouds
 description: How humans have learned from the clouds.
 pubDateTime: 2022-06-19
+modifiedTime: 2023-06-20
 tags:
   - life
   - philosophy
@@ -26,7 +27,7 @@ from admiring the fluffy clouds here on Earth to analyzing gigantic
 [nebulae](https://en.wikipedia.org/wiki/Nebula 'Nebulas - Wikipedia'), very
 sparse clouds of gas in interstellar space.
 
-The [cloud chamber](https://en.wikipedia.org/wiki/Cloud_chamber 'Cloud chamber'),
+The [Cloud Chamber](https://en.wikipedia.org/wiki/Cloud_chamber),
 for example, was invented to study cloud formation and their optical properties
 but became one of the first detectors for ionizing radiation. Nowadays, CERN
 has the [CLOUD experiment](https://cloud.web.cern.ch/), an experiment dedicated
@@ -43,13 +44,27 @@ As they described:
 
 One of those Millenium Problems is the existence of a solution to the
 [Navier–Stokes Equation](https://www.claymath.org/millennium-problems/navier%E2%80%93stokes-equation),
-the equation that describes the movement of fluids, like the movement and formation of,
-you guessed it, the clouds. Actually, the challenge is to "make substantial
-progress toward a mathematical theory which will unlock the secrets hidden
-in the Navier-Stokes equations". They consider it a historical achievement
+the equation that describes the movement of fluids, like the movement and
+formation of, you guessed it, the clouds. Actually, the challenge is to "make
+substantial progress toward a mathematical theory which will unlock the secrets
+hidden in the Navier-Stokes equations". They consider it a historical achievement
 not only to find solution but even just making progress in that direction.
 
-We have advanced to the point that any hobbyist can shoot a laser from their
-backyard at the moon with enough precision to hit a single reflector left
-there half a century ago and measure their reflectance. And yet we still get out
-of our houses and wonder if we should bring an umbrella.
+Our understanding of the universe, from the smallest to the largest
+structures, from the deepest atmospheres to the farthest edge of the
+observable universe, was developed, among many, many other things, with
+the base of a simple understanding of the laws of physics of interacting
+particles. Nowadays any hobbyist is capable of shooting a laser from their backyard
+at the moon with enough precision to hit a single reflector left there half a century
+ago and then measure the reflected light. But even coming this far we still get out of our
+houses and wonder if we should bring an umbrella.
+
+If asked, I'd say this curiosity is what brought us this far. And this desire to
+understand the world around us is what drives these discoveries and whats gonna
+bring us further. It comes from all sorts of problems from the trivial ones
+around us to some of the deepest unsolved problems in mathematics.
+
+So, next time you look at some clouds, think about how much this simple act
+has moved humanity over our history, inspiring from multiple religions to
+hundreds of scientific discoveries. And if it rains, thats good, it demarks a
+new revolution of a cycle that we have just recently started to comprehend.

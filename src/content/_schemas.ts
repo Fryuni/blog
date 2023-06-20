@@ -4,6 +4,7 @@ export const blogSchema = z
   .object({
     author: z.string().optional(),
     pubDateTime: z.date(),
+    modifiedTime: z.date().optional(),
     title: z.string(),
     postSlug: z.string().optional(),
     draft: z.boolean().optional(),
