@@ -158,24 +158,23 @@ const options: SatoriOptions = {
   ],
 };
 
+type Result = {
+  svg: string;
+  getPng: () => Buffer;
+};
+
 const generateOgImage = async (
   mytext = SITE.title,
   datetime?: DatetimeFormatting
-) => {
+): Promise<Result> => {
   const svg = await satori(ogImage(mytext, datetime), options);
 
-  // render png in production mode
-  if (import.meta.env.MODE === 'production') {
-    const resvg = new Resvg(svg);
-    const pngData = resvg.render();
-    const pngBuffer = pngData.asPng();
-
-    console.info('Output PNG Image  :', `${mytext}.png`);
-
-    await writeFile(`./dist/${mytext}.png`, pngBuffer);
-  }
-
-  return svg;
+  return {
+    svg,
+    getPng: () => {
+      return new Resvg(svg).render().asPng();
+    },
+  };
 };
 
 export default generateOgImage;
