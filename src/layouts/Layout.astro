@@ -85,14 +85,17 @@ const socialImageURL = new URL(
       )
     }
 
-    <script is:inline src="/toggle-theme.js"></script>
     <script>
       import croct from '@croct/plug';
 
+      (window as any).croct = croct;
+
       croct.plug({
         appId: import.meta.env.PUBLIC_CROCT_APP_ID,
+        debug: import.meta.env.DEV,
       });
     </script>
+    <script is:inline src="/toggle-theme.js"></script>
   </head>
   <body>
     <Header />
