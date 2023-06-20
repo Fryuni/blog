@@ -6,9 +6,14 @@ import remarkCollapse from 'remark-collapse';
 import sitemap from '@astrojs/sitemap';
 import { SITE } from './src/config';
 
+import netlify from '@astrojs/netlify/functions';
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
+  output: 'server',
+  adapter: netlify(),
+
   trailingSlash: 'never',
   experimental: {
     assets: true,
