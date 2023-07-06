@@ -6,8 +6,9 @@ modifiedTime: 2023-06-20
 tags:
   - life
   - philosophy
-# categories = ["life"]
-# image = "clouds.png"
+madeByAI:
+  tags: false
+  title: false
 ---
 
 Today I was observing the clouds through the window of an airplane.
