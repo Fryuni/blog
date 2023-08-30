@@ -44,5 +44,14 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ['@resvg/resvg-js'],
     },
+    build: {
+      rollupOptions: {
+        output: {
+          entryFileNames: `entry-[hash].mjs`,
+          chunkFileNames: `chunk-[hash].mjs`,
+          assetFileNames: `style-[hash].css`,
+        },
+      },
+    },
   },
 });
