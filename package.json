@@ -1,7 +1,7 @@
 {
-  "name": "astro-paper",
-  "version": "2.3.0",
-  "private": false,
+  "name": "fryuni-blob",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev": "astro dev",
     "validate": "astro check && tsc --noEmit",
