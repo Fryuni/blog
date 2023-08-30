@@ -5,7 +5,7 @@ import slugify from '@utils/slugify';
 
 export const prerender = true;
 
-export const get: APIRoute = async ({ props }) =>
+export const GET: APIRoute = async ({ props }) =>
   generateOgImage(props.post.title, {
     datetime: props.post.pubDateTime,
   }).then(
