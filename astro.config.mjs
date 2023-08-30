@@ -11,9 +11,9 @@ import netlify from '@astrojs/netlify/functions';
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
-  output: 'static',
+  output: 'hybrid',
   adapter: netlify({
-    functionPerRoute: true,
+    functionPerRoute: false,
   }),
 
   trailingSlash: 'never',
