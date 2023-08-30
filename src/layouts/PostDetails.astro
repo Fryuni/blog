@@ -12,7 +12,7 @@ export interface Props {
 const { post } = Astro.props;
 
 const slug = slugify(post.data);
-const { title, author, description, ogImage, pubDateTime, tags } = post.data;
+const { title, author, description, ogImage, canonicalURL, pubDateTime, tags } = post.data;
 
 const { Content } = await post.render();
 
@@ -22,7 +22,7 @@ const ogUrl = new URL(
 ).href;
 ---
 
-<Layout title={title} author={author} description={description} ogImage={ogUrl}>
+<Layout title={title} author={author} description={description} ogImage={ogUrl} canonicalURL={canonicalURL}>
   <Fragment slot="head">
     <meta
       property="article:published_time"
@@ -31,7 +31,6 @@ const ogUrl = new URL(
     {author && <meta property="article:author" content={author} />}
     {tags.map(tag => <meta property="article:tag" content={tag} />)}
   </Fragment>
-
   <div class="mx-auto flex w-full max-w-3xl justify-start px-2">
     <button
       class="focus-outline mb-2 mt-8 flex hover:opacity-75"

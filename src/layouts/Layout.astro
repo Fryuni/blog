@@ -11,6 +11,7 @@ export interface Props {
   author?: string;
   description?: string;
   ogImage?: string;
+  canonicalURL?: string;
   noFooterMargin?: boolean;
 }
 
@@ -20,13 +21,12 @@ const {
   description = SITE.desc,
   ogImage = SITE.ogImage,
   noFooterMargin = false,
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
 } = Astro.props;
 
 const title = pageTitle.endsWith(SITE.title)
   ? pageTitle
   : `${pageTitle} | ${SITE.shortTitle}`;
-
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const socialImageURL = new URL(ogImage ?? SITE.ogImage, Astro.url.origin).href;
 ---
