@@ -20,36 +20,36 @@ module.exports = {
     extend: {
       textColor: {
         skin: {
-          base: withOpacity('--color-text-base'),
-          accent: withOpacity('--color-accent'),
-          inverted: withOpacity('--color-fill'),
+          base: withOpacity('--colorTextBase'),
+          accent: withOpacity('--colorAccent'),
+          inverted: withOpacity('--colorFill'),
         },
       },
       backgroundColor: {
         skin: {
-          fill: withOpacity('--color-fill'),
-          accent: withOpacity('--color-accent'),
-          inverted: withOpacity('--color-text-base'),
-          card: withOpacity('--color-card'),
-          'card-muted': withOpacity('--color-card-muted'),
+          fill: withOpacity('--colorFill'),
+          accent: withOpacity('--colorAccent'),
+          inverted: withOpacity('--colorTextBase'),
+          card: withOpacity('--colorCard'),
+          'card-muted': withOpacity('--colorCardMuted'),
         },
       },
       outlineColor: {
         skin: {
-          fill: withOpacity('--color-accent'),
+          fill: withOpacity('--colorAccent'),
         },
       },
       borderColor: {
         skin: {
-          line: withOpacity('--color-border'),
-          fill: withOpacity('--color-text-base'),
-          accent: withOpacity('--color-accent'),
+          line: withOpacity('--colorBorder'),
+          fill: withOpacity('--colorTextBase'),
+          accent: withOpacity('--colorAccent'),
         },
       },
       fill: {
         skin: {
-          base: withOpacity('--color-text-base'),
-          accent: withOpacity('--color-accent'),
+          base: withOpacity('--colorTextBase'),
+          accent: withOpacity('--colorAccent'),
         },
         transparent: 'transparent',
       },

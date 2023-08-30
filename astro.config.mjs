@@ -17,9 +17,7 @@ export default defineConfig({
   trailingSlash: 'never',
   integrations: [
     tailwind({
-      config: {
-        applyBaseStyles: false,
-      },
+      applyBaseStyles: false,
     }),
     react(),
     sitemap(),
