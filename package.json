@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "validate": "astro check && tsc --noEmit",
     "start": "astro dev",
-    "build": "astro build && jampack ./dist",
+    "build": "rm -rf dist && astro build && jampack ./dist",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",
