@@ -1,5 +1,3 @@
-import type { GlobalPlug } from '@croct/plug/plug';
-
 export type Site = {
   website: string;
   author: string;

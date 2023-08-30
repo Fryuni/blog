@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import { SITE } from '@config';
 import Layout from '@layouts/Layout.astro';
 import Main from '@layouts/Main.astro';
-import Search from '@components/Search';
+import SearchBody from '@components/Search';
 
 export const prerender = false;
 
@@ -20,6 +20,6 @@ const searchList = posts.map(({ data }) => ({
 
 <Layout title={`Search | ${SITE.title}`}>
   <Main pageTitle="Search" pageDesc="Search any article ...">
-    <Search client:load searchList={searchList} />
+    <SearchBody client:load searchList={searchList} />
   </Main>
 </Layout>

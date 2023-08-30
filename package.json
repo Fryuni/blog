@@ -17,7 +17,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@astrojs/netlify": "^2.3.0",
+    "@astrojs/check": "^0.2.0",
+    "@astrojs/netlify": "^3.0.0",
     "@astrojs/rss": "^2.4.1",
     "@croct/plug": "^0.13.3",
     "@croct/sdk": "^0.14.0",

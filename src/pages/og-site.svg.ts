@@ -4,5 +4,5 @@ import { SITE } from '@config';
 
 export const prerender = true;
 
-export const get: APIRoute = ({ props }) =>
+export const get: APIRoute = () =>
   generateOgImage(SITE.title).then(({ svg }) => ({ body: svg }));

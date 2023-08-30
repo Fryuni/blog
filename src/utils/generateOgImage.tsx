@@ -1,7 +1,6 @@
-import { BaseDatetime, DatetimeFormatting } from '@components/Datetime';
-import satori, { SatoriOptions } from 'satori';
+import { BaseDatetime, type DatetimeFormatting } from '@components/Datetime';
+import satori, { type SatoriOptions } from 'satori';
 import { SITE } from '@config';
-import { writeFile } from 'node:fs/promises';
 import { Resvg } from '@resvg/resvg-js';
 
 const fetchFonts = async () => {

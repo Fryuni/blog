@@ -12,7 +12,9 @@ import netlify from '@astrojs/netlify/functions';
 export default defineConfig({
   site: SITE.website,
   output: 'hybrid',
-  adapter: netlify(),
+  adapter: netlify({
+    functionPerRoute: true,
+  }),
 
   trailingSlash: 'never',
   integrations: [
