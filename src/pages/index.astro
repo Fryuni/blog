@@ -11,6 +11,8 @@ import { SOCIALS } from '@config';
 
 const posts = await getCollection('blog');
 
+const now = Date();
+
 const sortedPosts = getSortedPosts(posts);
 
 const featurePostSlugs: string[] = [];
@@ -42,6 +44,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </a>
 
       <p>
+        Rendered at: {now}
         This is a place where I talk about the craziness of the development
         world and how seemingly small things can have huge effects later on. The
         Devil in <i>the</i> Details.
