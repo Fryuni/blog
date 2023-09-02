@@ -11,7 +11,7 @@ import netlify from '@astrojs/netlify/functions';
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
-  output: 'static',
+  output: 'hybrid',
   adapter: netlify({
     functionPerRoute: false,
   }),
@@ -43,15 +43,6 @@ export default defineConfig({
   vite: {
     optimizeDeps: {
       exclude: ['@resvg/resvg-js'],
-    },
-    build: {
-      rollupOptions: {
-        output: {
-          entryFileNames: `entry-[hash].mjs`,
-          chunkFileNames: `chunk-[hash].mjs`,
-          assetFileNames: `style-[hash].css`,
-        },
-      },
     },
   },
 });
