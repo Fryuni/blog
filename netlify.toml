@@ -1,9 +1,9 @@
 [build]
   publish = "dist"
-  command = "yarn build"
+  command = "npm clean cache --force && yarn cache clean sharp && yarn build"
 [build.processing.js]
   bundle = false
-  minify = false
+  minify = true
 [[headers]]
   for = "/assets/*"
   [headers.values]
