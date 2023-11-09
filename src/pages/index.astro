@@ -26,13 +26,14 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 <Layout>
   <main id="main-content">
     <section id="hero">
-      <h1>Devil in (the) Details</h1>
+      <h1 id="title">Devil in (the) Details</h1>
       <a
         target="_blank"
         href="/rss.xml"
         class="rss-link"
         aria-label="rss feed"
         title="RSS Feed"
+        id="rss-link"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="rss-icon"
           ><path
@@ -43,8 +44,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         </svg>
       </a>
 
-      <p>
-        Rendered at: {now}
+      <p id="introduction">
         This is a place where I talk about the craziness of the development
         world and how seemingly small things can have huge effects later on. The
         Devil in <i>the</i> Details.
@@ -117,6 +117,24 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     </section>
   </main>
 </Layout>
+
+<script>
+  import croct from '@utils/croct';
+
+  type HomeIntro = {
+    title: string;
+    introduction: string;
+    showRss: boolean;
+  }
+
+  croct.fetch('home-intro').then(({content}: {content: HomeIntro}) => {
+    document.getElementById('introduction').innerHTML = content.title;
+    document.getElementById('introduction').innerHTML = content.introduction;
+    if (!content.showRss) {
+      document.getElementById('rss-link').remove();
+    }
+  })
+</script>
 
 <style>
   /* ===== Hero Section ===== */

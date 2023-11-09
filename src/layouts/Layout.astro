@@ -83,14 +83,7 @@ const socialImageURL = new URL(ogImage ?? SITE.ogImage, Astro.url.origin).href;
     }
 
     <script>
-      import croct from '@croct/plug';
-
-      (window as any).croct = croct;
-
-      croct.plug({
-        appId: import.meta.env.PUBLIC_CROCT_APP_ID,
-        debug: import.meta.env.DEV,
-      });
+      import '@utils/croct';
     </script>
     <script is:inline src="/toggle-theme.js"></script>
   </head>
