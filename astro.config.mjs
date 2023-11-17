@@ -4,6 +4,7 @@ import react from '@astrojs/react';
 import remarkToc from 'remark-toc';
 import remarkCollapse from 'remark-collapse';
 import sitemap from '@astrojs/sitemap';
+// noinspection ES6PreferShortImport -- This is not TS, so path aliases don't work
 import { SITE } from './src/config';
 
 import netlify from '@astrojs/netlify/functions';
@@ -44,5 +45,14 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ['@resvg/resvg-js'],
     },
+    server: {
+      watch: {
+        ignored: [
+          '**/node_modules/**',
+          '**/dist/**',
+          '**/.*/**',
+        ],
+      }
+    }
   },
 });
