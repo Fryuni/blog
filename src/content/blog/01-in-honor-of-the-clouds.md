@@ -34,7 +34,8 @@ but became one of the first detectors for ionizing radiation. Nowadays, CERN
 has the [CLOUD experiment](https://cloud.web.cern.ch/), an experiment dedicated
 to understand the influence of cosmic rays in the clouds and the climate.
 
-In the year 2000, the [Clay Mathematics Institute](https://www.claymath.org/purpose-and-goals)
+In the year 2000, the
+[Clay Mathematics Institute](https://www.claymath.org/purpose-and-goals)
 made a statement listing the 7 biggest problems that humanity was facing coming
 into the new millennium, along with a one million dollar prize for each one.
 As they described:
