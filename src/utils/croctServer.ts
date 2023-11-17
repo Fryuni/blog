@@ -1,6 +1,9 @@
 import type { JsonValue, JsonObject } from '@croct/json';
 import type { VersionedSlotId } from '@croct/plug/slot';
-import type { FetchResponse, FetchOptions } from '@croct/plug/plug';
+import type {
+  FetchResponse,
+  FetchOptions as BaseFetchOptions,
+} from '@croct/plug/plug';
 import {
   ContentFetcher,
   type DynamicContentOptions,
@@ -25,6 +28,7 @@ export function astroCroct(astro: AstroGlobal | APIContext): AstroCroct {
     clientId: astro.locals.clientId,
     fetchOptions: {
       preferredLocale: astro.preferredLocale,
+      previewToken: astro.locals.croctPreview,
     },
     context: {
       page: {
@@ -41,6 +45,10 @@ type AstroCroctOptions = Pick<
 > & {
   evaluationOptions?: Omit<EvaluationOptions, keyof DynamicContentOptions>;
   fetchOptions?: Omit<DynamicContentOptions, keyof EvaluationOptions>;
+};
+
+type FetchOptions = BaseFetchOptions & {
+  static?: boolean;
 };
 
 export class AstroCroct {
@@ -66,7 +74,7 @@ export class AstroCroct {
 
   public evaluate(
     query: string,
-    options: EvaluationOptions = {}
+    options: EvaluationOptions = {},
   ): Promise<JsonValue> {
     return evaluator.evaluate(query, {
       ...this.options,
@@ -87,7 +95,8 @@ export class AstroCroct {
     return contentFetcher.fetch(id, {
       ...this.options,
       ...this.fetchOptions,
-      ...(version === 'latest' ? options : { ...options, version: version }),
+      ...options,
+      version: version === 'latest' ? undefined : version,
     });
   }
 }
