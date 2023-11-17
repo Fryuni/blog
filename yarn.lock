@@ -458,6 +458,11 @@
   resolved "https://registry.yarnpkg.com/@croct/json/-/json-2.0.1.tgz#c94c804ff1c6e72bfc5bfea9127f081ce8c0507a"
   integrity sha512-NmF8UmLow1l9TcS60wAgP8PGzoEylyFKG+hhthmSv43EC3fbDBPZroPwyq890qdvSdVb/5bpJBJVN+HKpn3cOQ==
 
+"@croct/json@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@croct/json/-/json-2.1.0.tgz#2d6da8b52cab6d1b1f06642a92f751484031d093"
+  integrity sha512-UrWfjNQVlBxN+OVcFwHmkjARMW55MBN04E9KfGac8ac8z1QnFVuiOOFtMWXCk3UwsyRqhsNaFoYLZC+xxqsVjQ==
+
 "@croct/plug@^0.13.3":
   version "0.13.3"
   resolved "https://registry.yarnpkg.com/@croct/plug/-/plug-0.13.3.tgz#b683a6e25c37f45833d4c600e8eb7622bacede3c"

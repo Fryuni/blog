@@ -82,9 +82,7 @@ const socialImageURL = new URL(ogImage ?? SITE.ogImage, Astro.url.origin).href;
       )
     }
 
-    <script>
-      import '@utils/croct';
-    </script>
+    <script>import '@utils/croctClient';</script>
     <script is:inline src="/toggle-theme.js"></script>
   </head>
   <body>

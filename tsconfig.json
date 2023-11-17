@@ -14,5 +14,6 @@
       "@utils/*": ["utils/*"]
     }
   },
+  "include": ["src/**/*"],
   "exclude": ["dist"]
 }

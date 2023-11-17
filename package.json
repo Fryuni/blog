@@ -20,6 +20,7 @@
     "@astrojs/check": "^0.2.0",
     "@astrojs/netlify": "^3.0.0",
     "@astrojs/rss": "^3.0.0",
+    "@croct/json": "^2.1.0",
     "@croct/plug": "^0.13.3",
     "@croct/sdk": "^0.14.0",
     "@resvg/resvg-js": "^2.4.1",
