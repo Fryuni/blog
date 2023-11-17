@@ -8,10 +8,9 @@ import Socials from '@components/Socials.astro';
 import getSortedPosts from '@utils/getSortedPosts';
 import slugify from '@utils/slugify';
 import { SOCIALS } from '@config';
+import { astroCroct } from '../utils/croctServer';
 
 const posts = await getCollection('blog');
-
-const now = Date();
 
 const sortedPosts = getSortedPosts(posts);
 
@@ -21,33 +20,49 @@ const featuredPosts = featurePostSlugs
   .filter((entry): entry is NonNullable<typeof entry> => entry != null);
 
 const socialCount = SOCIALS.filter(social => social.active).length;
+
+const croct = astroCroct(Astro);
+
+const {content} = await croct.fetch('home-intro@2');
 ---
 
 <Layout>
   <main id="main-content">
     <section id="hero">
-      <h1 id="title">Devil in (the) Details</h1>
-      <a
-        target="_blank"
-        href="/rss.xml"
-        class="rss-link"
-        aria-label="rss feed"
-        title="RSS Feed"
-        id="rss-link"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="rss-icon"
-          ><path
-            d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"
-          ></path><path
-            d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"
-          ></path><circle cx="6" cy="18" r="2"></circle>
-        </svg>
-      </a>
+      <h1 id="title">{
+        content
+          ? <Fragment set:html={content.title} />
+          : 'Devil in (the) Details'
+      }</h1>
+      {content?.showRss &&
+        <a
+          target="_blank"
+          href="/rss.xml"
+          class="rss-link"
+          aria-label="rss feed"
+          title="RSS Feed"
+          id="rss-link"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="rss-icon"
+            ><path
+              d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"
+            ></path><path
+              d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"
+            ></path><circle cx="6" cy="18" r="2"></circle>
+          </svg>
+        </a>
+      }
 
       <p id="introduction">
-        This is a place where I talk about the craziness of the development
-        world and how seemingly small things can have huge effects later on. The
-        Devil in <i>the</i> Details.
+        {
+          content
+            ? <Fragment set:html={content.introduction} />
+            : <>
+              This is a place where I talk about the craziness of the development
+              world and how seemingly small things can have huge effects later on. The
+              Devil in <i>the</i> Details.
+              </>
+        }
       </p>
 
       <p>
@@ -117,25 +132,6 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     </section>
   </main>
 </Layout>
-
-<script>
-  import croct from '@utils/croct';
-
-  type HomeIntro = {
-    title: string;
-    introduction: string;
-    showRss: boolean;
-  }
-
-  croct.fetch('home-intro').then(({content}: {content: HomeIntro}) => {
-    document.getElementById('introduction').innerHTML = content.title;
-    document.getElementById('introduction').innerHTML = content.introduction;
-    if (!content.showRss) {
-      document.getElementById('rss-link').remove();
-    }
-  })
-</script>
-
 <style>
   /* ===== Hero Section ===== */
   #hero {
