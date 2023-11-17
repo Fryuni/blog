@@ -5,4 +5,10 @@ croct.plug({
   debug: import.meta.env.DEV,
 });
 
+try {
+  window.croct = croct;
+} catch {
+  // Ignore, window is not available
+}
+
 export default croct;
