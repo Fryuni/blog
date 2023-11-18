@@ -15,7 +15,7 @@ export default defineConfig({
   adapter: vercel({
     functionPerRoute: false,
     imageService: true,
-    edgeMiddleware: false,
+    edgeMiddleware: true,
   }),
 
   trailingSlash: 'never',
