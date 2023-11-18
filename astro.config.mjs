@@ -16,6 +16,8 @@ export default defineConfig({
     functionPerRoute: false,
     imageService: true,
     edgeMiddleware: true,
+    webAnalytics: {enabled: true},
+    speedInsights: {enabled: true},
   }),
 
   trailingSlash: 'never',
