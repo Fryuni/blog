@@ -13,7 +13,7 @@ export default defineConfig({
   site: SITE.website,
   output: 'hybrid',
   adapter: vercel({
-    functionPerRoute: true,
+    functionPerRoute: false,
     imageService: true,
     edgeMiddleware: false,
   }),
