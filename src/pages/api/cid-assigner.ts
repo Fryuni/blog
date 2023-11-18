@@ -8,7 +8,7 @@ export const GET: APIRoute = ctx => {
     .get('cid');
   const astroCid = ctx.locals.clientId;
 
-  if (sdkCid !== null && sdkCid !== astroCid) {
+  if (sdkCid !== null && sdkCid !== '' && sdkCid !== astroCid) {
     console.warn(
       `SDK CID (${sdkCid}) and Astro CID (${astroCid}) are different.`,
     );
