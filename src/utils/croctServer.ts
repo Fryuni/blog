@@ -1,15 +1,9 @@
-import type { JsonValue, JsonObject } from '@croct/json';
-import type { VersionedSlotId } from '@croct/plug/slot';
-import type {
-  FetchResponse,
-  FetchOptions as BaseFetchOptions,
-} from '@croct/plug/plug';
-import {
-  ContentFetcher,
-  type DynamicContentOptions,
-} from '@croct/sdk/contentFetcher';
-import { type EvaluationOptions, Evaluator } from '@croct/sdk/evaluator';
-import type { APIContext, AstroGlobal } from 'astro';
+import type {JsonObject, JsonValue} from '@croct/json';
+import type {FetchOptions as BaseFetchOptions, FetchResponse} from '@croct/plug/plug';
+import type {SlotContent, VersionedSlotId} from '@croct/plug/slot';
+import {ContentFetcher, type DynamicContentOptions} from '@croct/sdk/contentFetcher';
+import {type EvaluationOptions, Evaluator} from '@croct/sdk/evaluator';
+import type {APIContext, AstroGlobal} from 'astro';
 
 const evaluator = new Evaluator({
   apiKey: import.meta.env.CROCT_API_KEY,
@@ -23,7 +17,9 @@ const contentFetcher = new ContentFetcher({
 
 export function astroCroct(astro: AstroGlobal | APIContext): AstroCroct {
   return new AstroCroct({
-    clientAgent: astro.request.headers.get('user-agent') ?? undefined,
+    clientAgent: astro.request
+      .headers
+      .get('user-agent') ?? undefined,
     clientIp: astro.clientAddress,
     clientId: astro.locals.clientId,
     fetchOptions: {
@@ -33,7 +29,9 @@ export function astroCroct(astro: AstroGlobal | APIContext): AstroCroct {
     context: {
       page: {
         url: astro.url.toString(),
-        referrer: astro.request.headers.get('referer') ?? undefined,
+        referrer: astro.request
+          .headers
+          .get('referer') ?? undefined,
       },
     },
   });
@@ -43,12 +41,12 @@ type AstroCroctOptions = Pick<
   EvaluationOptions,
   keyof DynamicContentOptions & keyof EvaluationOptions
 > & {
-  evaluationOptions?: Omit<EvaluationOptions, keyof DynamicContentOptions>;
-  fetchOptions?: Omit<DynamicContentOptions, keyof EvaluationOptions>;
+  evaluationOptions?: Omit<EvaluationOptions, keyof DynamicContentOptions>,
+  fetchOptions?: Omit<DynamicContentOptions, keyof EvaluationOptions>,
 };
 
 type FetchOptions = BaseFetchOptions & {
-  static?: boolean;
+  static?: boolean,
 };
 
 export class AstroCroct {
@@ -65,7 +63,7 @@ export class AstroCroct {
   private fetchOptions: Omit<DynamicContentOptions, keyof EvaluationOptions>;
 
   public constructor(options: AstroCroctOptions) {
-    const { evaluationOptions, fetchOptions, ...common } = options;
+    const {evaluationOptions, fetchOptions, ...common} = options;
 
     this.options = common;
     this.evaluationOptions = evaluationOptions ?? {};
@@ -83,20 +81,29 @@ export class AstroCroct {
     });
   }
 
-  public fetch<
+  public async fetch<
     C extends JsonObject,
     I extends VersionedSlotId = VersionedSlotId,
-  >(slotId: I, options: FetchOptions = {}): Promise<FetchResponse<I, C>> {
+  >(
+    slotId: I,
+    options: FetchOptions = {},
+  ): Promise<Partial<FetchResponse<I, C>>> {
     const [id, version = 'latest'] = slotId.split('@') as [
       string,
       `${number}` | 'latest' | undefined,
     ];
 
-    return contentFetcher.fetch(id, {
-      ...this.options,
-      ...this.fetchOptions,
-      ...options,
-      version: version === 'latest' ? undefined : version,
-    });
+    try {
+      return await contentFetcher.fetch<SlotContent<I, C>>(id, {
+        ...this.options,
+        ...this.fetchOptions,
+        ...options,
+        version: version === 'latest' ? undefined : version,
+      });
+    } catch (error) {
+      console.error(error);
+
+      return {};
+    }
   }
 }

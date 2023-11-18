@@ -1,4 +1,5 @@
-import { LOCALE } from '@config';
+import {LOCALE} from '@config';
+import type React from 'react';
 
 export interface DatetimeFormatting {
   datetime: string | Date;
@@ -10,12 +11,9 @@ export interface Props extends DatetimeFormatting {
   className?: string;
 }
 
-export default function Datetime({
-  datetime,
-  includeTime,
-  size = 'sm',
-  className,
-}: Props) {
+export const Datetime = (props: Props): React.JSX.Element => {
+  const {datetime, includeTime, size = 'sm', className} = props;
+
   return (
     <div className={`flex items-center space-x-2 opacity-80 ${className}`}>
       <svg
@@ -26,7 +24,10 @@ export default function Datetime({
         aria-hidden="true"
       >
         <path d="M7 11h2v2H7zm0 4h2v2H7zm4-4h2v2h-2zm0 4h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z"></path>
-        <path d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8l.001 12H5V8h14z"></path>
+        <path
+          d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0
+          1.103.897 2 2 2zM19 8l.001 12H5V8h14z"
+        ></path>
       </svg>
       <span className="sr-only">Posted on:</span>
       <span className={`italic ${size === 'sm' ? 'text-sm' : 'text-base'}`}>
@@ -34,12 +35,12 @@ export default function Datetime({
       </span>
     </div>
   );
-}
+};
 
-export const BaseDatetime = ({
-  datetime,
-  includeTime = false,
-}: DatetimeFormatting) => {
+export const BaseDatetime = (
+  options: DatetimeFormatting,
+): React.JSX.Element => {
+  const {datetime, includeTime = false} = options;
   const myDatetime = new Date(datetime);
 
   const date = myDatetime.toLocaleDateString(LOCALE, {

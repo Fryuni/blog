@@ -1,33 +1,36 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
+import type {GetStaticPathsResult} from 'astro';
+import {type CollectionEntry, getCollection} from 'astro:content';
 import Posts from '@layouts/Posts.astro';
 import PostDetails from '@layouts/PostDetails.astro';
-import getSortedPosts from '@utils/getSortedPosts';
-import getPageNumbers from '@utils/getPageNumbers';
-import slugify from '@utils/slugify';
-import { SITE } from '@config';
+import {SITE} from '@config';
+import {getPageNumbers, getSortedPosts, slugify, getPosts} from '@utils/posts';
 
 export interface Props {
-  post: CollectionEntry<'blog'>;
+  post?: CollectionEntry<'blog'>;
 }
 
-export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+export async function getStaticPaths(): Promise<GetStaticPathsResult> {
+  const posts = await getPosts();
 
-  const postResult = posts.map(post => ({
-    params: { slug: slugify(post.data) },
-    props: { post },
-  }));
+  const postResult = posts.map(
+    post => ({
+      params: {slug: slugify(post.data)},
+      props: {post},
+    }),
+  );
 
-  const pagePaths = getPageNumbers(posts.length).map(pageNum => ({
-    params: { slug: String(pageNum) },
-  }));
+  const pagePaths = getPageNumbers(posts.length).map(
+    pageNum => ({
+      params: {slug: String(pageNum)},
+    }),
+  );
 
   return [...postResult, ...pagePaths];
 }
 
-const { slug } = Astro.params;
-const { post } = Astro.props;
+const {slug} = Astro.params;
+const {post} = Astro.props;
 
 const posts = await getCollection('blog');
 
@@ -35,10 +38,9 @@ const sortedPosts = getSortedPosts(posts);
 
 const totalPages = getPageNumbers(sortedPosts.length);
 
-const currentPage =
-  slug && !isNaN(Number(slug)) && totalPages.includes(Number(slug))
-    ? Number(slug)
-    : 0;
+const currentPage = slug != null && !Number.isNaN(Number(slug)) && totalPages.includes(Number(slug))
+  ? Number(slug)
+  : 0;
 const lastPost = currentPage * SITE.postPerPage;
 const startPost = lastPost - SITE.postPerPage;
 
@@ -46,13 +48,15 @@ const paginatedPosts = sortedPosts.slice(startPost, lastPost);
 ---
 
 {
-  post ? (
-    <PostDetails post={post} />
-  ) : (
-    <Posts
-      posts={paginatedPosts}
-      pageNum={currentPage}
-      totalPages={totalPages.length}
-    />
-  )
+  post != null
+    ? (
+      <PostDetails post={post} />
+    )
+    : (
+      <Posts
+        posts={paginatedPosts}
+        pageNum={currentPage}
+        totalPages={totalPages.length}
+      />
+    )
 }

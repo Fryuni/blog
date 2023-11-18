@@ -1,22 +1,20 @@
 ---
-import { getCollection } from 'astro:content';
+import {getCollection} from 'astro:content';
 import Layout from '@layouts/Layout.astro';
 import LinkButton from '@components/LinkButton.astro';
 import Hr from '@components/Hr.astro';
-import Card from '@components/Card';
+import {Card} from '@components/Card';
 import Socials from '@components/Socials.astro';
-import getSortedPosts from '@utils/getSortedPosts';
-import slugify from '@utils/slugify';
-import { SOCIALS } from '@config';
-import { astroCroct } from '../utils/croctServer';
+import {SOCIALS} from '@config';
+import {astroCroct} from '@utils/croctServer';
+import {getSortedPosts, slugify} from '@utils/posts';
 
 const posts = await getCollection('blog');
 
 const sortedPosts = getSortedPosts(posts);
 
 const featurePostSlugs: string[] = [];
-const featuredPosts = featurePostSlugs
-  .map(slug => posts.find(({ data }) => slugify(data) === slug))
+const featuredPosts = featurePostSlugs.map(slug => posts.find(({data}) => slugify(data) === slug))
   .filter((entry): entry is NonNullable<typeof entry> => entry != null);
 
 const socialCount = SOCIALS.filter(social => social.active).length;
@@ -30,11 +28,11 @@ const {content} = await croct.fetch('home-intro@2');
   <main id="main-content">
     <section id="hero">
       <h1 id="title">{
-        content
-          ? <Fragment set:html={content.title} />
-          : 'Devil in (the) Details'
+        content == null
+          ? 'Devil in (the) Details'
+          : <Fragment set:html={content.title} />
       }</h1>
-      {content?.showRss &&
+      {content?.showRss === true && (
         <a
           target="_blank"
           href="/rss.xml"
@@ -44,24 +42,24 @@ const {content} = await croct.fetch('home-intro@2');
           id="rss-link"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="rss-icon"
-            ><path
+          ><path
               d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"
             ></path><path
               d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"
             ></path><circle cx="6" cy="18" r="2"></circle>
           </svg>
         </a>
-      }
+      )}
 
       <p id="introduction">
         {
-          content
-            ? <Fragment set:html={content.introduction} />
-            : <>
+          content == null
+            ? <>
               This is a place where I talk about the craziness of the development
               world and how seemingly small things can have huge effects later on. The
               Devil in <i>the</i> Details.
-              </>
+            </>
+            : <Fragment set:html={content.introduction} />
         }
       </p>
 
@@ -89,13 +87,15 @@ const {content} = await croct.fetch('home-intro@2');
           <section id="featured">
             <h2>Featured</h2>
             <ul>
-              {featuredPosts.map(({ data }) => (
-                <Card
-                  href={`/posts/${slugify(data)}`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              ))}
+              {featuredPosts.map(
+                ({data}) => (
+                  <Card
+                    href={`/posts/${slugify(data)}`}
+                    frontmatter={data}
+                    secHeading={false}
+                  />
+                ),
+              )}
             </ul>
           </section>
           <Hr />
@@ -108,14 +108,13 @@ const {content} = await croct.fetch('home-intro@2');
       <ul>
         {
           sortedPosts.map(
-            ({ data }, index) =>
-              index < 4 && (
-                <Card
-                  href={`/posts/${slugify(data)}`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              )
+            ({data}, index) => index < 4 && (
+              <Card
+                href={`/posts/${slugify(data)}`}
+                frontmatter={data}
+                secHeading={false}
+              />
+            ),
           )
         }
       </ul>
@@ -123,7 +122,7 @@ const {content} = await croct.fetch('home-intro@2');
         <LinkButton href="/posts">
           All Posts
           <svg xmlns="http://www.w3.org/2000/svg"
-            ><path
+          ><path
               d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
             ></path>
           </svg>

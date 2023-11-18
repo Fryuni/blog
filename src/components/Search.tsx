@@ -1,13 +1,14 @@
+import type {BlogFrontmatter} from '@content/_schemas';
+import {slugify} from '@utils/posts';
 import Fuse from 'fuse.js';
-import { useEffect, useRef, useState, useMemo } from 'react';
-import Card from '@components/Card';
-import slugify from '@utils/slugify';
-import type { BlogFrontmatter } from '@content/_schemas';
+import type React from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
+import {Card} from './Card';
 
 export type SearchItem = {
-  title: string;
-  description: string;
-  data: BlogFrontmatter;
+  title: string,
+  description: string,
+  data: BlogFrontmatter,
 };
 
 interface Props {
@@ -16,63 +17,82 @@ interface Props {
 
 interface SearchResult {
   item: SearchItem;
+
   refIndex: number;
 }
 
-export default function SearchBar({ searchList }: Props) {
+export function SearchBar({searchList}: Props): React.JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputVal, setInputVal] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
-    null
+    null,
   );
 
-  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
     setInputVal(e.currentTarget.value);
   };
 
   const fuse = useMemo(
-    () =>
-      new Fuse(searchList, {
-        keys: ['title', 'description'],
-        includeMatches: true,
-        minMatchCharLength: 2,
-        threshold: 0.5,
-      }),
-    [searchList]
+    () => new Fuse(searchList, {
+      keys: ['title', 'description'],
+      includeMatches: true,
+      minMatchCharLength: 2,
+      threshold: 0.5,
+    }),
+    [searchList],
   );
 
-  useEffect(() => {
+  useEffect(
+    () => {
     // if URL has search query,
     // insert that search query in input field
-    const searchUrl = new URLSearchParams(window.location.search);
-    const searchStr = searchUrl.get('q');
-    if (searchStr) setInputVal(searchStr);
+      const searchUrl = new URLSearchParams(window.location.search);
+      const searchStr = searchUrl.get('q');
 
-    // put focus cursor at the end of the string
-    setTimeout(function () {
-      inputRef.current!.selectionStart = inputRef.current!.selectionEnd =
-        searchStr?.length || 0;
-    }, 50);
-  }, []);
+      if (searchStr != null && searchStr !== '') setInputVal(searchStr);
 
-  useEffect(() => {
+      // put focus cursor at the end of the string
+      setTimeout(
+        () => {
+          const pos = searchStr?.length ?? 0;
+
+      inputRef.current!.selectionEnd = pos;
+      inputRef.current!.selectionStart = pos;
+        },
+        50,
+      );
+    },
+    [],
+  );
+
+  useEffect(
+    () => {
     // Add search result only if
     // input value is more than one character
-    let inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
-    setSearchResults(inputResult);
+      const inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
 
-    // Update search string in URL
-    if (inputVal.length > 0) {
-      const searchParams = new URLSearchParams(window.location.search);
-      searchParams.set('q', inputVal);
-      const newRelativePathQuery =
-        window.location.pathname + '?' + searchParams.toString();
-      history.replaceState(null, '', newRelativePathQuery);
-    } else {
-      history.replaceState(null, '', window.location.pathname);
-    }
-  }, [inputVal]);
+      setSearchResults(inputResult);
 
+      // Update search string in URL
+      if (inputVal.length > 0) {
+        const searchParams = new URLSearchParams(window.location.search);
+
+        searchParams.set('q', inputVal);
+        const newRelativePathQuery = `${
+          window.location.pathname
+        }?${searchParams.toString()}`;
+
+        /* eslint-disable no-restricted-globals -- history API */
+        history.replaceState(null, '', newRelativePathQuery);
+      } else {
+        history.replaceState(null, '', window.location.pathname);
+      /* eslint-enable no-restricted-globals -- history API */
+      }
+    },
+    [inputVal],
+  );
+
+  /* eslint-disable max-len -- inline SVG */
   return (
     <>
       <label className="relative block">
@@ -82,9 +102,9 @@ export default function SearchBar({ searchList }: Props) {
           </svg>
         </span>
         <input
-          className="block w-full rounded border border-skin-fill 
+          className="block w-full rounded border border-skin-fill
         border-opacity-40 bg-skin-fill py-3 pl-10
-        pr-3 placeholder:italic placeholder:text-opacity-75 
+        pr-3 placeholder:italic placeholder:text-opacity-75
         focus:border-skin-accent focus:outline-none"
           placeholder="Search for anything..."
           type="text"
@@ -100,23 +120,23 @@ export default function SearchBar({ searchList }: Props) {
       {inputVal.length > 1 && (
         <div className="mt-8">
           Found {searchResults?.length}
-          {searchResults?.length && searchResults?.length === 1
-            ? ' result'
-            : ' results'}{' '}
-          for '{inputVal}'
+          {searchResults?.length === 1 ? ' result' : ' results'} for '{inputVal}
+          '
         </div>
       )}
 
       <ul>
-        {searchResults &&
-          searchResults.map(({ item, refIndex }) => (
+        {searchResults?.map(
+          ({item, refIndex}) => (
             <Card
               href={`/posts/${slugify(item.data)}`}
               frontmatter={item.data}
               key={`${refIndex}-${slugify(item.data)}`}
             />
-          ))}
+          ),
+        )}
       </ul>
     </>
   );
+  /* eslint-enable max-len -- inline SVG */
 }

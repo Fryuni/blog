@@ -1,32 +1,32 @@
 import croct from '@croct/plug';
-import type { JsonStructure, JsonValue } from '@croct/plug/sdk/json';
-import type { ActiveRecord } from '@croct/sdk/activeRecord';
+import type {JsonStructure, JsonValue} from '@croct/plug/sdk/json';
+import type {ActiveRecord} from '@croct/sdk/activeRecord';
 
 type ActionMap = {
-  increment: { property: string; amount?: number };
-  decrement: { property: string; amount?: number };
-  set: { property: string; value: JsonValue };
-  add: { property: string; value: JsonValue };
-  combine: { property: string; value: JsonValue };
-  remove: { property: string; value: JsonValue };
-  merge: { property: string; value: JsonStructure };
-  clear: { property: string };
-  unset: { property: string };
+  increment: {property: string, amount?: number},
+  decrement: {property: string, amount?: number},
+  set: {property: string, value: JsonValue},
+  add: {property: string, value: JsonValue},
+  combine: {property: string, value: JsonValue},
+  remove: {property: string, value: JsonValue},
+  merge: {property: string, value: JsonStructure},
+  clear: {property: string},
+  unset: {property: string},
 };
 
 type PatchAction = {
-  [K in keyof ActionMap]: { action: K } & ActionMap[K];
+  [K in keyof ActionMap]: {action: K} & ActionMap[K];
 }[keyof ActionMap];
 
 type OperationMap = {
-  userPatch: { actions: PatchAction[] };
-  sessionPatch: { actions: PatchAction[] };
-  eventTracking: Record<never, never>;
-  multi: { operations: Operation[] };
+  userPatch: {actions: PatchAction[]},
+  sessionPatch: {actions: PatchAction[]},
+  eventTracking: Record<never, never>,
+  multi: {operations: Operation[]},
 };
 
 export type Operation = {
-  [K in keyof OperationMap]: { type: K } & OperationMap[K];
+  [K in keyof OperationMap]: {type: K} & OperationMap[K];
 }[keyof OperationMap];
 
 export async function croctOperate(operation: Operation): Promise<void> {
@@ -45,7 +45,7 @@ export async function croctOperate(operation: Operation): Promise<void> {
 
 async function doPatch(
   patch: ActiveRecord<any>,
-  actions: PatchAction[]
+  actions: PatchAction[],
 ): Promise<void> {
   for (const action of actions) {
     switch (action.action) {

@@ -4,11 +4,11 @@ croct.plug({
   appId: import.meta.env.PUBLIC_CROCT_APP_ID,
   debug: import.meta.env.DEV,
   cidAssignerEndpointUrl: new URL(
-    `/api/cid-assigner`,
-    window.location.href
+    '/api/cid-assigner',
+    window.location.href,
   ).toString(),
 });
 
 window.croct = croct;
 
-export default croct;
+export {croct};

@@ -1,21 +1,21 @@
-import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
-import getSortedPosts from '@utils/getSortedPosts';
-import slugify from '@utils/slugify';
-import { SITE } from '@config';
+import rss, {type RSSFeedItem} from '@astrojs/rss';
+import {SITE} from '@config';
+import {getPosts, getSortedPosts, slugify} from '@utils/posts';
 
-export async function GET() {
-  const posts = await getCollection('blog');
+export async function GET(): Promise<Response> {
+  const posts = await getPosts();
   const sortedPosts = getSortedPosts(posts);
   return rss({
     title: SITE.title,
     description: SITE.desc,
     site: SITE.website,
-    items: sortedPosts.map(({ data }) => ({
-      link: `posts/${slugify(data)}`,
-      title: data.title,
-      description: data.description,
-      pubDate: new Date(data.pubDateTime),
-    })),
+    items: sortedPosts.map(
+      ({data}): RSSFeedItem => ({
+        link: `posts/${slugify(data)}`,
+        title: data.title,
+        description: data.description,
+        pubDate: new Date(data.pubDateTime),
+      }),
+    ),
   });
 }

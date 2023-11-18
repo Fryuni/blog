@@ -1,24 +1,24 @@
 ---
-import Layout from '@layouts/Layout.astro';
 import Tag from '@components/Tag.astro';
-import Datetime from '@components/Datetime';
-import type { CollectionEntry } from 'astro:content';
-import slugify, { slugifyStr } from '@utils/slugify';
+import {Datetime} from '@components/Datetime';
+import type {CollectionEntry} from 'astro:content';
+import {slugify, slugifyStr} from '@utils/posts';
+import Layout from './Layout.astro';
 
 export interface Props {
   post: CollectionEntry<'blog'>;
 }
 
-const { post } = Astro.props;
+const {post} = Astro.props;
 
 const slug = slugify(post.data);
-const { title, author, description, ogImage, canonicalURL, pubDateTime, tags } = post.data;
+const {title, author, description, ogImage, canonicalURL, pubDateTime, tags} = post.data;
 
-const { Content } = await post.render();
+const {Content} = await post.render();
 
 const ogUrl = new URL(
-  ogImage ? ogImage : `/posts/${slug}.${import.meta.env.PROD ? 'png' : 'svg'}`,
-  Astro.url.origin
+  ogImage ?? `/posts/${slug}.${import.meta.env.PROD ? 'png' : 'svg'}`,
+  Astro.url.origin,
 ).href;
 ---
 
@@ -28,19 +28,23 @@ const ogUrl = new URL(
       property="article:published_time"
       content={pubDateTime.toISOString()}
     />
-    {author && <meta property="article:author" content={author} />}
-    {tags.map(tag => <meta property="article:tag" content={tag} />)}
+    {author != null && <meta property="article:author" content={author} />}
+    {tags.map(
+      tag => <meta property="article:tag" content={tag} />,
+    )}
   </Fragment>
   <div class="mx-auto flex w-full max-w-3xl justify-start px-2">
     <button
       class="focus-outline mb-2 mt-8 flex hover:opacity-75"
-      onclick="history.back()"
+      onclick="history.back();"
     >
       <svg xmlns="http://www.w3.org/2000/svg"
-        ><path
+      >
+        <path
           d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
         ></path>
-      </svg><span>Go back</span>
+      </svg>
+      <span>Go back</span>
     </button>
   </div>
   <main id="main-content">
@@ -51,30 +55,34 @@ const ogUrl = new URL(
     </article>
 
     <ul class="tags-container">
-      {tags.map(tag => <Tag name={slugifyStr(tag)} />)}
+      {tags.map(
+        tag => <Tag name={slugifyStr(tag)} />,
+      )}
     </ul>
   </main>
 </Layout>
 
 <style>
-  main {
-    @apply mx-auto w-full max-w-3xl px-4 pb-12;
-  }
-  .post-title {
-    @apply text-2xl font-semibold text-skin-accent;
-  }
-  .tags-container {
-    @apply my-8;
-  }
+    main {
+        @apply mx-auto w-full max-w-3xl px-4 pb-12;
+    }
+
+    .post-title {
+        @apply text-2xl font-semibold text-skin-accent;
+    }
+
+    .tags-container {
+        @apply my-8;
+    }
 </style>
 <script>
   import croct from '@croct/plug';
 
   const metaTags = Array.from(
-    document.querySelectorAll<HTMLMetaElement>('meta[property="article:tag"]')
+    document.querySelectorAll<HTMLMetaElement>('meta[property="article:tag"]'),
   ).map(meta => meta.content);
 
   croct.user.edit().combine('custom.tagsRead', metaTags).save();
 
-  croct.evaluate("user's tagsRead").then(console.log);
+  croct.evaluate('user\'s tagsRead').then(console.log);
 </script>

@@ -1,35 +1,33 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
-import Layout from "@layouts/Layout.astro";
-import Main from "@layouts/Main.astro";
-import Card from "@components/Card";
-import getUniqueTags from "@utils/getUniqueTags";
-import getPostsByTag from "@utils/getPostsByTag";
-import slugify from "@utils/slugify";
-import { SITE } from "@config";
-import getSortedPosts from "@utils/getSortedPosts";
+import type {GetStaticPathsResult} from 'astro';
+import {type CollectionEntry, getCollection} from 'astro:content';
+import Layout from '@layouts/Layout.astro';
+import Main from '@layouts/Main.astro';
+import {Card} from '@components/Card';
+import {SITE} from '@config';
+import {getPostsByTag, getSortedPosts, getUniqueTags, slugify, getPosts} from '@utils/posts';
 
 export interface Props {
   post: CollectionEntry<'blog'>;
   tag: string;
 }
 
-export async function getStaticPaths() {
+export async function getStaticPaths(): Promise<GetStaticPathsResult> {
   const posts = await getCollection('blog');
 
   const tags = getUniqueTags(posts);
 
-  return tags.map(tag => {
-    return {
-      params: { tag },
-      props: { tag },
-    };
-  });
+  return tags.map(
+    tag => ({
+      params: {tag},
+      props: {tag},
+    }),
+  );
 }
 
-const { tag } = Astro.props;
+const {tag} = Astro.props;
 
-const posts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = await getPosts();
 
 const tagPosts = getPostsByTag(posts, tag);
 
@@ -43,9 +41,11 @@ const sortTagsPost = getSortedPosts(tagPosts);
   >
     <ul>
       {
-        sortTagsPost.map(({ data }) => (
-          <Card href={`/posts/${slugify(data)}`} frontmatter={data} />
-        ))
+        sortTagsPost.map(
+          ({data}) => (
+            <Card href={`/posts/${slugify(data)}`} frontmatter={data} />
+          ),
+        )
       }
     </ul>
   </Main>

@@ -1,34 +1,34 @@
-import { getCollection } from 'astro:content';
-import generateOgImage from '@utils/generateOgImage';
-import type { APIRoute } from 'astro';
-import slugify from '@utils/slugify';
+import {generateOgImage} from '@utils/generateOgImage';
+import {getPosts, slugify} from '@utils/posts';
+import type {APIRoute, GetStaticPathsResult} from 'astro';
 
 export const prerender = true;
 
-export const GET: APIRoute = async ({ props }) =>
-  generateOgImage(props.post.title, {
+export const GET: APIRoute = async ({props}) => {
+  const image = await generateOgImage(props.post.title, {
     datetime: props.post.pubDateTime,
-  }).then(
-    ({ getPng }) =>
-      new Response(getPng(), {
-        headers: {
-          'Content-Type': 'image/png',
+  });
+
+  return new Response(image.getPng(), {
+    headers: {
+      'Content-Type': 'image/png',
+    },
+  });
+};
+
+export async function getStaticPaths(): Promise<GetStaticPathsResult> {
+  const postImportResult = await getPosts();
+  const posts = Object.values(postImportResult);
+
+  return posts.filter(({data}) => data.ogImage != null)
+    .map(
+      ({data}) => ({
+        params: {
+          slug: slugify(data),
         },
-      })
-  );
-
-const postImportResult = await getCollection('blog', ({ data }) => !data.draft);
-const posts = Object.values(postImportResult);
-
-export function getStaticPaths() {
-  return posts
-    .filter(({ data }) => !data.ogImage)
-    .map(({ data }) => ({
-      params: {
-        slug: slugify(data),
-      },
-      props: {
-        post: data,
-      },
-    }));
+        props: {
+          post: data,
+        },
+      }),
+    );
 }

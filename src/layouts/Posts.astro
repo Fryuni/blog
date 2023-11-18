@@ -1,19 +1,19 @@
 ---
-import { SITE } from '@config';
-import Layout from '@layouts/Layout.astro';
-import Main from '@layouts/Main.astro';
-import Card from '@components/Card';
+import {SITE} from '@config';
+import {Card} from '@components/Card';
 import LinkButton from '@components/LinkButton.astro';
-import slugify from '@utils/slugify';
-import type { CollectionEntry } from 'astro:content';
+import type {CollectionEntry} from 'astro:content';
+import {slugify} from '@utils/posts';
+import Main from './Main.astro';
+import Layout from './Layout.astro';
 
 export interface Props {
   pageNum: number;
   totalPages: number;
-  posts: CollectionEntry<'blog'>[];
+  posts: Array<CollectionEntry<'blog'>>;
 }
 
-const { pageNum, totalPages, posts } = Astro.props;
+const {pageNum, totalPages, posts} = Astro.props;
 
 const prev = pageNum > 1 ? '' : 'disabled';
 const next = pageNum < totalPages ? '' : 'disabled';
@@ -23,9 +23,11 @@ const next = pageNum < totalPages ? '' : 'disabled';
   <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
     <ul>
       {
-        posts.map(({ data }) => (
-          <Card href={`/posts/${slugify(data)}`} frontmatter={data} />
-        ))
+        posts.map(
+          ({data}) => (
+            <Card href={`/posts/${slugify(data)}`} frontmatter={data} />
+          ),
+        )
       }
     </ul>
   </Main>
@@ -35,7 +37,7 @@ const next = pageNum < totalPages ? '' : 'disabled';
       <nav class="pagination-wrapper" aria-label="Pagination">
         <LinkButton
           disabled={prev === 'disabled'}
-          href={`/posts${pageNum - 1 !== 1 ? '/' + (pageNum - 1) : ''}`}
+          href={`/posts${pageNum - 1 !== 1 ? `/${pageNum - 1}` : ''}`}
           className={`mr-4 select-none ${prev}`}
           ariaLabel="Previous"
         >

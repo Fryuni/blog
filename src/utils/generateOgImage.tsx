@@ -1,141 +1,135 @@
-import { BaseDatetime, type DatetimeFormatting } from '@components/Datetime';
-import satori, { type SatoriOptions } from 'satori';
-import { SITE } from '@config';
-import { Resvg } from '@resvg/resvg-js';
+import {BaseDatetime, type DatetimeFormatting} from '@components/Datetime';
+import {SITE} from '@config';
+import {Resvg} from '@resvg/resvg-js';
+import type React from 'react';
+import satori, {type SatoriOptions} from 'satori';
 
-const fetchFonts = async () => {
-  // Regular Font
-  const fontFileRegular = await fetch(
-    'https://www.1001fonts.com/download/font/ibm-plex-mono.regular.ttf'
-  );
-  const fontRegular: ArrayBuffer = await fontFileRegular.arrayBuffer();
+// Regular Font
+const fontRegular: ArrayBuffer = await fetch(
+  'https://www.1001fonts.com/download/font/ibm-plex-mono.regular.ttf',
+).then(response => response.arrayBuffer());
 
-  // Bold Font
-  const fontFileBold = await fetch(
-    'https://www.1001fonts.com/download/font/ibm-plex-mono.bold.ttf'
-  );
-  const fontBold: ArrayBuffer = await fontFileBold.arrayBuffer();
+// Bold Font
+const fontBold: ArrayBuffer = await fetch(
+  'https://www.1001fonts.com/download/font/ibm-plex-mono.bold.ttf',
+).then(response => response.arrayBuffer());
 
-  return { fontRegular, fontBold };
-};
-
-const { fontRegular, fontBold } = await fetchFonts();
-
-const ogImage = (text: string, datetime?: DatetimeFormatting) => {
-  return (
+const ogImage = (
+  text: string,
+  datetime?: DatetimeFormatting,
+): React.JSX.Element => (
+  <div
+    style={{
+      background: '#fefbfb',
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
     <div
       style={{
-        background: '#fefbfb',
-        width: '100%',
-        height: '100%',
+        position: 'absolute',
+        top: '-1px',
+        right: '-1px',
+        border: '4px solid #000',
+        background: '#ecebeb',
+        opacity: '0.9',
+        borderRadius: '4px',
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'center',
+        margin: '2.5rem',
+        width: '88%',
+        height: '80%',
+      }}
+    />
+
+    <div
+      style={{
+        border: '4px solid #000',
+        background: '#fefbfb',
+        borderRadius: '4px',
+        display: 'flex',
+        justifyContent: 'center',
+        margin: '2rem',
+        width: '88%',
+        height: '80%',
       }}
     >
       <div
         style={{
-          position: 'absolute',
-          top: '-1px',
-          right: '-1px',
-          border: '4px solid #000',
-          background: '#ecebeb',
-          opacity: '0.9',
-          borderRadius: '4px',
           display: 'flex',
-          justifyContent: 'center',
-          margin: '2.5rem',
-          width: '88%',
-          height: '80%',
-        }}
-      />
-
-      <div
-        style={{
-          border: '4px solid #000',
-          background: '#fefbfb',
-          borderRadius: '4px',
-          display: 'flex',
-          justifyContent: 'center',
-          margin: '2rem',
-          width: '88%',
-          height: '80%',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          margin: '20px',
+          width: '90%',
+          height: '90%',
         }}
       >
+        <p
+          style={{
+            fontSize: 72,
+            fontWeight: 'bold',
+            maxHeight: '84%',
+            overflow: 'hidden',
+          }}
+        >
+          {text}
+        </p>
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
             justifyContent: 'space-between',
-            margin: '20px',
-            width: '90%',
-            height: '90%',
+            width: '100%',
+            marginBottom: '8px',
+            fontSize: 28,
           }}
         >
-          <p
-            style={{
-              fontSize: 72,
-              fontWeight: 'bold',
-              maxHeight: '84%',
-              overflow: 'hidden',
-            }}
-          >
-            {text}
-          </p>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              width: '100%',
-              marginBottom: '8px',
-              fontSize: 28,
-            }}
-          >
-            <span>
-              {datetime && (
-                <>
-                  on
-                  <span
-                    style={{
-                      color: 'transparent',
-                    }}
-                  >
-                    "
-                  </span>
-                  <span style={{ overflow: 'hidden', fontWeight: 'bold' }}>
-                    <BaseDatetime {...datetime} />
-                  </span>
-                  <span
-                    style={{
-                      color: 'transparent',
-                    }}
-                  >
-                    "
-                  </span>
-                </>
-              )}
-              by
-              <span
-                style={{
-                  color: 'transparent',
-                }}
-              >
-                "
-              </span>
-              <span style={{ overflow: 'hidden', fontWeight: 'bold' }}>
-                {SITE.author}
-              </span>
+          <span>
+            {datetime != null && (
+              <>
+                on
+                <span
+                  style={{
+                    color: 'transparent',
+                  }}
+                >
+                  "
+                </span>
+                <span style={{overflow: 'hidden', fontWeight: 'bold'}}>
+                  <BaseDatetime {...datetime} />
+                </span>
+                <span
+                  style={{
+                    color: 'transparent',
+                  }}
+                >
+                  "
+                </span>
+              </>
+            )}
+            by
+            <span
+              style={{
+                color: 'transparent',
+              }}
+            >
+              "
             </span>
+            <span style={{overflow: 'hidden', fontWeight: 'bold'}}>
+              {SITE.author}
+            </span>
+          </span>
 
-            <span style={{ overflow: 'hidden', fontWeight: 'bold' }}>
-              {SITE.title}
-            </span>
-          </div>
+          <span style={{overflow: 'hidden', fontWeight: 'bold'}}>
+            {SITE.title}
+          </span>
         </div>
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 const options: SatoriOptions = {
   width: 1200,
@@ -158,22 +152,18 @@ const options: SatoriOptions = {
 };
 
 type Result = {
-  svg: string;
-  getPng: () => Buffer;
+  svg: string,
+  getPng: () => Buffer,
 };
 
-const generateOgImage = async (
-  mytext = SITE.title,
-  datetime?: DatetimeFormatting
+export const generateOgImage = async (
+  mytext?: string,
+  datetime?: DatetimeFormatting,
 ): Promise<Result> => {
-  const svg = await satori(ogImage(mytext, datetime), options);
+  const svg = await satori(ogImage(mytext ?? SITE.title, datetime), options);
 
   return {
     svg,
-    getPng: () => {
-      return new Resvg(svg).render().asPng();
-    },
+    getPng: () => new Resvg(svg).render().asPng(),
   };
 };
-
-export default generateOgImage;
