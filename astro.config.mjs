@@ -7,15 +7,13 @@ import sitemap from '@astrojs/sitemap';
 // noinspection ES6PreferShortImport -- This is not TS, so path aliases don't work
 import { SITE } from './src/config';
 
-import netlify from '@astrojs/netlify/functions';
-
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
-  output: 'hybrid',
-  adapter: netlify({
-    functionPerRoute: false,
-  }),
+  output: 'static',
+  // adapter: netlify({
+  //   functionPerRoute: false,
+  // }),
 
   trailingSlash: 'never',
   integrations: [
