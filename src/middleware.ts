@@ -1,6 +1,15 @@
+import {type AstroCookies} from 'astro';
 import {defineMiddleware} from 'astro:middleware';
 
-function generateClientId(): string {
+function getClientId(cookies: AstroCookies): string {
+  const cookieValue = cookies.get('croct_client_id')?.value;
+
+  if (cookieValue !== undefined && cookieValue !== '') {
+    console.debug('[MW] Found client ID in cookie:', cookieValue);
+
+    return cookieValue;
+  }
+
   console.log('[MW] Generating a new client ID');
   const clientId = crypto.randomUUID();
 
@@ -12,9 +21,9 @@ function generateClientId(): string {
 export const onRequest = defineMiddleware((context, next) => {
   const {url, cookies, locals} = context;
 
-  locals.clientId = cookies.get('croct_client_id')?.value ?? generateClientId();
-  locals.croctPreview = cookies.get('croct_preview')?.value
-    ?? url.searchParams.get('croct-preview')
+  locals.clientId = getClientId(cookies);
+  locals.croctPreview = url.searchParams.get('croct-preview')
+    ?? cookies.get('croct_preview')?.value
     ?? undefined;
 
   const cookieOptions = {
