@@ -1,6 +1,10 @@
 import {type AstroCookies} from 'astro';
 import {defineMiddleware} from 'astro:middleware';
 
+export const config = {
+  matcher: '*',
+};
+
 function getClientId(cookies: AstroCookies): string {
   const cookieValue = cookies.get('croct_client_id')?.value;
 
@@ -45,3 +49,6 @@ export const onRequest = defineMiddleware((context, next) => {
 
   return next();
 });
+
+// eslint-disable-next-line import/no-default-export -- Seems required for Vercel Edge Middleware
+export default onRequest;

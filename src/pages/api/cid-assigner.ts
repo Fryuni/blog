@@ -14,7 +14,5 @@ export const GET: APIRoute = ctx => {
     );
   }
 
-  return new Response(ctx.locals.clientId, {
-    status: 200,
-  });
+  return new Response(ctx.locals.clientId);
 };
