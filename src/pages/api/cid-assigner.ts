@@ -1,5 +1,7 @@
 import type {APIRoute} from 'astro';
 
+export const prerender = false;
+
 export const GET: APIRoute = ctx => {
   const sdkCid = ctx.url
     .searchParams
