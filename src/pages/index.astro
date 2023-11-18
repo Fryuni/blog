@@ -6,7 +6,7 @@ import Hr from '@components/Hr.astro';
 import {Card} from '@components/Card';
 import Socials from '@components/Socials.astro';
 import {SOCIALS} from '@config';
-import {astroCroct} from '@utils/croctServer';
+import {staticCroct} from '@utils/croctServer';
 import {getSortedPosts, slugify} from '@utils/posts';
 
 const posts = await getCollection('blog');
@@ -19,7 +19,7 @@ const featuredPosts = featurePostSlugs.map(slug => posts.find(({data}) => slugif
 
 const socialCount = SOCIALS.filter(social => social.active).length;
 
-const croct = astroCroct(Astro);
+const croct = staticCroct(Astro);
 
 const {content} = await croct.fetch('home-intro@2');
 ---

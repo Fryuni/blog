@@ -9,7 +9,11 @@ export const GET: APIRoute = async ({props}) => {
     datetime: props.post.pubDateTime,
   });
 
-  return {body: image.svg};
+  return new Response(image.svg, {
+    headers: {
+      'Content-Type': 'image/svg+xml',
+    },
+  });
 };
 
 const postImportResult = await getPosts();

@@ -1,7 +1,7 @@
 import type {JsonObject, JsonValue} from '@croct/json';
 import type {FetchOptions as BaseFetchOptions, FetchResponse} from '@croct/plug/plug';
 import type {SlotContent, VersionedSlotId} from '@croct/plug/slot';
-import {ContentFetcher, type DynamicContentOptions} from '@croct/sdk/contentFetcher';
+import {ContentFetcher, type DynamicContentOptions, type StaticContentOptions} from '@croct/sdk/contentFetcher';
 import {type EvaluationOptions, Evaluator} from '@croct/sdk/evaluator';
 import type {APIContext, AstroGlobal} from 'astro';
 
@@ -15,6 +15,23 @@ const contentFetcher = new ContentFetcher({
   logger: console,
 });
 
+export function staticCroct(astro: AstroGlobal | APIContext): AstroCroct {
+  return new AstroCroct({
+    fetchOptions: {
+      static: true,
+      preferredLocale: astro.preferredLocale,
+    },
+    context: {
+      page: {
+        url: astro.url.toString(),
+        referrer: astro.request
+          .headers
+          .get('referer') ?? undefined,
+      },
+    },
+  });
+}
+
 export function astroCroct(astro: AstroGlobal | APIContext): AstroCroct {
   return new AstroCroct({
     clientAgent: astro.request
@@ -23,6 +40,7 @@ export function astroCroct(astro: AstroGlobal | APIContext): AstroCroct {
     clientIp: astro.clientAddress,
     clientId: astro.locals.clientId,
     fetchOptions: {
+      static: false,
       preferredLocale: astro.preferredLocale,
       previewToken: astro.locals.croctPreview,
     },
@@ -37,17 +55,19 @@ export function astroCroct(astro: AstroGlobal | APIContext): AstroCroct {
   });
 }
 
+type InnerFetchOptions =
+  Omit<StaticContentOptions, keyof EvaluationOptions>
+  | Omit<DynamicContentOptions, keyof EvaluationOptions>;
+
 type AstroCroctOptions = Pick<
   EvaluationOptions,
   keyof DynamicContentOptions & keyof EvaluationOptions
 > & {
   evaluationOptions?: Omit<EvaluationOptions, keyof DynamicContentOptions>,
-  fetchOptions?: Omit<DynamicContentOptions, keyof EvaluationOptions>,
+  fetchOptions?: InnerFetchOptions,
 };
 
-type FetchOptions = BaseFetchOptions & {
-  static?: boolean,
-};
+type FetchOptions = BaseFetchOptions;
 
 export class AstroCroct {
   private options: Pick<
@@ -60,7 +80,7 @@ export class AstroCroct {
     keyof DynamicContentOptions
   >;
 
-  private fetchOptions: Omit<DynamicContentOptions, keyof EvaluationOptions>;
+  private fetchOptions: InnerFetchOptions;
 
   public constructor(options: AstroCroctOptions) {
     const {evaluationOptions, fetchOptions, ...common} = options;
