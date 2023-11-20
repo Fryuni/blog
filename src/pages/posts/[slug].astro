@@ -6,6 +6,8 @@ import PostDetails from '@layouts/PostDetails.astro';
 import {SITE} from '@config';
 import {getPageNumbers, getSortedPosts, slugify, getPosts} from '@utils/posts';
 
+export const prerender = true;
+
 export interface Props {
   post?: CollectionEntry<'blog'>;
 }

@@ -9,8 +9,6 @@ import {SOCIALS} from '@config';
 import {astroCroct} from '@utils/croctServer';
 import {getSortedPosts, slugify} from '@utils/posts';
 
-export const prerender = false;
-
 const posts = await getCollection('blog');
 
 const sortedPosts = getSortedPosts(posts);

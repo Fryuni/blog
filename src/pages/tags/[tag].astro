@@ -7,6 +7,8 @@ import {Card} from '@components/Card';
 import {SITE} from '@config';
 import {getPostsByTag, getSortedPosts, getUniqueTags, slugify, getPosts} from '@utils/posts';
 
+export const prerender = true;
+
 export interface Props {
   post: CollectionEntry<'blog'>;
   tag: string;

@@ -11,7 +11,7 @@ import { SITE } from './src/config';
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
-  output: 'hybrid',
+  output: 'server',
   adapter: vercel({
     functionPerRoute: false,
     imageService: true,
