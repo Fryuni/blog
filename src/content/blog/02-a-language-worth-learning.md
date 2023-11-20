@@ -211,15 +211,17 @@ paradigms and bring you to a much deeper dive into type theory and its applicati
 What is worth learning is heavily dependent on what you _already_ know.
 
 I will even dare to say that this applies to speaking languages just as well, not just
-programming languages. For me, a native Brazilian, learning Spanish adds very little to
-how I think since both languages are very similar in structure and ancestry; learning
+programming languages. For me, a native Brazilian, learning Spanish is good but adds very little
+in terms of how I think since both languages are very similar in structure and ancestry; learning
 English, on the other hand, makes my mind work in an entirely different mode. Thoughts are
 formed by language, and knowing how to architect your thoughts with multiple structures
 enables you to think more diversely.
+
 This is one of the reasons why I didn't choose French or Italian when I was picking a new
 language to study. Although clearly distinct, they share much with the languages I already
 know. I was more inclined to learn Japanese, Korean, or Thai because they differ entirely
-from everything I knew, which meant more to understand and improve.
+from everything I knew, which meant more to understand and improve. I am currently
+studying Thai, and loving all the process.
 
 [io.Copy src]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/io/io.go;l=373-385;drc=dc8e2a6a8ec94f2c98ba20edd57932eba284efb1
 [WriterTo optimization]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/io/io.go;l=406-410;drc=dc8e2a6a8ec94f2c98ba20edd57932eba284efb1
