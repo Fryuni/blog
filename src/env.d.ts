@@ -2,7 +2,7 @@
 /// <reference types="astro/client" />
 declare namespace App {
   interface Locals {
-    clientId: string;
+    clientId?: string;
 
     croctPreview?: string;
   }

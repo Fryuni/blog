@@ -6,10 +6,10 @@ export const config = {
 };
 
 export const onRequest = defineMiddleware((context, next) => {
-  const {url, cookies, locals} = context;
+  const {locals} = context;
 
-  locals.clientId = getClientId(cookies, url);
-  locals.croctPreview = getCroctPreview(cookies, url);
+  locals.clientId = getClientId(context);
+  locals.croctPreview = getCroctPreview(context);
 
   return next();
 });
