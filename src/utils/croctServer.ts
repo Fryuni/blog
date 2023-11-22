@@ -4,6 +4,7 @@ import type {SlotContent, VersionedSlotId} from '@croct/plug/slot';
 import {ContentFetcher, type DynamicContentOptions, type StaticContentOptions} from '@croct/sdk/contentFetcher';
 import {type EvaluationOptions, Evaluator} from '@croct/sdk/evaluator';
 import type {APIContext, AstroGlobal} from 'astro';
+import {isSSG} from './environment';
 
 const evaluator = new Evaluator({
   apiKey: import.meta.env.CROCT_API_KEY,
@@ -15,35 +16,24 @@ const contentFetcher = new ContentFetcher({
   logger: console,
 });
 
-export function staticCroct(astro: AstroGlobal | APIContext): AstroCroct {
-  return new AstroCroct({
-    fetchOptions: {
-      static: true,
-      preferredLocale: astro.preferredLocale,
-    },
-    context: {
-      page: {
-        url: astro.url.toString(),
-        referrer: astro.request
-          .headers
-          .get('referer') ?? undefined,
-      },
-    },
-  });
-}
-
 export function astroCroct(astro: AstroGlobal | APIContext): AstroCroct {
   return new AstroCroct({
-    clientAgent: astro.request
-      .headers
-      .get('user-agent') ?? undefined,
-    clientIp: astro.clientAddress,
-    clientId: astro.locals.clientId,
-    fetchOptions: {
-      static: false,
-      preferredLocale: astro.preferredLocale,
-      previewToken: astro.locals.croctPreview,
-    },
+    ...(
+      isSSG(astro)
+        ? {fetchOptions: {static: true}}
+        : {
+          clientAgent: astro.request
+            .headers
+            .get('user-agent') ?? undefined,
+          clientIp: astro.clientAddress,
+          clientId: astro.locals.clientId,
+          fetchOptions: {
+            static: false,
+            preferredLocale: astro.preferredLocale,
+            previewToken: astro.locals.croctPreview,
+          },
+        }
+    ),
     context: {
       page: {
         url: astro.url.toString(),
