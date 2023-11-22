@@ -1,41 +1,26 @@
 ---
-import type {GetStaticPathsResult} from 'astro';
-import {type CollectionEntry, getCollection} from 'astro:content';
 import Layout from '@layouts/Layout.astro';
 import Main from '@layouts/Main.astro';
 import {Card} from '@components/Card';
 import {SITE} from '@config';
-import {getPostsByTag, getSortedPosts, getUniqueTags, slugify, getPosts} from '@utils/posts';
+import {getPostsByTag, getSortedPosts, slugify, getPosts} from '@utils/posts';
 
-export const prerender = true;
-
-export interface Props {
-  post: CollectionEntry<'blog'>;
+export interface Params {
   tag: string;
 }
 
-export async function getStaticPaths(): Promise<GetStaticPathsResult> {
-  const posts = await getCollection('blog');
-
-  const tags = getUniqueTags(posts);
-
-  return tags.map(
-    tag => ({
-      params: {tag},
-      props: {tag},
-    }),
-  );
-}
-
-const {tag} = Astro.props;
+const {tag = ''} = Astro.params;
 
 const posts = await getPosts();
 
 const tagPosts = getPostsByTag(posts, tag);
 
+if (tagPosts.length === 0) {
+  return new Response(null, {status: 404});
+}
+
 const sortTagsPost = getSortedPosts(tagPosts);
 ---
-
 <Layout title={`Tag:${tag} | ${SITE.title}`}>
   <Main
     pageTitle={`Tag:${tag}`}
