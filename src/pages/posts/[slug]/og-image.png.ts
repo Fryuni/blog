@@ -1,5 +1,5 @@
-import {generateOgImage} from '@utils/generateOgImage';
-import {getPosts, slugify} from '@utils/posts';
+import {generateOgImage} from '@utils/generateOgImage.tsx';
+import {getPosts, slugify} from '@utils/posts.ts';
 import type {APIRoute, GetStaticPathsResult} from 'astro';
 
 export const prerender = true;
@@ -17,18 +17,12 @@ export const GET: APIRoute = async ({props}) => {
 };
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
-  const postImportResult = await getPosts();
-  const posts = Object.values(postImportResult);
+  const posts = await getPosts();
 
-  return posts.filter(({data}) => data.ogImage != null)
-    .map(
-      ({data}) => ({
-        params: {
-          slug: slugify(data),
-        },
-        props: {
-          post: data,
-        },
-      }),
-    );
+  return posts.map(
+    post => ({
+      params: {slug: slugify(post.data)},
+      props: {post},
+    }),
+  );
 }

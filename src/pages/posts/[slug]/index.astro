@@ -3,8 +3,8 @@ import type {GetStaticPathsResult} from 'astro';
 import {type CollectionEntry, getCollection} from 'astro:content';
 import Posts from '@layouts/Posts.astro';
 import PostDetails from '@layouts/PostDetails.astro';
-import {SITE} from '@config';
 import {getPageNumbers, getSortedPosts, slugify, getPosts} from '@utils/posts';
+import {SITE} from '@config';
 
 export const prerender = true;
 
