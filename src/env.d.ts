@@ -7,3 +7,11 @@ declare namespace App {
     croctPreview?: string;
   }
 }
+
+interface ImportMetaEnv {
+  PUBLIC_CROCT_APP_ID: string;
+
+  CROCT_API_KEY: string;
+
+  CROCT_TIMEOUT?: string;
+}

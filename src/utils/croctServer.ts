@@ -34,6 +34,7 @@ export function astroCroct(astro: AstroGlobal | APIContext): AstroCroct {
           },
         }
     ),
+    timeout: Number(import.meta.env.CROCT_TIMEOUT ?? 1000),
     context: {
       page: {
         url: astro.url.toString(),

@@ -2,7 +2,7 @@ import type {APIContext, AstroGlobal} from 'astro';
 
 export type AstroContext = AstroGlobal | APIContext;
 
-export const isBrowser = typeof globalThis.window !== 'undefined';
+export const isBrowser = import.meta.env.SSR === false;
 
 export function isSSR(astro: AstroContext): boolean {
   try {

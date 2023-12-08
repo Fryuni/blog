@@ -8,7 +8,9 @@ export type Posts = Post[];
 
 export const getPosts = (): Promise<Posts> => getCollection(
   'blog',
-  import.meta.env.PROD ? post => post.data.draft !== true : undefined,
+  ({data}) => (
+    import.meta.env.PROD ? data.draft !== true : true
+  ),
 );
 
 export const slugifyStr = (str: string): string => slugger(str);
@@ -36,6 +38,12 @@ export const getPageNumbers = (numberOfPosts: number): number[] => {
 export const getPostsByTag = (posts: Posts, tag: string): Posts => posts.filter(
   post => slugifyAll(post.data.tags).includes(tag),
 );
+
+export const filterPostsWithSlugs = (posts: Posts, slugs: string[]): Posts => posts
+  .filter(post => slugs.includes(slugify(post.data)));
+
+export const excludePostsWithSlugs = (posts: Posts, slugs: string[]): Posts => posts
+  .filter(post => !slugs.includes(slugify(post.data)));
 
 export const getSortedPosts = (posts: Posts): Posts => posts.filter(({data}) => data.draft !== true)
   .sort(
