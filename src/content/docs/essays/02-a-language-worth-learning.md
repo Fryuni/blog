@@ -2,7 +2,13 @@
 title: 'A Language Worth Learning'
 description: 'What makes a language worth learning.'
 tags: ['studying', 'philosophy']
-pubDateTime: 2023-06-17
+lastUpdated: 2023-06-17
+tableOfContents: false
+banner:
+  content: |
+    A language that doesn't affect the way you think about programming, is not worth
+    knowing.
+    -- Alan J. Perlis, 1982
 madeByAI:
   tags: false
   title: false

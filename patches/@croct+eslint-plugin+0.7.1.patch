@@ -63,6 +63,26 @@ index cd0a260..ccbcb64 100644
 -        },
 -    ],
  };
+diff --git a/node_modules/@croct/eslint-plugin/configs/react.js b/node_modules/@croct/eslint-plugin/configs/react.js
+index 9b5f00e..81e784b 100644
+--- a/node_modules/@croct/eslint-plugin/configs/react.js
++++ b/node_modules/@croct/eslint-plugin/configs/react.js
+@@ -6,7 +6,6 @@ exports.react = {
+         'airbnb',
+         'plugin:react/recommended',
+         'plugin:testing-library/react',
+-        'plugin:jest-dom/recommended',
+         'plugin:jsx-a11y/recommended',
+         'plugin:@croct/javascript',
+     ],
+@@ -15,7 +14,6 @@ exports.react = {
+         'react',
+         'react-hooks',
+         'testing-library',
+-        'jest-dom',
+         '@croct',
+     ],
+     rules: {
 diff --git a/node_modules/@croct/eslint-plugin/configs/typescript.js b/node_modules/@croct/eslint-plugin/configs/typescript.js
 index 715c095..bd67846 100644
 --- a/node_modules/@croct/eslint-plugin/configs/typescript.js

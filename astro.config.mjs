@@ -25,21 +25,22 @@ export default defineConfig({
       pagefind: false,
       pagination: false,
       favicon: '/logo/logo-no-text-dark.svg',
+      logo: {
+        light: './public/logo/logo-no-text.svg',
+        dark: './public/logo/logo-no-text-dark.svg',
+      },
       sidebar: [
+        // {
+        //   label: 'Notes',
+        //   autogenerate: {
+        //     directory: 'notes',
+        //   },
+        // },
         {
-          label: 'Guides',
-          items: [
-            // Each item here is one entry in the navigation menu.
-            {
-              label: 'Example Guide',
-              link: '/guides/example/',
-            },
-          ],
-        },
-        {
-          label: 'Reference',
+          label: 'Essays',
           autogenerate: {
-            directory: 'reference',
+            directory: 'essays',
+            collapsed: true,
           },
         },
       ],
