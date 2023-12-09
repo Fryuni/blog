@@ -1,72 +1,48 @@
 {
-  "name": "fryuni-blob",
-  "version": "0.0.0",
+  "name": "fryuni-site",
+  "version": "0.0.1",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "astro dev",
-    "validate": "astro check && tsc --noEmit",
-    "start": "astro dev",
-    "build": "rm -rf dist .astro .vercel .jampack && astro build",
-    "preview": "astro preview",
-    "sync": "astro sync",
     "astro": "astro",
-    "format:check": "prettier --plugin-search-dir=. --check .",
-    "format:old": "prettier --plugin-search-dir=. --write .",
+    "build": "rm -rf dist .astro .vercel && astro build",
+    "dev": "astro dev",
     "format": "eslint . --fix",
-    "cz": "cz",
+    "postinstall": "patch-package",
+    "lint": "eslint .",
     "prepare": "husky install",
-    "lint": "eslint ."
-  },
-  "dependencies": {
-    "@astrojs/check": "^0.2.0",
-    "@astrojs/rss": "^3.0.0",
-    "@astrojs/vercel": "^5.2.0",
-    "@croct/json": "^2.1.0",
-    "@croct/plug": "^0.13.3",
-    "@croct/sdk": "^0.14.0",
-    "@resvg/resvg-js": "^2.4.1",
-    "astro": "^3.0.7",
-    "fuse.js": "^6.6.2",
-    "github-slugger": "^2.0.0",
-    "prettier-markdown": "^0.1.8",
-    "prettier-plugin-astro": "^0.12.0",
-    "remark-collapse": "^0.1.2",
-    "remark-toc": "^8.0.1",
-    "satori": "^0.10.3",
-    "tailwindcss": "^3.3.2"
-  },
-  "devDependencies": {
-    "@astrojs/react": "^3.0.0",
-    "@astrojs/sitemap": "^3.0.0",
-    "@astrojs/tailwind": "^5.0.0",
-    "@croct/eslint-plugin": "^0.7.1",
-    "@dword-design/eslint-plugin-import-alias": "^4.0.9",
-    "@tailwindcss/typography": "^0.5.9",
-    "@types/github-slugger": "^2.0.0",
-    "@types/react": "^18.2.6",
-    "@typescript-eslint/parser": "^6.5.0",
-    "astro-eslint-parser": "^0.15.0",
-    "commitizen": "^4.3.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.40.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-astro": "^0.29.1",
-    "husky": "^8.0.3",
-    "lint-staged": "^14.0.1",
-    "prettier": "^3.0.3",
-    "prettier-plugin-tailwindcss": "^0.5.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "typescript": "^5.2.2"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+    "preview": "astro preview",
+    "start": "astro dev",
+    "validate": "astro check && tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,astro}": [
+    "*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,astro}": [
       "eslint --fix"
+    ],
+    "package.json": [
+      "sort-package-json"
     ]
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.3.1",
+    "@astrojs/starlight": "https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?ssr-support",
+    "@astrojs/vercel": "^6.0.1",
+    "@croct/plug": "^0.13.3",
+    "@croct/sdk": "^0.14.0",
+    "astro": "^4.0.1",
+    "sharp": "^0.32.5",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@croct/eslint-plugin": "^0.7.1",
+    "@dword-design/eslint-plugin-import-alias": "^4.0.9",
+    "@typescript-eslint/parser": "^6.13.2",
+    "astro-eslint-parser": "^0.16.0",
+    "eslint": "^8.55.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-astro": "^0.30.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "patch-package": "^8.0.0"
   }
 }

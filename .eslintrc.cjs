@@ -31,7 +31,7 @@ module.exports = {
   },
   settings: {
     'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
+      '@typescript-eslint/parser': ['.ts', '.mts', '.cts', '.tsx'],
     },
     'import/resolver': {
       typescript: {
@@ -41,7 +41,6 @@ module.exports = {
     },
   },
   rules: {
-    'jest/no-deprecated-functions': 'off',
     'no-console': 'off',
     indent: [
       'error',
@@ -109,7 +108,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/*.ts', '**/*.tsx', '**/*.astro/*.js', '**/*.astro'],
+      files: ['**/*.ts', '**/*.mts', '**/*.cts', '**/*.tsx', '**/*.astro/*.js', '**/*.astro'],
       rules: {
         'import/export': 'off',
         '@typescript-eslint/array-type': [
@@ -203,7 +202,7 @@ module.exports = {
     {
       // Define the configuration for `<script>` tag.
       // Script in `<script>` is assigned a virtual file name with the `.js` extension.
-      files: ['**/*.ts', '**/*.tsx', '**/*.astro/*.js', '*.astro/*.js'],
+      files: ['**/*.ts', '**/*.mts', '**/*.cts', '**/*.tsx', '**/*.astro/*.js'],
       env: {
         browser: true,
         es2020: true,

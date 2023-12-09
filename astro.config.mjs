@@ -1,16 +1,9 @@
-import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
-import react from '@astrojs/react';
-import remarkToc from 'remark-toc';
-import remarkCollapse from 'remark-collapse';
-import sitemap from '@astrojs/sitemap';
+import {defineConfig} from 'astro/config';
+import starlight from '@astrojs/starlight';
 import vercel from '@astrojs/vercel/serverless';
-// noinspection ES6PreferShortImport -- This is not TS, so path aliases don't work
-import { SITE } from './src/config';
 
-// https://astro.build/config
+// eslint-disable-next-line import/no-default-export -- required by Astro
 export default defineConfig({
-  site: SITE.website,
   output: 'server',
   adapter: vercel({
     functionPerRoute: false,
@@ -22,40 +15,46 @@ export default defineConfig({
 
   trailingSlash: 'never',
   integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    react(),
-    sitemap(),
-  ],
-  markdown: {
-    remarkPlugins: [
-      remarkToc,
-      [
-        remarkCollapse,
+    starlight({
+      title: 'Fryuni\'s web corner',
+      social: {
+        github: 'https://github.com/Fryuni',
+        gitlab: 'https://gitlab.com/Fryuni',
+        email: 'mailto:luiz@lferraz.com',
+      },
+      pagefind: false,
+      pagination: false,
+      favicon: '/logo/logo-no-text-dark.svg',
+      sidebar: [
         {
-          test: 'Table of contents',
+          label: 'Guides',
+          items: [
+            // Each item here is one entry in the navigation menu.
+            {
+              label: 'Example Guide',
+              link: '/guides/example/',
+            },
+          ],
+        },
+        {
+          label: 'Reference',
+          autogenerate: {
+            directory: 'reference',
+          },
         },
       ],
-    ],
-    shikiConfig: {
-      theme: 'one-dark-pro',
-      wrap: true,
-    },
-    extendDefaultPlugins: true,
-  },
+    }),
+  ],
+
   vite: {
-    optimizeDeps: {
-      exclude: ['@resvg/resvg-js'],
-    },
     server: {
       watch: {
         ignored: [
-          '**/node_modules/**',
+          '!**/node_modules/**',
           '**/dist/**',
           '**/.*/**',
         ],
-      }
-    }
+      },
+    },
   },
 });
