@@ -29,6 +29,7 @@ export default defineConfig({
         light: './public/logo/logo-no-text.svg',
         dark: './public/logo/logo-no-text-dark.svg',
       },
+      tableOfContents: false,
       sidebar: [
         // {
         //   label: 'Notes',
