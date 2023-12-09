@@ -21,6 +21,7 @@ export default defineConfig({
         github: 'https://github.com/Fryuni',
         gitlab: 'https://gitlab.com/Fryuni',
         email: 'mailto:luiz@lferraz.com',
+        reddit: 'https://reddit.com/u/fryuni',
       },
       pagefind: false,
       pagination: false,
