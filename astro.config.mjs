@@ -40,18 +40,19 @@ export default defineConfig({
       prerender: true,
       pagefind: true,
       pagination: false,
+      lastUpdated: true,
       favicon: '/logo/logo-no-text-dark.svg',
       logo: {
         light: './public/logo/logo-no-text.svg',
         dark: './public/logo/logo-no-text-dark.svg',
       },
       sidebar: [
-        // {
-        //   label: 'Notes',
-        //   autogenerate: {
-        //     directory: 'notes',
-        //   },
-        // },
+        {
+          label: 'Deep Dives',
+          autogenerate: {
+            directory: 'deep-dive',
+          },
+        },
         {
           label: 'Essays',
           autogenerate: {
