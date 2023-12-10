@@ -3,9 +3,7 @@ title: 'A Language Worth Learning'
 description: 'What makes a language worth learning.'
 tags: ['studying', 'philosophy']
 lastUpdated: 2023-06-17
-madeByAI:
-  tags: false
-  title: false
+tableOfContents: false
 ---
 
 > A language that doesn't affect the way you think about programming, is not worth
