@@ -1,0 +1,9 @@
+---
+import type {Props} from '@astrojs/starlight/props';
+import StarlightSidebar from '@astrojs/starlight/components/Sidebar.astro';
+import AstroGratitude from './AstroGratitude.astro';
+
+const {props}: {props: Props} = Astro;
+---
+<StarlightSidebar {...props} />
+<AstroGratitude {...Astro.props} />
