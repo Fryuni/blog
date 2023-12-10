@@ -37,6 +37,7 @@ export default defineConfig({
         email: 'mailto:luiz@lferraz.com',
         reddit: 'https://reddit.com/u/fryuni',
       },
+      prerender: true,
       pagefind: true,
       pagination: false,
       favicon: '/logo/logo-no-text-dark.svg',
@@ -60,6 +61,9 @@ export default defineConfig({
           },
         },
       ],
+      components: {
+        Head: './src/components/Head.astro',
+      },
     }),
   ],
 

@@ -1,0 +1,10 @@
+---
+import type {Props} from '@astrojs/starlight/props';
+import StarlightHead from '@astrojs/starlight/components/Head.astro';
+
+const {props}: {props: Props} = Astro;
+---
+<StarlightHead {...props}/>
+<script>
+  import '@/utils/croctClient';
+</script>
