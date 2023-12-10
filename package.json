@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "astro": "astro",
-    "build": "rm -rf dist .astro .vercel && astro build",
+    "build": "rm -rf dist .astro && astro build",
     "dev": "astro dev",
     "format": "eslint . --fix",
     "postinstall": "patch-package",
