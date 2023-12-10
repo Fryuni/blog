@@ -2,7 +2,7 @@
 title: 'A Language Worth Learning'
 description: 'What makes a language worth learning.'
 tags: ['studying', 'philosophy']
-pubDateTime: 2023-06-17
+lastUpdated: 2023-06-17
 madeByAI:
   tags: false
   title: false

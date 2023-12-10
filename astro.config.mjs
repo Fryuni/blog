@@ -1,61 +1,77 @@
-import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
-import react from '@astrojs/react';
-import remarkToc from 'remark-toc';
-import remarkCollapse from 'remark-collapse';
-import sitemap from '@astrojs/sitemap';
+import {defineConfig} from 'astro/config';
+import starlight from '@astrojs/starlight';
 import vercel from '@astrojs/vercel/serverless';
-// noinspection ES6PreferShortImport -- This is not TS, so path aliases don't work
-import { SITE } from './src/config';
+import node from '@astrojs/node';
 
-// https://astro.build/config
+const adapterConfig = process.env.ASTRO_NODE_ADAPTER === 'true'
+  ? defineConfig({
+    adapter: node({mode: 'standalone'}),
+    image: {
+      service: {
+        entrypoint: 'astro/assets/services/squoosh',
+      },
+    },
+  })
+  : defineConfig({
+    adapter: vercel({
+      functionPerRoute: false,
+      imageService: true,
+      edgeMiddleware: false,
+      webAnalytics: {enabled: true},
+      speedInsights: {enabled: true},
+    }),
+  });
+
+// eslint-disable-next-line import/no-default-export -- required by Astro
 export default defineConfig({
-  site: SITE.website,
+  ...adapterConfig,
   output: 'server',
-  adapter: vercel({
-    functionPerRoute: false,
-    imageService: true,
-    edgeMiddleware: false,
-    webAnalytics: {enabled: true},
-    speedInsights: {enabled: true},
-  }),
 
   trailingSlash: 'never',
   integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    react(),
-    sitemap(),
-  ],
-  markdown: {
-    remarkPlugins: [
-      remarkToc,
-      [
-        remarkCollapse,
+    starlight({
+      title: 'Fryuni\'s web corner',
+      social: {
+        github: 'https://github.com/Fryuni',
+        gitlab: 'https://gitlab.com/Fryuni',
+        email: 'mailto:luiz@lferraz.com',
+        reddit: 'https://reddit.com/u/fryuni',
+      },
+      pagefind: true,
+      pagination: false,
+      favicon: '/logo/logo-no-text-dark.svg',
+      logo: {
+        light: './public/logo/logo-no-text.svg',
+        dark: './public/logo/logo-no-text-dark.svg',
+      },
+      tableOfContents: false,
+      sidebar: [
+        // {
+        //   label: 'Notes',
+        //   autogenerate: {
+        //     directory: 'notes',
+        //   },
+        // },
         {
-          test: 'Table of contents',
+          label: 'Essays',
+          autogenerate: {
+            directory: 'essays',
+            collapsed: true,
+          },
         },
       ],
-    ],
-    shikiConfig: {
-      theme: 'one-dark-pro',
-      wrap: true,
-    },
-    extendDefaultPlugins: true,
-  },
+    }),
+  ],
+
   vite: {
-    optimizeDeps: {
-      exclude: ['@resvg/resvg-js'],
-    },
     server: {
       watch: {
         ignored: [
-          '**/node_modules/**',
+          '!**/node_modules/**',
           '**/dist/**',
           '**/.*/**',
         ],
-      }
-    }
+      },
+    },
   },
 });

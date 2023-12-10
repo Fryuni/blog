@@ -1,4 +1,3 @@
-import {SITE} from '@config';
 import type {AstroCookies} from 'astro';
 import {type AstroContext, isSSR} from './environment';
 
@@ -14,8 +13,6 @@ export function getCookieOptions(url: URL): AstroCookieSetOptions {
   };
 }
 
-const defaultCookieOptions = getCookieOptions(new URL(SITE.website));
-
 export function getClientId(context: AstroContext): string | undefined {
   if (!isSSR(context)) {
     return;
@@ -26,17 +23,12 @@ export function getClientId(context: AstroContext): string | undefined {
   const cookieValue = cookies.get('croct_client_id')?.value;
 
   if (cookieValue !== undefined && cookieValue !== '') {
-    console.debug('[MW] Found client ID in cookie:', cookieValue);
-
     return cookieValue;
   }
 
-  console.debug('[MW] Generating a new client ID');
   const clientId = crypto.randomUUID();
 
-  console.debug('[MW] Generated client ID:', clientId);
-
-  cookies.set('croct_client_id', clientId, url != null ? getCookieOptions(url) : defaultCookieOptions);
+  cookies.set('croct_client_id', clientId, getCookieOptions(url));
 
   return clientId;
 }

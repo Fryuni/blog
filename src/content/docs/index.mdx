@@ -1,0 +1,29 @@
+---
+title: Devil in (the) Details
+description: Get started building your docs site with Starlight.
+template: splash
+hero:
+  # tagline: Congrats on setting up a new Starlight project!
+  image:
+    light: ../../../public/logo/logo.svg
+    dark: ../../../public/logo/logo-golden.svg
+#   actions:
+#     - text: Latest post
+#       link: /essays/02-a-language-worth-learning
+#       icon: right-arrow
+#       variant: primary
+---
+
+import { Card, CardGrid, Icon } from '@astrojs/starlight/components';
+
+## Recent articles
+
+<CardGrid stagger>
+	<Card title={'<a href="/essays/01-in-honor-of-the-clouds">In honor of the clouds</a>'} icon="star">
+		Some thoughts on how clouds have shaped the way humanity think throughout the ages.
+	</Card>
+	<Card title={'<a href="/essays/02-a-language-worth-learning">Language learning</a>'} icon="open-book">
+		Why learning a new language is a great way to expand your horizons.
+		And how one language affects all other languages.
+	</Card>
+</CardGrid>
