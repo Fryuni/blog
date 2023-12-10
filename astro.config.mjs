@@ -45,7 +45,6 @@ export default defineConfig({
         light: './public/logo/logo-no-text.svg',
         dark: './public/logo/logo-no-text-dark.svg',
       },
-      tableOfContents: false,
       sidebar: [
         // {
         //   label: 'Notes',
@@ -63,8 +62,9 @@ export default defineConfig({
       ],
       components: {
         Head: './src/components/Head.astro',
-        Sidebar: './src/components/Sidebar.astro',
         Footer: './src/components/Footer.astro',
+        Sidebar: './src/components/Sidebar.astro',
+        TwoColumnContent: './src/components/PageSidebar.astro',
       },
     }),
   ],

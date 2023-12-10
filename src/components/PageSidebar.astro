@@ -1,0 +1,16 @@
+---
+import type {Props} from '@astrojs/starlight/props';
+import Starlight from '@astrojs/starlight/components/TwoColumnContent.astro';
+
+const props = Astro.props as Props;
+
+// Don't show a table of contents if there's only one item
+if (props.toc != null && props.toc.items.length < 2) {
+  delete props.toc;
+}
+---
+
+<Starlight {...props}>
+  <slot slot="right-sidebar" name="right-sidebar" />
+  <slot />
+</Starlight>
