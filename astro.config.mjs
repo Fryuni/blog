@@ -1,17 +1,31 @@
 import {defineConfig} from 'astro/config';
 import starlight from '@astrojs/starlight';
 import vercel from '@astrojs/vercel/serverless';
+import node from '@astrojs/node';
+
+const adapterConfig = process.env.ASTRO_NODE_ADAPTER === 'true'
+  ? defineConfig({
+    adapter: node({mode: 'standalone'}),
+    image: {
+      service: {
+        entrypoint: 'astro/assets/services/squoosh',
+      },
+    },
+  })
+  : defineConfig({
+    adapter: vercel({
+      functionPerRoute: false,
+      imageService: true,
+      edgeMiddleware: false,
+      webAnalytics: {enabled: true},
+      speedInsights: {enabled: true},
+    }),
+  });
 
 // eslint-disable-next-line import/no-default-export -- required by Astro
 export default defineConfig({
+  ...adapterConfig,
   output: 'server',
-  adapter: vercel({
-    functionPerRoute: false,
-    imageService: true,
-    edgeMiddleware: false,
-    webAnalytics: {enabled: true},
-    speedInsights: {enabled: true},
-  }),
 
   trailingSlash: 'never',
   integrations: [
@@ -23,7 +37,7 @@ export default defineConfig({
         email: 'mailto:luiz@lferraz.com',
         reddit: 'https://reddit.com/u/fryuni',
       },
-      pagefind: false,
+      pagefind: true,
       pagination: false,
       favicon: '/logo/logo-no-text-dark.svg',
       logo: {
