@@ -1,0 +1,24 @@
+---
+import {Card} from '@astrojs/starlight/components';
+
+export type Props = {
+  demo: string,
+  title?: string,
+  icon?: string,
+};
+
+const {demo} = Astro.props;
+const demoUrl = `${Astro.site}/demo/${demo}`;
+
+console.log({demoUrl});
+---
+<Card title={Astro.props.title ?? demo} icon={Astro.props.icon}>
+  <slot />
+  <iframe
+    src={demoUrl}
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title={Astro.props.title ?? demo}
+    allow="midi"
+    sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+  />
+</Card>

@@ -1,0 +1,18 @@
+---
+import '@astrojs/starlight/style/markdown.css';
+import {ThemeProvider} from 'virtual:starlight/components';
+---
+<html lang={Astro.props.lang}>
+  <head>
+    <slot name="head" />
+    <style>
+      body {
+          padding: 1rem;
+      }
+    </style>
+    <ThemeProvider {...Astro.props} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

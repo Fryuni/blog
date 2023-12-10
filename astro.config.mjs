@@ -25,17 +25,17 @@ const adapterConfig = process.env.ASTRO_NODE_ADAPTER === 'true'
 // eslint-disable-next-line import/no-default-export -- required by Astro
 export default defineConfig({
   ...adapterConfig,
-  output: 'server',
+  output: 'hybrid',
 
-  trailingSlash: 'never',
+  trailingSlash: 'always',
   integrations: [
     starlight({
       title: 'Fryuni\'s web corner',
       social: {
         github: 'https://github.com/Fryuni',
         gitlab: 'https://gitlab.com/Fryuni',
-        email: 'mailto:luiz@lferraz.com',
         reddit: 'https://reddit.com/u/fryuni',
+        email: 'mailto:luiz@lferraz.com',
       },
       prerender: true,
       pagefind: true,
