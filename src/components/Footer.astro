@@ -11,7 +11,9 @@ import AstroGratitude from './AstroGratitude.astro';
     <LastUpdated {...Astro.props} />
   </div>
   <Pagination {...Astro.props} />
-  <AstroGratitude {...Astro.props} />
+  {!Astro.props.hasSidebar && (
+    <AstroGratitude {...Astro.props} />
+  )}
 </footer>
 
 <style>
