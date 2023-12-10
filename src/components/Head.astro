@@ -1,10 +1,24 @@
 ---
 import type {Props} from '@astrojs/starlight/props';
+import {ViewTransitions} from 'astro:transitions';
 import StarlightHead from '@astrojs/starlight/components/Head.astro';
 
 const {props}: {props: Props} = Astro;
 ---
 <StarlightHead {...props}/>
+<ViewTransitions/>
 <script>
   import '@/utils/croctClient';
+  import { isTransitionBeforeSwapEvent, TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';
+
+  document.addEventListener(TRANSITION_BEFORE_SWAP, event => {
+    if (!isTransitionBeforeSwapEvent(event)) return;
+
+    const currentPageSearch = document.querySelector('site-search');
+    const newPageSearch = event.newDocument.querySelector('site-search');
+
+    if (currentPageSearch && newPageSearch) {
+      newPageSearch.replaceWith(currentPageSearch);
+    }
+  });
 </script>
