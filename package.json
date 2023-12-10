@@ -18,6 +18,9 @@
   "lint-staged": {
     "*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,astro}": [
       "eslint --fix"
+    ],
+    "*.{md,mdx}": [
+      "markdownlint --fix"
     ]
   },
   "dependencies": {
@@ -28,6 +31,7 @@
     "@croct/sdk": "^0.14.0",
     "astro": "^4.0.1",
     "eslint-plugin-import": "^2.29.0",
+    "markdownlint-cli": "^0.38.0",
     "squoosh": "^0.0.0",
     "typescript": "^5.3.3"
   },
