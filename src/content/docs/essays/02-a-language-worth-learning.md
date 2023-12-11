@@ -11,8 +11,7 @@ tableOfContents: false
 >
 > -- _Alan J. Perlis, 1982[^1]_
 
-[^1]:
-19th epigram from: Alan J. Perlis. 1982. Special Feature: Epigrams on programming.
+[^1]: 19th epigram from: Alan J. Perlis. 1982. Special Feature: Epigrams on programming.
 SIGPLAN Not. 17, 9 (September 1982), 7–13. <https://doi.org/10.1145/947955.1083808>
 
 I found this quote when reading the
