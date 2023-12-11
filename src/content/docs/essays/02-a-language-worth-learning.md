@@ -12,19 +12,19 @@ tableOfContents: false
 > -- _Alan J. Perlis, 1982[^1]_
 
 [^1]:
-    19th epigram from: Alan J. Perlis. 1982. Special Feature: Epigrams on programming.
-    SIGPLAN Not. 17, 9 (September 1982), 7–13. <https://doi.org/10.1145/947955.1083808>
+19th epigram from: Alan J. Perlis. 1982. Special Feature: Epigrams on programming.
+SIGPLAN Not. 17, 9 (September 1982), 7–13. <https://doi.org/10.1145/947955.1083808>
 
 I found this quote when reading the
 excellent [article](http://www.norvig.com/21-days.html) by Peter Norvig about the path of
 learning how to program. It is right in the beggining, setting the stage for his post.
-This post is independent of the one by Peter, but do check it out as well.
+This post here is independent of Peter's post, but do check it out as well.
 
-The article presents this quote in the context of an example. A programmer versed in BASIC
+His article presents this quote in the context of an example. A programmer versed in BASIC
 might need to work on some code base written in C; if that programmer only learns C
 syntax, they can perform the task. By learning solely the language's syntax, the
 programmer would not know how things can be done differently in C compared to BASIC; they
-would be programmers in BASIC using C syntax, not programming in C.
+would be programming in BASIC using C syntax, not programming in C.
 The author believes that this situation is not what learning a new language means; it is
 merely completing a task.
 
@@ -36,11 +36,12 @@ existing ideas, which could be postponed until required. More recently, with AI,
 even be automated by tools like Codex and Code-DaVinci.
 
 If you spend time learning a language that introduces you to new paradigms and new ways of
-thinking about your program, the value of learning that language goes far beyond just when
-you complete a task in that language. It gives you a more diverse forest of existing
+thinking about your program, the value of learning that language goes far beyond just
+completing a task in that language. It gives you a more diverse repertory of existing
 solutions to tap into when solving a new problem, even in languages you were already
 profoundly versed in, maybe even considered an expert.
 
+I recently
 A recent example of this exact effect that I participated in first-hand was when a
 colleague was working on our File Storage abstraction. He was tasked with optimizing a
 feature that would, as part of its workflow, make a copy of a file.
@@ -159,16 +160,13 @@ different systems,
 and either can optimize for each other.
 
 Let's look into that. Go has
-a [function `io.Copy` that accepts any `Writer` and any `Reader`][io.Copy src]
-reads from the reader and writes to the writer. That is the general implementation
-mentioned before,
+a [function `io.Copy` that accepts any `Writer` and any `Reader`][io.Copy src] reads from
+the reader and writes to the writer. That is the general implementation mentioned before,
 implemented independently of which reader or writer is used. The brilliant part is that
-the writer can
-also [implement `WriterTo`][WriterTo optimization], allowing it to receive the reader and
-optimize to
-any specific implementation it might want. The same for the reader;
-it may [implement `ReaderFrom`][ReaderFrom optimization] that receives the writer and can
-optimize for it.
+the writer can also [implement `WriterTo`][WriterTo optimization], allowing it to receive
+the reader and optimize to any specific implementation it might want. The same for the
+reader; it may [implement `ReaderFrom`][ReaderFrom optimization] that receives the writer
+and can optimize for it.
 
 This is entirely transparent for the caller;
 want to copy from a file to a gRPC stream?
@@ -194,26 +192,27 @@ you've had no contact with it before, but copying others is not remarkable. It i
 to know what is out there and when to copy it to save your and your team's time; that is
 indeed a skill, but a very different skill than creating something from scratch.
 
-The point here is that knowing a language can help you solve problems more effectively in
-_every_ language. And if a language does not benefit you that way, it is not worth
-studying. If you already know Java, C#, PHP, and Go, learning Python, JavaScript, or even
-TypeScript will, at most, teach you different a syntax for things you already know; maybe
-it won't be a good use of your time. Learning Rust will teach you a lot about memory, what
-allocates or not, when to use each, and how memory works in a multithreaded system due to
-the borrow checker and variable lifetimes; it will also introduce a good amount about
-types because of its traits. Learning C or Zig will teach you another lot about memory,
-this time about the different ways to manage it manually, how different allocators behave,
-and when to use them. Learning Haskell will teach you a new world of techniques and
-paradigms and bring you to a much deeper dive into type theory and its applications.
+The point here is that knowing a language/framework/library can help you solve problems
+more effectively in _every_ language/framework/library. And if a language does not benefit
+you in that way, it is not worth studying. If you already know Java, Python, PHP, and Go,
+learning JavaScript, or even TypeScript, will, at most, teach you different a syntax for
+things you already know; maybe it won't be a good use of your time. In that same scenario,
+learning Rust will teach you a lot about memory, what allocates or not, when to use each,
+and how memory works in a multithreaded system due to the borrow checker and variable
+lifetimes; it will also introduce a good amount about types because of its traits.
+Learning C or Zig will teach you another lot about memory, this time about the different
+ways to manage it manually, how different allocators behave, and when to use them.
+Learning Haskell will teach you a new world of techniques and paradigms and bring you to a
+much deeper dive into type theory and its applications.
 
 What is worth learning is heavily dependent on what you _already_ know.
 
 I will even dare to say that this applies to speaking languages just as well, not just
-programming languages. For me, a native Brazilian, learning Spanish is good but adds very little
-in terms of how I think since both languages are very similar in structure and ancestry; learning
-English, on the other hand, makes my mind work in an entirely different mode. Thoughts are
-formed by language, and knowing how to architect your thoughts with multiple structures
-enables you to think more diversely.
+programming languages. For me, a native Brazilian, learning Spanish is good but adds very
+little in terms of how I think since both languages are very similar in structure and
+ancestry; learning English, on the other hand, makes my mind work in an entirely different
+mode. Thoughts are formed by language, and knowing how to architect your thoughts with
+multiple structures enables you to think more diversely.
 
 This is one of the reasons why I didn't choose French or Italian when I was picking a new
 language to study. Although clearly distinct, they share much with the languages I already
@@ -222,8 +221,13 @@ from everything I knew, which meant more to understand and improve. I am current
 studying Thai, and loving all the process.
 
 [io.Copy src]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/io/io.go;l=373-385;drc=dc8e2a6a8ec94f2c98ba20edd57932eba284efb1
+
 [WriterTo optimization]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/io/io.go;l=406-410;drc=dc8e2a6a8ec94f2c98ba20edd57932eba284efb1
+
 [ReaderFrom optimization]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/io/io.go;l=411-414;drc=dc8e2a6a8ec94f2c98ba20edd57932eba284efb1
+
 [file-to-file]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/os/readfrom_linux.go;l=31-45;drc=0844ff8eef81e124c1fecba82dd5843745427fa4
+
 [stream-to-tcp]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/net/splice_linux.go;l=12-44;drc=8d6a455df42b016ed2f7071e70718cad940937f9
+
 [file-to-tcp]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/net/sendfile_linux.go;l=13-53;drc=27c38142756902c9a2e281ff1dd0f2e0a7273f75
