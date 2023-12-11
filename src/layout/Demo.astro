@@ -1,16 +1,19 @@
 ---
-import '@astrojs/starlight/style/markdown.css';
-import {ThemeProvider} from 'virtual:starlight/components';
+import '@astrojs/starlight/style/props.css';
+import '@astrojs/starlight/style/reset.css';
+import ThemeProvider from '@astrojs/starlight/components/ThemeProvider.astro';
 ---
 <html lang={Astro.props.lang}>
   <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <meta charset="utf-8">
     <slot name="head" />
     <style>
       body {
           padding: 1rem;
       }
     </style>
-    <ThemeProvider {...Astro.props} />
+    <ThemeProvider />
   </head>
   <body>
     <slot />

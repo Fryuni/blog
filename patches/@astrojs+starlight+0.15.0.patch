@@ -1,0 +1,13 @@
+diff --git a/node_modules/@astrojs/starlight/package.json b/node_modules/@astrojs/starlight/package.json
+index 72011b6..1a2a8f8 100644
+--- a/node_modules/@astrojs/starlight/package.json
++++ b/node_modules/@astrojs/starlight/package.json
+@@ -162,7 +162,7 @@
+     "./indexSSR.astro": "./indexSSR.astro",
+     "./404.astro": "./404.astro",
+     "./pagefind.ts": "./pagefind.ts",
+-    "./style/markdown.css": "./style/markdown.css"
++    "./style/*": "./style/*"
+   },
+   "peerDependencies": {
+     "astro": "^4.0.0"
