@@ -27,7 +27,7 @@ export default defineConfig({
   ...adapterConfig,
   output: 'hybrid',
 
-  trailingSlash: 'always',
+  trailingSlash: 'ignore',
   integrations: [
     starlight({
       title: 'Fryuni\'s web corner',
