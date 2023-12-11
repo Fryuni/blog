@@ -1,7 +1,10 @@
+/* eslint-disable import/no-default-export -- required by Astro */
+
 import {defineConfig} from 'astro/config';
 import starlight from '@astrojs/starlight';
 import vercel from '@astrojs/vercel/serverless';
 import node from '@astrojs/node';
+import tailwind from '@astrojs/tailwind';
 
 const adapterConfig = process.env.ASTRO_NODE_ADAPTER === 'true'
   ? defineConfig({
@@ -22,7 +25,7 @@ const adapterConfig = process.env.ASTRO_NODE_ADAPTER === 'true'
     }),
   });
 
-// eslint-disable-next-line import/no-default-export -- required by Astro
+// https://astro.build/config
 export default defineConfig({
   ...adapterConfig,
   site: 'https://fryuni.dev',
@@ -67,17 +70,18 @@ export default defineConfig({
         Footer: './src/components/Footer.astro',
         Sidebar: './src/components/Sidebar.astro',
       },
+      customCss: [
+        './src/tailwind.css',
+      ],
+    }),
+    tailwind({
+      applyBaseStyles: false,
     }),
   ],
-
   vite: {
     server: {
       watch: {
-        ignored: [
-          '!**/node_modules/**',
-          '**/dist/**',
-          '**/.*/**',
-        ],
+        ignored: ['!**/node_modules/**', '**/dist/**', '**/.*/**'],
       },
     },
   },
