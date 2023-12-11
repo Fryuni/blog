@@ -25,6 +25,7 @@ const adapterConfig = process.env.ASTRO_NODE_ADAPTER === 'true'
 // eslint-disable-next-line import/no-default-export -- required by Astro
 export default defineConfig({
   ...adapterConfig,
+  site: 'https://fryuni.dev',
   output: 'hybrid',
 
   trailingSlash: 'ignore',
