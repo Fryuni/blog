@@ -25,7 +25,6 @@ module.exports = {
   ],
   env: {node: true},
   parserOptions: {
-    project: ['./tsconfig.json'],
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
@@ -108,7 +107,14 @@ module.exports = {
   },
   overrides: [
     {
+      // Just add the reference so `eslint .` looks for those files as well.
+      files: ['*.js', '*.mjs', '*.cjs'],
+    },
+    {
       files: ['**/*.ts', '**/*.mts', '**/*.cts', '**/*.tsx', '**/*.astro/*.js', '**/*.astro'],
+      parserOptions: {
+        project: ['./tsconfig.json'],
+      },
       rules: {
         'import/export': 'off',
         '@typescript-eslint/array-type': [
