@@ -3,5 +3,6 @@
   "line-length": {
     "line_length": 90,
     "tables": false
-  }
+  },
+  "no-inline-html": false
 }
