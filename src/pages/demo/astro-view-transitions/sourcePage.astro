@@ -1,9 +1,54 @@
 ---
 import Demo from '@/layout/Demo.astro';
+import {Card} from '@astrojs/starlight/components';
+import {ViewTransitions} from 'astro:transitions';
 
 export const prerender = true;
 ---
 <Demo>
-  <h1>Demo</h1>
-  <p>Source transition page</p>
+  <Fragment slot="head">
+    <ViewTransitions />
+  </Fragment>
+  <Card>
+    <input type="text" id="input" />
+    <a href="../targetPage/">Transition</a>
+    <hr />
+    <div id="target"></div>
+  </Card>
 </Demo>
+
+<script>
+  import { TRANSITION_PAGE_LOAD, TRANSITION_BEFORE_SWAP, isTransitionBeforeSwapEvent } from 'astro:transitions/client';
+
+  document.addEventListener(TRANSITION_PAGE_LOAD, () => {
+    const input = document.getElementById('input');
+    const target = document.getElementById('target');
+
+    if (input && target) {
+      input.addEventListener('input', (e) => {
+        target.innerText = e.target.value;
+      });
+    }
+  });
+
+  document.addEventListener(TRANSITION_BEFORE_SWAP, (e) => {
+    if (!isTransitionBeforeSwapEvent(e)) return;
+
+    console.log('Transition before swap');
+
+    const sourceElement = document.getElementById('target');
+    const targetElement = e.newDocument.getElementById('target');
+
+    console.log(sourceElement, targetElement);
+    if (sourceElement && targetElement) {
+      targetElement.replaceChildren(...sourceElement.childNodes);
+    }
+  });
+</script>
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+</style>

@@ -7,18 +7,72 @@ export type Props = {
   icon?: string,
 };
 
-const {demo} = Astro.props;
-const demoUrl = `${Astro.site}/demo/${demo}`;
-
-console.log({demoUrl});
+const {demo} = Astro.props as Props;
+const demoUrl = new URL(`/demo/${demo}/`, Astro.url!);
 ---
-<Card title={Astro.props.title ?? demo} icon={Astro.props.icon}>
+<Card title={Astro.props.title ?? 'Demo'} icon={Astro.props.icon as any}>
+  <!-- Refresh button -->
+  <button data-demo-refresh={demo}>Refresh</button>
+  <button data-demo-reset={demo}>Reset</button>
   <slot />
   <iframe
-    src={demoUrl}
-    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    data-demo={demo}
+    src={demoUrl.toString()}
+    style={{
+      width: '100%',
+      border: 0,
+      'border-radius': '4px',
+      overflow: 'hidden',
+    }}
     title={Astro.props.title ?? demo}
-    allow="midi"
-    sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+    content="text/html;charset=utf-8"
   />
 </Card>
+
+<script>
+  import { TRANSITION_PAGE_LOAD } from 'astro:transitions/client';
+
+  document.addEventListener(TRANSITION_PAGE_LOAD, () => {
+    const iframes = Array.from(document.querySelectorAll('iframe[data-demo]'));
+
+    type FrameInfo = {
+      frame: IFrameElement,
+      initialSrc: string,
+    };
+    const demoFrames: Record<string, FrameInfo> = window.dframes = {};
+
+    for (const iframe of iframes) {
+      const demo = iframe.getAttribute('data-demo');
+
+      demoFrames[demo] = {
+        frame: iframe,
+        initialSrc: iframe.src,
+      };
+    }
+
+    const refreshButtons = Array.from(document.querySelectorAll('button[data-demo-refresh]'));
+
+    for (const button of refreshButtons) {
+      const demo = button.getAttribute('data-demo-refresh');
+      const {frame} = demoFrames[demo];
+
+      button.onclick = () => {
+        const target = frame.contentDocument.URL;
+        console.log(`Refreshing ${demo} to ${target}`);
+        frame.src = target;
+      };
+    }
+
+    const resetButtons = Array.from(document.querySelectorAll('button[data-demo-reset]'));
+
+    for (const button of resetButtons) {
+      const demo = button.getAttribute('data-demo-reset');
+      const {frame, initialSrc} = demoFrames[demo];
+
+      button.onclick = () => {
+        console.log(`Resetting ${demo} to ${initialSrc}`);
+        frame.src = initialSrc;
+      };
+    }
+  });
+</script>
