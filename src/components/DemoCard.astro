@@ -1,78 +1,93 @@
 ---
-import {Card} from '@astrojs/starlight/components';
+import {z, parse} from '@/utils/zod';
 
-export type Props = {
-  demo: string,
-  title?: string,
-  icon?: string,
-};
+const propsSchema = z.object({
+  demo: z.string(),
+});
 
-const {demo} = Astro.props as Props;
-const demoUrl = new URL(`/demo/${demo}/`, Astro.url!);
+export type Props = z.infer<typeof propsSchema>;
+
+const props = parse(propsSchema, Astro.props);
+const {demo} = props;
 ---
-<Card title={Astro.props.title ?? 'Demo'} icon={Astro.props.icon as any}>
-  <!-- Refresh button -->
-  <button data-demo-refresh={demo}>Refresh</button>
-  <button data-demo-reset={demo}>Reset</button>
-  <slot />
-  <iframe
-    data-demo={demo}
-    src={demoUrl.toString()}
-    style={{
-      width: '100%',
-      border: 0,
-      'border-radius': '4px',
-      overflow: 'hidden',
-    }}
-    title={Astro.props.title ?? demo}
-    content="text/html;charset=utf-8"
-  />
-</Card>
+<article>
+  <fry-demo-card data-demo={demo}>
+    <slot />
+    <div class="frame-placeholder" />
+  </fry-demo-card>
+</article>
+
+<style>
+    article {
+        border: 1px solid var(--sl-color-gray-5);
+        background-color: var(--sl-color-black);
+        padding: clamp(1rem, calc(0.125rem + 3vw), 2.5rem);
+        gap: clamp(0.5rem, calc(0.125rem + 1vw), 1rem);
+    }
+</style>
 
 <script>
-  import { TRANSITION_PAGE_LOAD } from 'astro:transitions/client';
+  class DemoCard extends HTMLElement {
+    private iframe: HTMLIFrameElement;
 
-  document.addEventListener(TRANSITION_PAGE_LOAD, () => {
-    const iframes = Array.from(document.querySelectorAll('iframe[data-demo]'));
+    connectedCallback() {
+      const demo = this.dataset.demo;
+      const demoUrl = new URL(`/demo/${demo}/`, window.location.href).toString();
+      this.iframe = document.createElement('iframe');
+      this.iframe.src = demoUrl.toString();
+      this.iframe.style.width = '100%';
+      this.iframe.style.height = 'fit-content';
+      this.iframe.style.border = '0';
+      this.iframe.style.margin = '0';
+      this.iframe.content = 'text/html;charset=utf-8';
 
-    type FrameInfo = {
-      frame: IFrameElement,
-      initialSrc: string,
-    };
-    const demoFrames: Record<string, FrameInfo> = window.dframes = {};
+      this.querySelector('.frame-placeholder')?.replaceWith(this.iframe);
 
-    for (const iframe of iframes) {
-      const demo = iframe.getAttribute('data-demo');
+      this.querySelectorAll('[data-demo-action]')
+        .forEach(trigger => {
+          const action = trigger.dataset.demoAction;
 
-      demoFrames[demo] = {
-        frame: iframe,
-        initialSrc: iframe.src,
-      };
+          trigger.addEventListener('click', () => {
+            this.doAction(action);
+          });
+        });
     }
 
-    const refreshButtons = Array.from(document.querySelectorAll('button[data-demo-refresh]'));
-
-    for (const button of refreshButtons) {
-      const demo = button.getAttribute('data-demo-refresh');
-      const {frame} = demoFrames[demo];
-
-      button.onclick = () => {
-        const target = frame.contentDocument.URL;
-        console.log(`Refreshing ${demo} to ${target}`);
-        frame.src = target;
-      };
+    private doAction(action: string): void {
+      switch (action) {
+        case 'back':
+          this.iframe.contentWindow?.history.back();
+          break;
+        case 'forward':
+          this.iframe.contentWindow?.history.forward();
+          break;
+        case 'reset':
+          this.iframe.src = this.iframe.src;
+          break;
+        case 'reload':
+          this.iframe.contentWindow?.location.reload();
+          break;
+      }
     }
+  }
 
-    const resetButtons = Array.from(document.querySelectorAll('button[data-demo-reset]'));
+  customElements.define('fry-demo-card', DemoCard);
 
-    for (const button of resetButtons) {
-      const demo = button.getAttribute('data-demo-reset');
-      const {frame, initialSrc} = demoFrames[demo];
+  function resizeAllIframes() {
+    console.log('resizeAllIframes');
+    setTimeout(() => {
+      document.querySelectorAll('iframe')
+        .forEach(iframe => {
+          const newHeight = iframe.contentWindow.document.body.scrollHeight;
 
-      button.onclick = () => {
-        console.log(`Resetting ${demo} to ${initialSrc}`);
-        frame.src = initialSrc;
-      };
-    }
-  });
+          console.log('New height', newHeight);
+
+          iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 5 + 'px';
+          iframe.scrolling = 'no';
+        });
+    }, 1000);
+  }
+
+  document.addEventListener('astro:load', resizeAllIframes);
+  document.addEventListener('DOMContentLoaded', resizeAllIframes);
 </script>
