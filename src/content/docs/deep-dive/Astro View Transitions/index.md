@@ -5,7 +5,6 @@ tableOfContents: false
 next: true
 sidebar:
   order: 0
-  badge: NEW
   label: Introduction
 banner:
   content: This page is part of a work in progress series. Come back later for more content!
