@@ -1,7 +1,9 @@
 ---
-title: 'A Language Worth Learning'
-description: 'What makes a language worth learning.'
-tags: ['studying', 'philosophy']
+title: A Language Worth Learning
+description: What makes a language worth learning.
+tags:
+  - studying
+  - philosophy
 lastUpdated: 2023-06-17
 tableOfContents: false
 ---

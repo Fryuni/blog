@@ -2,12 +2,13 @@
 title: Astro View Transitions
 description: An introduction to View Transitions API, Astro's implementation and goal of this series.
 tableOfContents: false
+next: true
 sidebar:
   order: 0
   badge: NEW
   label: Introduction
 banner:
-  content: This is series is still in progress. Come back later for more content!
+  content: This page is part of a work in progress series. Come back later for more content!
 ---
 
 [View Transitions API][MDN docs] is an [experimental feature][compat table] that is being
@@ -58,11 +59,7 @@ these so it is clear and understandable for everyone. If you have any feedback, 
 me know!_
 
 [MDN docs]: https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API
-
 [compat table]: https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API#browser_compatibility
-
 [Astro]: https://astro.build
-
 [astro comp docs]: https://docs.astro.build/en/guides/view-transitions/
-
 [Bag of Tricks]: https://events-3bg.pages.dev/
