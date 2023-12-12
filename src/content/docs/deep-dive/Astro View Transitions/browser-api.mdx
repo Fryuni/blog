@@ -1,23 +1,22 @@
 ---
-title: The Browser API
+title: The browser API
 description: Demystifying View Transitions API by implementing a basic use case.
 draft: true
 prev: true
 sidebar:
   order: 1
-  badge: NEW
 banner:
   content: This page is part of a work in progress series. Come back later for more content!
 ---
 
 import {
-SimpleSwap,
-SimpleSwapEager,
-SwapWithAnimation,
-SwapWithFlickerAnimation,
-SwapWithTiledAnimation,
-SwapWithSynchronizedAnimation,
-AnimatedWithTransition
+  SimpleSwap,
+  SimpleSwapEager,
+  SwapWithAnimation,
+  SwapWithFlickerAnimation,
+  SwapWithTiledAnimation,
+  SwapWithSynchronizedAnimation,
+  AnimatedWithTransition
 } from '@exm/browser-view-transitions';
 import RequireViewTransition from '@require/viewTransitions.astro';
 
@@ -473,7 +472,7 @@ between
 them. No flickering, no jank, no collapsing container, no more messing with styles to
 superimpose the images, nor worrying about the order of operations.
 
-### HOW?!
+### HOW?
 
 Finally, the question proposed at the beginning of this article. How does it work?
 When we call `document.startViewTransition`, it goes through a few steps:
@@ -534,3 +533,5 @@ Those are some of the things that Astro builds on top of this API. To understand
 those and others features, check back here for the following articles. In the next one,
 we'll start building a simplified version of Astro' s `<ViewTransitions />` component from
 scratch, step by step, so we can understand how it doesn all its magic.
+
+[source code]: https://gitlab.com/Fryuni/blog/-/tree/main/src/components/examples/browser-view-transitions
