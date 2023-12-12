@@ -204,6 +204,9 @@ module.exports = {
         parser: '@typescript-eslint/parser',
         extraFileExtensions: ['.astro'],
       },
+      rules: {
+        'max-len': 'off',
+      },
     },
     {
       // Define the configuration for `<script>` tag.
