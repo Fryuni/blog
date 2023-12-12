@@ -6,16 +6,8 @@ import vercel from '@astrojs/vercel/serverless';
 import node from '@astrojs/node';
 import tailwind from '@astrojs/tailwind';
 
-const adapterConfig = process.env.ASTRO_NODE_ADAPTER === 'true'
+const adapterConfig = process.env.VERCEL === '1'
   ? defineConfig({
-    adapter: node({mode: 'standalone'}),
-    image: {
-      service: {
-        entrypoint: 'astro/assets/services/squoosh',
-      },
-    },
-  })
-  : defineConfig({
     adapter: vercel({
       functionPerRoute: false,
       imageService: true,
@@ -23,6 +15,14 @@ const adapterConfig = process.env.ASTRO_NODE_ADAPTER === 'true'
       webAnalytics: {enabled: true},
       speedInsights: {enabled: true},
     }),
+  })
+  : defineConfig({
+    adapter: node({mode: 'standalone'}),
+    image: {
+      service: {
+        entrypoint: 'astro/assets/services/squoosh',
+      },
+    },
   });
 
 // https://astro.build/config
