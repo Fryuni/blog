@@ -6,7 +6,7 @@ import StarlightHead from '@astrojs/starlight/components/Head.astro';
 const {props}: {props: Props} = Astro;
 ---
 <StarlightHead {...props}/>
-<ViewTransitions/>
+<ViewTransitions fallback="swap"/>
 <script>
   import '@/utils/croctClient';
   import { isTransitionBeforeSwapEvent, TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';
