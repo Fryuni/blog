@@ -1,0 +1,32 @@
+---
+import coast from '@/assets/jungle-coast.jpg';
+import sky from '@/assets/view-from-the-sky.jpg';
+import {Image} from 'astro:assets';
+import {Card} from '@astrojs/starlight/components';
+---
+
+<Card title="Simple swap with eager loading">
+  <slot/>
+  <div data-example="swap-eager-no-animation" style={{position: 'relative'}}>
+    <Image alt="Jungle coast" src={coast} />
+    <Image style={{display: 'none', margin: '0'}} alt="View from the sky" src={sky} loading="eager" />
+  </div>
+</Card>
+
+<script>
+  function swapImages(parent: Element) {
+    const imgs = parent.querySelectorAll('img');
+
+    imgs.forEach(img => {
+      img.style.display = img.style.display === 'none'
+        ? 'block' : 'none';
+    });
+  }
+
+  document.addEventListener('click', event => {
+    const div = event.target.closest('div[data-example="swap-eager-no-animation"]');
+    if (!div) return;
+
+    swapImages(div);
+  });
+</script>

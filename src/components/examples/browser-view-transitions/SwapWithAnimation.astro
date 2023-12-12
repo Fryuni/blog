@@ -1,0 +1,50 @@
+---
+import coast from '@/assets/jungle-coast.jpg';
+import sky from '@/assets/view-from-the-sky.jpg';
+import {Image} from 'astro:assets';
+import {Card} from '@astrojs/starlight/components';
+---
+
+<Card title="Swap with smooth animation">
+  <div data-example="simple-animation" style={{position: 'relative'}}>
+    <Image alt="Jungle coast" src={coast} />
+    <Image style={{display: 'none', margin: '0'}} alt="View from the sky" src={sky} loading="eager" />
+  </div>
+</Card>
+
+<script>
+  function swapImages(parent: HTMLElement) {
+    parent.querySelectorAll('img').forEach(img => {
+      if (img.style.display === 'none') {
+        img.style.display = 'inline';
+        img.animate(
+          [{ opacity: 0 },{ opacity: 1 }],
+          {duration: 1000,easing: 'ease-in'},
+        );
+      } else {
+        img.style.position = 'absolute';
+        img.style.top = '0';
+        img.style.left = '0';
+
+        const animation = img.animate(
+          [{ opacity: 1 },{ opacity: 0 }],
+          {duration: 1000,easing: 'ease-out'},
+        );
+
+        animation.onfinish = () => {
+          img.style.position = null;
+          img.style.top = null;
+          img.style.left = null;
+          img.style.display = 'none';
+        };
+      }
+    });
+  }
+
+  document.addEventListener('click', event => {
+    const div = event.target.closest('div[data-example="simple-animation"]');
+    if (!div) return;
+
+    swapImages(div);
+  });
+</script>

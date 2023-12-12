@@ -1,0 +1,50 @@
+---
+import coast from '@/assets/jungle-coast.jpg';
+import bird from '@/assets/tree-bird.jpg';
+import {Image} from 'astro:assets';
+import {Card} from '@astrojs/starlight/components';
+---
+
+<Card title="Animation with View Transition">
+  <div data-example="simple-animation-with-transition" style={{position: 'relative'}}>
+    <Image alt="Jungle coast" src={coast} />
+    <Image style={{display: 'none', margin: '0'}} alt="Tree bird" src={bird} loading="eager" />
+  </div>
+</Card>
+
+<!--<style>-->
+<!--    div[data-example="simple-animation-with-transition"] img {-->
+<!--        view-transition-name: simple-animation-with-transition;-->
+<!--    }-->
+
+<!--    ::view-transition-old(simple-animation-with-transition),-->
+<!--    ::view-transition-new(simple-animation-with-transition) {-->
+<!--        animation-duration: 2s;-->
+<!--    }-->
+
+<!--    ::view-transition-old(simple-animation-with-transition) {-->
+<!--        animation-name: fade-out;-->
+<!--    }-->
+
+<!--    ::view-transition-new(simple-animation-with-transition) {-->
+<!--        animation-name: fade-in;-->
+<!--    }-->
+<!--</style>-->
+
+<script>
+  function swapImages(parent: HTMLElement) {
+    parent.querySelectorAll('img').forEach(img => {
+      img.style.display = img.style.display === 'none'
+        ? 'block' : 'none';
+    });
+  }
+
+  document.addEventListener('click', event => {
+    const div = event.target.closest('div[data-example="simple-animation-with-transition"]');
+    if (!div) return;
+
+    document.startViewTransition(() => {
+      swapImages(div);
+    });
+  });
+</script>

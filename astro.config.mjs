@@ -78,9 +78,6 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
   ],
-  devToolbar: {
-    enabled: false,
-  },
   vite: {
     server: {
       watch: {

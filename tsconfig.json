@@ -4,7 +4,9 @@
     "exactOptionalPropertyTypes": false,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@exm/*": ["src/components/examples/*"],
+      "@require/*": ["src/components/requireFeatures/*"]
     },
     "lib": ["dom"]
   }

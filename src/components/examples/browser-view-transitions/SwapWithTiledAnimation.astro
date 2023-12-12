@@ -1,0 +1,43 @@
+---
+import coast from '@/assets/jungle-coast.jpg';
+import sky from '@/assets/view-from-the-sky.jpg';
+import {Image} from 'astro:assets';
+import {Card} from '@astrojs/starlight/components';
+---
+
+<Card title="Swap without flickering">
+  <div data-example="simple-tiled-animation" style={{position: 'relative'}}>
+    <Image alt="Jungle coast" src={coast} />
+    <Image style={{display: 'none', margin: '0'}} alt="View from the sky" src={sky} loading="eager" />
+  </div>
+</Card>
+
+<script>
+  function swapImages(parent: HTMLElement) {
+    parent.querySelectorAll('img').forEach(img => {
+      if (img.style.display === 'none') {
+        img.style.display = 'inline';
+        img.animate(
+          [{ opacity: 0 }, { opacity: 1 }],
+          { duration: 1000, easing: 'ease-in' },
+        );
+      } else {
+        const animation = img.animate(
+          [{ opacity: 1 }, { opacity: 0 }],
+          { duration: 1000, easing: 'ease-out' },
+        );
+
+        animation.onfinish = () => {
+          img.style.display = 'none';
+        };
+      }
+    });
+  }
+
+  document.addEventListener('click', event => {
+    const div = event.target.closest('div[data-example="simple-tiled-animation"]');
+    if (!div) return;
+
+    swapImages(div);
+  });
+</script>
