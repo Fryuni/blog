@@ -1,3 +1,57 @@
+diff --git a/node_modules/@astrojs/starlight/components/Page.astro b/node_modules/@astrojs/starlight/components/Page.astro
+index 306a0ed..2bdc6ed 100644
+--- a/node_modules/@astrojs/starlight/components/Page.astro
++++ b/node_modules/@astrojs/starlight/components/Page.astro
+@@ -44,6 +44,7 @@ const pagefindEnabled =
+ 	data-has-toc={Boolean(Astro.props.toc)}
+ 	data-has-sidebar={Astro.props.hasSidebar}
+ 	data-has-hero={Boolean(Astro.props.entry.data.hero)}
++	transition:animate="initial"
+ >
+ 	<head>
+ 		<Head {...Astro.props} />
+@@ -87,8 +88,6 @@ const pagefindEnabled =
+ 					lang={Astro.props.entryMeta.lang}
+ 					dir={Astro.props.entryMeta.dir}
+ 				>
+-					{/* TODO: Revisit how this logic flows. */}
+-					<Banner {...Astro.props} />
+ 					{
+ 						Astro.props.entry.data.hero ? (
+ 							<ContentPanel {...Astro.props}>
+diff --git a/node_modules/@astrojs/starlight/components/TwoColumnContent.astro b/node_modules/@astrojs/starlight/components/TwoColumnContent.astro
+index 5eefb3e..be5724f 100644
+--- a/node_modules/@astrojs/starlight/components/TwoColumnContent.astro
++++ b/node_modules/@astrojs/starlight/components/TwoColumnContent.astro
+@@ -1,7 +1,10 @@
+ ---
++import { Banner } from 'virtual:starlight/components';
+ import type { Props } from '../props';
+ ---
+ 
++{/* TODO: Revisit how this logic flows. */}
++<Banner {...Astro.props} />
+ <div class="lg:sl-flex">
+ 	{
+ 		Astro.props.toc && (
+@@ -32,8 +35,7 @@ import type { Props } from '../props';
+ 		.right-sidebar {
+ 			position: fixed;
+ 			top: 0;
+-			border-inline-start: 1px solid var(--sl-color-gray-6);
+-			padding-top: var(--sl-nav-height);
++			padding-top: calc(var(--sl-nav-height) * 2);
+ 			width: 100%;
+ 			height: 100vh;
+ 			overflow-y: auto;
+@@ -42,6 +44,7 @@ import type { Props } from '../props';
+ 
+ 		.main-pane {
+ 			width: 100%;
++			border-inline-end: 1px solid var(--sl-color-gray-6);
+ 		}
+ 
+ 		:global([data-has-sidebar][data-has-toc]) .main-pane {
 diff --git a/node_modules/@astrojs/starlight/package.json b/node_modules/@astrojs/starlight/package.json
 index 72011b6..1a2a8f8 100644
 --- a/node_modules/@astrojs/starlight/package.json
