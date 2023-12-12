@@ -17,11 +17,13 @@ const compatibilityUrl = 'https://developer.mozilla.org/en-US/docs/Web/API/View_
 </div>
 
 <script>
-  document.addEventListener('astro:page-load', () => {
+  import { TRANSITION_PAGE_LOAD, supportsViewTransitions } from 'astro:transitions/client';
+
+  document.addEventListener(TRANSITION_PAGE_LOAD, () => {
     const detectionElements = document.querySelectorAll('.view-transition-detection');
 
-    if (document.startViewTransition) {
-      detectionElements.forEach(el => el.destroy());
+    if (supportsViewTransitions) {
+      detectionElements.forEach(el => el.remove());
     } else {
       detectionElements.forEach(el => el.style.display = null);
     }
