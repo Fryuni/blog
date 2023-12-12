@@ -78,10 +78,13 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
   ],
+  devToolbar: {
+    enabled: false,
+  },
   vite: {
     server: {
       watch: {
-        ignored: ['!**/node_modules/**', '**/dist/**', '**/.*/**'],
+        ignored: ['**/node_modules/**', '**/dist/**', '**/.*/**'],
       },
     },
   },
