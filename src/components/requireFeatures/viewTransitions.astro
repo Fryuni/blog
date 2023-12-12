@@ -1,0 +1,29 @@
+---
+import Aside from '@/components/Aside.astro';
+
+const apiDocUrl = 'https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API';
+const compatibilityUrl = 'https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API#browser_compatibility';
+---
+
+<div style={{display: 'none'}} class="view-transition-detection">
+  <Aside variant="danger" title="View Transitions API required">
+    <p>
+      The demos in this page require the <a href={apiDocUrl}>View Transitions API</a> to work.
+      <br/>
+      Your browser does not support this API. To interact with the demos, please use a
+      <a href={compatibilityUrl}>compatible browser</a> (like Chrome).
+    </p>
+  </Aside>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const detectionElements = document.querySelectorAll('.view-transition-detection');
+
+    if (document.startViewTransition) {
+      detectionElements.forEach(el => el.destroy());
+    } else {
+      detectionElements.forEach(el => el.style.display = null);
+    }
+  });
+</script>
