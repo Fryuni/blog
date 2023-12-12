@@ -211,7 +211,7 @@ module.exports = {
     {
       // Define the configuration for `<script>` tag.
       // Script in `<script>` is assigned a virtual file name with the `.js` extension.
-      files: ['**/*.ts', '**/*.mts', '**/*.cts', '**/*.tsx', '**/*.astro/*.js'],
+      files: ['**/*.ts', '**/*.mts', '**/*.cts', '**/*.tsx', '**/*.astro/*.js', '**/*.astro/*.ts'],
       env: {
         browser: true,
         es2020: true,
