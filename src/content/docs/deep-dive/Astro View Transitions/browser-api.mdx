@@ -24,43 +24,41 @@ import RequireViewTransition from '@require/viewTransitions.astro';
 <RequireViewTransition />
 
 The browser View Transitions API is intended for a much more generic use case than
-Astro's `<ViewTransitions />` component. Its purpose is to provide an easier way to make
-transitions between two DOM states without having to worry about intermediary states.
+Astro's `<ViewTransitions />` component. Its purpose is to provide an easier transition
+between two DOM states without worrying about intermediary states.
 
-Astro's `<ViewTransitions />` component is one application if this API. It provides the
-wiring to turn all navigation between static Astro pages into a transition between two
-DOM states in the same page, providing the experience of an SPA without require all
-the complexity and piles of JavaScript that would be required for doing that more
-generally.
+Astro's `<ViewTransitions />` component is one application of this API. It provides the
+wiring to turn all navigation between static Astro pages into a transition between two DOM
+states on the same page, providing the experience of a SPA without requiring all the
+complexity and piles of JavaScript that would be necessary for doing that more generally.
 
 But while Astro's component is for navigation, the browser API can be used for many more
-use cases, even simpler ones. In order to understand how Astro's component works and the
-reasoning behind some of its design decisions, it is important to understand the browser
-API first.
+use cases, even simpler ones. It is essential to understand the browser API first to
+understand how Astro's component works and the reasoning behind some of its design
+decisions.
 
 ## The world before: madness
 
-To understand the problem that this API is trying to solve, let's pretend we are tasked
-with building a component that shows one image and when you click on it, it switches
-to another image. We'll gradually take care of more details in that component so we can
-experience the problems that arise without using the View Transitions API before we switch
-to using it.
+To understand the problem this API is trying to solve, let's pretend we are tasked with
+building a component that shows one image and switches to a different image when you click
+on it. We'll gradually take care of more details in that component so we can experience
+the problems that arise without using the View Transitions API before we switch to using
+it.
 
-Laying the groundwork, let's start with a simple component that includes the two images
-and
-when you click on one of them it hides it and shows the other one. We'll use the
-`<Image />` component from Astro's `astro:assets` package to load the images.
+Laying the groundwork, let's start with a simple component that includes the two images,
+and when you click on one, it hides it and shows the other. We'll load the images using
+the `<Image />` component from Astro's `astro:assets` package.
 
 ### Simplest image swap
 
 :::note
-This snippet and the others that follow from it are simplified examples of the code used
-throughout this page. It assumes a static page without Astro's View Transitions, and also
-that there is only one use of the component in the page due to the hard-coded `id`.
+This snippet and the others following it are simplified examples of the code used
+throughout this page. It assumes a static page without Astro's View Transitions, and there
+is only one use of the component in the page due to the hard-coded `id`.
 
-This site does use Astro's View Transition and there are multiple demos along the page, so
-the real code is a bit more complex. If you want to see the real code used here, you can
-check the [source code]. Such differences will be explained in following articles.
+This site does use Astro's View Transition, and there are multiple demos along the page,
+so the actual code is a bit more complex. If you want to see the code used here, you can
+check the [source code]. Such differences will be explained in the following articles.
 :::
 
 ```astro
@@ -98,35 +96,34 @@ Let's break down what is happening in that code:
 - We have two images, one of a jungle coast and another of a bird on a tree.
 - The bird image is initially hidden.
 - We have an event listener that listens for clicks on the `#images` element that contains
-  both images. When a click happens, it calls the `swapImages` function with the
-  `#images` element as argument.
+  both images. When a click happens, it calls the `swapImages` function with the `#images`
+  element as its argument.
 - The `swapImages` function swaps the visibility of all the `img` elements within the
-  given container, hiding the ones that are visible and showing the ones that are
-  hidden.
+  given container, hiding the ones that are visible and showing the ones that are hidden.
 
-Quite a simple and straighforward component, right? Let's see it in action:
+It's a pretty straightforward component, right? Let's see it in action:
 
 <SimpleSwap />
 
 That is good enough for a first version, but it has some problems:
 
-1. The first image is hidden immediately when you click on it, but the second image
-   only starts loading after that. This is because the `<Image/>` component has a very
-   useful default of lazy loading images. This is great for performance, but it means
-   that there will be a gap in time with no image being shown.
+1. The first image is immediately hidden when you click on it, but the second image only
+   starts loading afterward. This is because the `<Image/>` component has a handy default
+   of lazy loading images. This is great for performance, but there will be a time gap
+   with no image.
 
-   _Try setting a very low network speed in your browser's dev tools and clicking on the
+   _Try setting a meager network speed in your browser's dev tools and clicking on the
    image again to see this effect._
-2. The swap is immediate. There is no transition between the two images, they just
+2. The swap is immediate. There is no transition between the two images; they just
    suddenly disappear and appear. Once both images are loaded, the image appears to
-   abruptly becomes the other.
+   abruptly become the other.
 
 ### Don't wait for the next image
 
 We can fix the first problem by setting the `loading="eager"` attribute on the second
-image. This will make it load immediately instead of lazily. This fixes the symptom, but
+image. This will make it load immediately instead of lazily. This fixes the symptom but
 not the problem. If we had more images, we would not want to load all of them eagerly,
-only the one that is going to be shown next.
+only the one that will be shown next.
 
 ```astro ins={7}
 <div id="images">
@@ -141,20 +138,20 @@ only the one that is going to be shown next.
 ```
 
 <SimpleSwapEager>
-  The second image from here on is different so the browser doesn't share the cache with
+  The second image from here on is different, so the browser doesn't share the cache with
   the demo above.
 </SimpleSwapEager>
 
 ### Animating the swap
 
-As for the second problem, we can add an animation during the swap using `img.animate`.
-It would need two animations, one to fade out the current image and another to fade in
-the new one.
+As for the second problem, we can add an animation during the swap using `img.animate`. It
+would need two animations, one to fade out the current image and another to fade in the
+new one.
 
-To do that, we can call animate on each image, passing two keyframes,
-one describing the opacity of the image before the swap and another describing the
-opacity after the swap. We can also pass an options object with the duration and easing
-of the animation. Let's try that:
+To do that, we can call animate on each image, passing two keyframes, one describing the
+opacity of the image before the swap and another describing the opacity after the swap. We
+can also pass an options object with the duration and easing of the animation. Let's try
+this:
 
 ```ts ins={5-9,12-16}
 function swapImages(parent: HTMLElement) {
@@ -185,19 +182,19 @@ disappeared immediately and then faded in. What happened?
 
 ### The problem with animation and style changes
 
-The problem here is that animations are asynchronous, but style changes are synchronous.
-When we call `img.animate`, it returns an animation object that is scheduled to run,
-it doesn't run immediately (in fact it doesn't even start running until JS is idle).
-But when we set `img.style.display = 'none'`, that hides the image immediately, before
-even the assignment completes in JavaScript.
+The problem is that animations are asynchronous, but style changes are synchronous. When
+we call `img.animate`, it schedules the animation to run and immediately returns a handle
+for it; the animation doesn't run immediately (in fact, it doesn't start until JS is
+idle). But when we set `img.style.display = 'none'`, it hides the image immediately
+before even the assignment is completed in JavaScript.
 
 So we are hiding the image, and animating its fade out while it is already not visible.
-Definetely not what we wanted. You might even say it looks worse than without the
-animation since now it _always_ look janky, not just on the first swap.
+Definitely not what we wanted. You might even say it looks worse than without the
+animation since now it _always_ looks janky, not just on the first swap.
 
-Ok... We can fix that! `img.animate` returns an animation object, and that has
-an `onfinish` property that is a callback for after the animation ends. We can use that
-to hide the image only after the animation has already faded out the image completely.
+Ok... We can fix that! `img.animate` returns an animation object with an `onfinish`
+property that is a callback for after the animation ends. We can use that to hide the
+image only after the animation has already faded out the image completely.
 
 ```ts ins={17-19} ins="const animation ="
 function swapImages(parent: HTMLElement) {
@@ -226,18 +223,18 @@ function swapImages(parent: HTMLElement) {
 
 <SwapWithTiledAnimation />
 
-WHAAT? Now the images are tiled above each other! Well, we should expect that... We are
-now showing both images at the same time, so they will show up just like they would if
-both were always visible. Both animating, one with fade out and the other with fade in,
-but both visible, separately, at the same time.
+WHAAT? Now the images are tiled above each other! Well, we should expect that... We now
+show both images at the same time, so they appear as if both were always visible. Both are
+animating, one with fade out and the other with fade in, but both are visible separately,
+simultaneously.
 
 ### Superimposing old state and new state
 
 We need to fade out the old image while fading in the new one _in the same space_ on the
-screen. We need to superimpose the two images on top of each other, and then run the
-animations on both of them at the same time.
+screen. We need to superimpose the two images on top of each other and then run the
+animations on both simultaneously.
 
-Here enters some style trickery, we set the `position` of the container to `relative`
+Here, we invoke some style trickery. We set the `position` of the container to `relative`
 so we can position the images relative to it without considering the normal element flow
 of the page.
 
@@ -253,15 +250,15 @@ of the page.
 </div>
 ```
 
-Then, when an image is fading out we set its `position` to `absolute` and set its `top`
-and `left` to `0` so it is positioned at the begginning of the container, which will
-be the same position as the new image. This way, the old image will be superimposed
-on top of the new one, and we can fade it out while fading in the new one.
+Then, when an image is fading out, we set its `position` to `absolute` and set its `top`
+and `left` to `0` so it is positioned at the beginning of the container, which will be in
+the same position as the new image. This way, the old image will be superimposed on top of
+the new one, and we can fade it out while fading in the new one.
 
 The new image will still be positioned using the normal flow of the page, this ensures
-that the container and anything that follows it will not shrink to zero height during
-the transition. We clear these position styles after the animation is finished so the
-next swap will work as expected.
+that the container and anything that follows it will not shrink to zero height during the
+transition. After the animation, we have to clear these position styles so the next swap
+works as expected.
 
 ```ts ins={13-15,30-32}
 function swapImages(parent: HTMLElement) {
@@ -304,21 +301,20 @@ function swapImages(parent: HTMLElement) {
 
 <SwapWithAnimation />
 
-BEAUTIFUL! Now we have a nice fade out and fade in animation between the two images.
-Job done, right? Well, not quite... Click twice fast on the image and you'll see that the
+BEAUTIFUL! Now, we have a nice fade-out and fade-in animation between the two images. Job
+done, right? Well, not quite... Click twice fast on the image. You'll see that the
 entire thing breaks. Both images disappear and never come back. What happened?
 
 ### The user is impatient
 
-We have a people problem now. The user is the biggest force of chaos in the world,
-whatever
-you didn't think of testing will be used by someone:
+We have a people problem now. The user is the biggest force of chaos in the world.
+Whatever you didn't think of testing will be used by someone:
 
 <center>
 ![xkcd about workflow](https://imgs.xkcd.com/comics/workflow.png)
 </center>
 
-In this case, the user is impatient and clicked on the image before the animation was
+In this case, the user was impatient and clicked on the image before the animation was
 finished. This triggered another set of animations to start, but the first set was not
 canceled, so now we have four animations running at the same time:
 
@@ -327,16 +323,16 @@ canceled, so now we have four animations running at the same time:
 - Fading out the second image
 - Fading in the first image
 
-Since both images started a fade out animation, they both are positioned
+Since both images started a fade-out animation, they are positioned
 using `position: 'absolute'`, so there is nothing in the normal flow inside the container,
-making it collapse to zero size. At the end of those fade out animations, both images
-are hidden completely, so the container remains collapsed. With the container collapsed,
-we can't click on it anymore (it has size zero), so the user can't trigger another swap.
+making it collapse to zero size. At the end of those fade-out animations, both images are
+hidden completely, so the container remains collapsed. With the container collapsed, we
+can't click on it anymore (it has a size of zero), so the user can't trigger another swap.
 
-We need to prevent any new animation from starting while there is one already running.
-To do that, we set a flag when we start an animation and clear it when the animation
-finished. Before starting a new animation, we check if the flag is set and if it is,
-we don't start the animation.
+We must prevent any new animation from starting while one is already running. To do that,
+we set a flag when we create an animation and clear it when it is finished. Before
+starting a new animation, we check if the flag is set, and if it is, we don't create the
+animation.
 
 ```ts ins={2,4,37}
 function swapImages(parent: HTMLElement) {
@@ -384,31 +380,30 @@ function swapImages(parent: HTMLElement) {
 
 <SwapWithSynchronizedAnimation />
 
-Great! Now we have a nice animation that works even if the user is impatient and clicks
+Great! We now have a nice animation working even if the user is impatient and clicks
 multiple times. Is this it? Is this the final version? Well, it is good enough for the
-point I'm making here. When transitioning between two states, we need to take care of
-many details that are not obvious at first. We need to think about the order of
-operations, the timing of the animations, the position of the elements, how to juggle both
-states simulteneously in the same space, how to do that without breaking everything else
-in the page, and so on. And this is just a simple component with two images, imagine
-doing that for a whole page with many elements and many states.
+point I'm making here. When transitioning between two states, we need to take care of many
+details that are not initially obvious. We need to think about the order of operations,
+the timing of the animations, the position of the elements, how to juggle both states
+simultaneously in the same space, how to do that without breaking everything else on the
+page, and so on. This is just a simple component with two images; imagine doing that for a
+whole page with many elements and states (that is one of the reasons the code of many SPA
+frameworks are so complicated).
 
-I am, by no means, and I do mean _no means_, an expert in CSS and animations. In fact,
-I'm not even a frontend developer, I only do backend stuff professionally. I'm sure
-there are many things that could be done better in this component. But the point is that
-it is not easy to get right, and it is not easy to get right in a way that is reusable
-and maintainable.
+I am, by no means, and I do mean _no means_, an expert in CSS and animations. In fact, I'm
+not even a frontend developer; I only do backend professionally. I'm sure many things
+could be done better in this component. But the point is that it is not easy to get
+right, and it is especially difficult to get right in a reusable and maintainable way.
 
 ## The world after: View Transitions API
 
-The browser View Transitions API is intended to help with those sort of scenarios. It
-kinda follows the Unix philosophy of "do one thing and do it well". It doesn't try to do
+The browser View Transitions API is intended to help with those scenarios. It kinda
+follows the Unix philosophy of "do one thing and do it well". It doesn't try to do
 everything, it just does ONE thing: make transitions between two DOM states without
-having to worry about intermediary states.
+worrying about intermediary states.
 
-The API is incredibly simple, on its JavaScript side it is just a single method and an
-object
-with three promise handles:
+The API is exceedingly simple; on its JavaScript side, it is just a single method and an
+object with three promise handles:
 
 ```ts
 interface Document {
@@ -469,70 +464,67 @@ import {Image} from 'astro:assets';
 <AnimatedWithTransition />
 
 Aaaand it works... Just that. It works. It swaps the images with a smooth transition
-between
-them. No flickering, no jank, no collapsing container, no more messing with styles to
-superimpose the images, nor worrying about the order of operations.
+between them. No flickering, no jank, no collapsing container, no more messing with
+styles to superimpose the images, nor worrying about the order of operations.
 
 ### HOW?
 
-Finally, the question proposed at the beginning of this article. How does it work?
-When we call `document.startViewTransition`, it goes through a few steps:
+Finally, the question proposed at the beginning of this article. How does it work? When we
+call `document.startViewTransition`, it goes through a few steps:
 
 1. The browser immediately takes a snapshot of the entire DOM state and shows that
-   snapshot on top of the real DOM as the pseudo-element
-   `::view-transition-old(scope)`.
+   snapshot on top of the real DOM as the pseudo-element `::view-transition-old(scope)`.
 2. It then calls the `updateCallback` function we passed to it. This function can update
    the DOM however it wants, switching directly to the new state without worrying about
    intermediary states.
 3. Once that function returns (or the promise it returns resolves), the API takes another
-   snapshot of the DOM and also show it on top of the page, but below the old state. This
+   snapshot of the DOM and shows it on top of the page but below the old state. This
    is added with the pseudo-element `::view-transition-new(scope)`.
-4. It then starts an animation that fades out the old state and fades in the new one.
+4. It then starts an animation that fades out of the old state and fades in the new one.
    You can use those pseudo-elements to style the transition however you want, be it by
    changing the animation, the duration, the easing, or even the position of the elements
-   in thoes pseudo-states.
+   in those pseudo-states.
 
-But what is that `scope` thing? It is an identifier so you can style multiple portions
-of the DOM state transition differently. By default, any change to any element goes to
-the `root` scope, but you can style an element so it is added to a different scope. This
-allows you to have, for example, one element that takes slightly longer to fade in than
+But what is that `scope` thing? It is an identifier, so you can style multiple portions of
+the DOM state transition differently. By default, any change to any element goes to
+the `root` scope, but you can style an element so it is added to a different scope. For
+example, this allows you to have one element that takes slightly longer to fade in than
 everything else on the page.
 
-With that we can see how the problems we had before are solved:
+With that, we can see how the problems we had before are solved:
 
-- This is an entirely asynchronous API, so we can delay the entire thing until the new
-  image is loaded. We can even show a loading indicator while the image is loading.
-- The snapshot of the DOM being shown on top of the document allows us to switch the
-  style of the images without them flickering in front of the user.
-- There can only be one running transition at a time, so we don't have to worry about
-  the user clicking multiple times and breaking everything.
-- Since both pseudo-elements are independent snapshots of the entire DOM, we don't need
-  to handle special positioning of the elements, they are already positioned exactly
-  as they should be.
+- This is an entirely asynchronous API, so we can delay until the new image is loaded. We
+  can even show a loading indicator while the image is loading.
+- The snapshot of the DOM being shown on top of the document allows us to switch the style
+  of the images without them flickering in front of the user.
+- There can only be one running transition at a time, so we don't have to worry about the
+  user clicking multiple times and breaking everything.
+- Since both pseudo-elements are independent snapshots of the entire DOM, we don't need to
+  handle the unique positioning of the elements. They are already positioned precisely
+  where they should be.
 
 ## How does this tie in with Astro?
 
-Astro's `<ViewTransitions />` component is a wrapper around this API, but it has a much
-bigger goal. That component is intended to make all navigation between static Astro pages
-behave like an SPA, transitioning between the pages and allowing state to be persisted
-between pages.
+Astro's `<ViewTransitions />` component is a wrapper around this API but has a much bigger
+goal. That component is intended to make all navigation between static Astro pages behave
+like a SPA, transitioning between the pages and allowing state to persist between pages.
 
-Than why tie them both together? What makes this API special for Astro's use case that it
-deserves to have the component named after it?
+Then why tie them both together? What makes this API so special for Astro's use case that
+it deserves to have the component named after it?
 
-This API is very simple, but it enables a whole new world of possibilites. For example,
-what if we switch, one by one, each element in a page's `<head>` section? This would
-change the style of the entire page and its metadata, but thanks to this API this can
-be done without any flickering for the user since the browser will show the old state
-until everything is ready to be shown at once.
+The browser API might be simple on the surface, but it enables a whole new world of
+possibilities. For example, what if we switch, one by one, each element in a
+page's `<head>` section? This would change the style of the entire page and its metadata,
+but thanks to this API, this can be done without any flickering for the user since the
+browser will show the old state until everything is ready to be shown at once.
 
-What if we change _every_ element in the page? Like, with all the elements of _another_
-page that we `fetch`ed from the server? Same experience as an SPA, but without all the
-complexity of an SPA.
+What if we change _every_ element on the page? Like, with all the elements of _another_
+page that we `fetch`ed from the server? It's the same experience as a SPA but without all
+the complexity of a SPA.
 
 Those are some of the things that Astro builds on top of this API. To understand how all
-those and others features, check back here for the following articles. In the next one,
-we'll start building a simplified version of Astro' s `<ViewTransitions />` component from
-scratch, step by step, so we can understand how it doesn all its magic.
+those features and others work, check back here for the following articles. In the next
+one, we'll start building a simplified version of Astro' s `<ViewTransitions />` component
+from scratch, step by step, so we can understand how it does all its magic.
 
 [source code]: https://gitlab.com/Fryuni/blog/-/tree/main/src/components/examples/browser-view-transitions
