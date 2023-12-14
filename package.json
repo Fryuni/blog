@@ -6,7 +6,7 @@
   "scripts": {
     "astro": "astro",
     "build": "rm -rf dist .astro && astro build",
-    "dev": "astro dev",
+    "dev": "rm -rf node_modules/.vite && astro dev",
     "format": "eslint . --fix",
     "postinstall": "patch-package",
     "lint": "eslint .",

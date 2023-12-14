@@ -44,7 +44,7 @@ export default defineConfig({
       prerender: true,
       pagefind: true,
       pagination: false,
-      lastUpdated: true,
+      publicationDates: true,
       favicon: '/logo/logo-no-text-dark.svg',
       logo: {
         light: './public/logo/logo-no-text.svg',
