@@ -1,7 +1,7 @@
 ---
 title: In honor of the clouds
 description: How humans have learned from the clouds.
-pubDateTime: 2022-06-19
+firstPublished: 2022-06-19
 lastUpdated: 2023-06-20
 tableOfContents: false
 tags:
