@@ -1,6 +1,8 @@
 ---
 title: Devil in (the) Details
 description: A blog about software development and life curiosities.
+firstPublished: false
+lastUpdated: false
 template: splash
 hero:
   # tagline: Congrats on setting up a new Starlight project!
@@ -15,15 +17,10 @@ hero:
 ---
 
 import { Card, CardGrid, Icon } from '@astrojs/starlight/components';
+import RecentArticles from '@/components/RecentArticles.astro';
 
 ## Recent articles
 
 <CardGrid stagger>
- <Card title={'<a href="/deep-dive/astro-view-transitions/browser-api/">View Transitions API</a>'} icon="star">
-  Demystifying View Transitions API by implementing a basic use case.
- </Card>
- <Card title={'<a href="/essays/02-a-language-worth-learning/">Language learning</a>'} icon="open-book">
-  Why learning a new language is a great way to expand your horizons.
-  And how one language affects all other languages.
- </Card>
+ <RecentArticles />
 </CardGrid>
