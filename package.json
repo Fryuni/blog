@@ -8,7 +8,6 @@
     "build": "rm -rf dist .astro && astro build",
     "dev": "rm -rf node_modules/.vite && astro dev",
     "format": "eslint . --fix",
-    "postinstall": "patch-package",
     "lint": "eslint .",
     "prepare": "husky install",
     "preview": "astro preview",
@@ -24,14 +23,14 @@
     ]
   },
   "dependencies": {
-    "@astrojs/check": "^0.3.1",
-    "@astrojs/starlight": "https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?ssr-support",
+    "@astrojs/check": "^0.3.2",
+    "@astrojs/starlight": "https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?main",
     "@astrojs/starlight-tailwind": "^2.0.1",
     "@astrojs/tailwind": "^5.0.3",
-    "@astrojs/vercel": "^6.0.1",
+    "@astrojs/vercel": "^6.1.0",
     "@croct/plug": "^0.13.3",
     "@croct/sdk": "^0.14.0",
-    "astro": "^4.0.1",
+    "astro": "^4.0.5",
     "eslint-plugin-import": "^2.29.0",
     "markdownlint-cli": "^0.38.0",
     "squoosh": "^0.0.0",
@@ -39,19 +38,24 @@
     "typescript": "^5.3.3"
   },
   "devDependencies": {
-    "@astrojs/node": "^7.0.0",
+    "@astrojs/node": "^7.0.1",
     "@croct/eslint-plugin": "^0.7.1",
     "@dword-design/eslint-plugin-import-alias": "^4.0.9",
-    "@typescript-eslint/parser": "^6.13.2",
+    "@typescript-eslint/parser": "^6.14.0",
     "astro-eslint-parser": "^0.16.0",
     "eslint": "^8.55.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-astro": "^0.30.0",
     "husky": "^8.0.3",
-    "lint-staged": "^15.2.0",
-    "patch-package": "^8.0.0"
+    "lint-staged": "^15.2.0"
   },
   "overrides": {
     "eslint-plugin-import": "$eslint-plugin-import"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "astro@4.0.5": "patches/astro@4.0.5.patch",
+      "@croct/eslint-plugin@0.7.1": "patches/@croct__eslint-plugin@0.7.1.patch"
+    }
   }
 }

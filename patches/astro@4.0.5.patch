@@ -1,0 +1,22 @@
+diff --git a/dist/core/routing/manifest/create.js b/dist/core/routing/manifest/create.js
+index 5f4feaae641f5026c92aaf3790e870ddca7ad8a8..3f47c49f5583c8022f4105eee8eaa13f5dcb9d75 100644
+--- a/dist/core/routing/manifest/create.js
++++ b/dist/core/routing/manifest/create.js
+@@ -257,7 +257,7 @@ function createRouteManifest({ settings, cwd, fsMod }, logger) {
+       // sort injected routes in the same way as user-defined routes
+       comparator(injectedRouteToItem({ config, cwd }, a), injectedRouteToItem({ config, cwd }, b))
+     )
+-  ).reverse().forEach(({ pattern: name, entrypoint, prerender: prerenderInjected }) => {
++  ).forEach(({ pattern: name, entrypoint, prerender: prerenderInjected }) => {
+     let resolved;
+     try {
+       resolved = require2.resolve(entrypoint, { paths: [cwd || fileURLToPath(config.root)] });
+@@ -284,7 +284,7 @@ function createRouteManifest({ settings, cwd, fsMod }, logger) {
+ This route collides with: "${collision.component}".`
+       );
+     }
+-    routes.unshift({
++    routes.push({
+       type,
+       route,
+       pattern,
