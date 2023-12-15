@@ -46,6 +46,9 @@ dependencies:
   squoosh:
     specifier: ^0.0.0
     version: 0.0.0
+  starlight-links-validator:
+    specifier: ^0.5.1
+    version: 0.5.1(@astrojs/starlight@0.15.0)(astro@4.0.5)
   tailwindcss:
     specifier: ^3.0.24
     version: 3.3.6
@@ -6202,6 +6205,23 @@ packages:
 
   /squoosh@0.0.0:
     resolution: {integrity: sha512-KWvhxCF+l5UpV1oyPSZAzscR/skAvlFvcbz3G6Jxp3uNpXzcCLspqApukwFRKbkk4Xpg538rL9Zt/nWTFfP/zw==}
+    dev: false
+
+  /starlight-links-validator@0.5.1(@astrojs/starlight@0.15.0)(astro@4.0.5):
+    resolution: {integrity: sha512-6iNl/bTTFN65T3fx1oMdspZltlYyonmrnno4dWjMzJuFHO79ZGKyzrtuMD59kiM9Y85eSy3MOpU1wuPoY28fMg==}
+    engines: {node: '>=18.14.1'}
+    peerDependencies:
+      '@astrojs/starlight': '>=0.15.0'
+      astro: '>=4.0.0'
+    dependencies:
+      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?main(astro@4.0.5)'
+      astro: 4.0.5(patch_hash=76zgkjwwmhzrg4rf6mhio72waq)(typescript@5.3.3)
+      github-slugger: 2.0.0
+      hast-util-from-html: 2.0.1
+      hast-util-has-property: 3.0.0
+      kleur: 4.1.5
+      mdast-util-to-string: 4.0.0
+      unist-util-visit: 5.0.0
     dev: false
 
   /statuses@2.0.1:

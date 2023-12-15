@@ -34,6 +34,7 @@
     "eslint-plugin-import": "^2.29.0",
     "markdownlint-cli": "^0.38.0",
     "squoosh": "^0.0.0",
+    "starlight-links-validator": "^0.5.1",
     "tailwindcss": "^3.0.24",
     "typescript": "^5.3.3"
   },

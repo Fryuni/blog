@@ -5,6 +5,7 @@ import starlight from '@astrojs/starlight';
 import vercel from '@astrojs/vercel/serverless';
 import node from '@astrojs/node';
 import tailwind from '@astrojs/tailwind';
+import starlightLinksValidator from 'starlight-links-validator';
 
 const adapterConfig = process.env.VERCEL === '1'
   ? defineConfig({
@@ -72,6 +73,9 @@ export default defineConfig({
       },
       customCss: [
         './src/tailwind.css',
+      ],
+      plugins: [
+        starlightLinksValidator(),
       ],
     }),
     tailwind({
