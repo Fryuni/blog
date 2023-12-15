@@ -1,7 +1,7 @@
 ---
 import {Icons} from '@astrojs/starlight/components/Icons';
 import {Icon} from '@astrojs/starlight/components';
-import {routes, slugToPathname} from '@astrojs/starlight/routes';
+import {routes, slugToPathname, type Route} from '@astrojs/starlight/routes';
 import {z, parse} from '../utils/zod';
 
 const schema = z.object({
@@ -22,14 +22,19 @@ const iconCycle: Array<keyof typeof Icons> = [
   'approve-check-circle',
 ];
 
-const routesInOrder = routes.filter(route => route.entry.data.template === 'doc')
-  .sort(
-    (a, b) => (
-      props.mode === 'created'
-        ? b.firstPublished.valueOf() - a.firstPublished.valueOf()
-        : b.lastUpdated.valueOf() - a.lastUpdated.valueOf()
-    ),
-  );
+const dateProp = props.mode === 'created' ? 'firstPublished' : 'lastUpdated';
+
+function comparator(a: Route, b: Route): number {
+  const aDate = a[dateProp];
+  const bDate = b[dateProp];
+
+  return bDate.valueOf() - aDate.valueOf();
+}
+
+const routesInOrder = routes
+  .filter(route => route.entry.data.template === 'doc')
+  .filter(route => route[dateProp] !== undefined)
+  .sort(comparator);
 
 const latest = routesInOrder.slice(0, props.limit).map(
   (route, index) => ({
