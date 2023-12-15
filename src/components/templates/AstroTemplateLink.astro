@@ -1,0 +1,44 @@
+---
+import { parse, z } from '../../utils/zod';
+import {Tabs, TabItem} from '@astrojs/starlight/components';
+import Aside from '../Aside.astro';
+
+const schema = z.object({
+  owner: z.enum(['me', 'astro']),
+  name: z.string(),
+});
+
+export type Props = z.infer<typeof schema>;
+
+const props = parse(schema, Astro.props);
+
+const stackblitzUrl = 'https://stackblitz.com/github/withastro/astro/tree/main/examples/blog';
+---
+
+<Tabs>
+  <TabItem label="npm">
+    <ExpressiveCode
+      lang="sh"
+      code={`npm create astro@latest -- --template ${props.owner}/${props.name}`}
+    />
+  </TabItem>
+  <TabItem label="pnpm">
+    <ExpressiveCode
+      lang="sh"
+      code={`pnpm create astro@latest -- --template ${props.owner}/${props.name}`}
+    />
+  </TabItem>
+  <TabItem label="Yarn">
+    <ExpressiveCode
+      lang="sh"
+      code={`yarn create astro@latest --template ${props.owner}/${props.name}`}
+    />
+  </TabItem>
+</Tabs>
+
+<Aside variant="tip" title="Use StackBlitz instead">
+  <p>
+    If you don't want to install anything on your computer, you can use the template on
+    <a href={stackblitzUrl}>StackBlitz</a> to follow along with the code.
+  </p>
+</Aside>

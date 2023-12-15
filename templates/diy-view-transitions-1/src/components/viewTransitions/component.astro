@@ -1,0 +1,48 @@
+<script>
+  import {navigateTo} from './client';
+
+  // Listen to the click event on the entire document
+  document.addEventListener('click', (event) => {
+    let link = event.target;
+    if (link instanceof Element) {
+      link = link.closest('a, area');
+    }
+    if (
+      !(link instanceof HTMLAnchorElement) &&
+      !(link instanceof SVGAElement) &&
+      !(link instanceof HTMLAreaElement)
+    )
+      return;
+
+    const linkTarget = link instanceof HTMLElement ? link.target : link.target.baseVal;
+    const href = link instanceof HTMLElement ? link.href : link.href.baseVal;
+    const origin = new URL(href, location.href).origin;
+    if (
+      link.hasAttribute('download')
+      // Links without a destination
+      || !link.href
+      // Links that don't target the current scope
+      || (linkTarget && linkTarget !== '_self')
+      // External links
+      || origin !== location.origin
+      // Middle click, or other special click
+      || event.button !== 0
+      // Clicks with modifier keys
+      || event.metaKey
+      || event.ctrlKey
+      || event.altKey
+      || event.shiftKey
+      // Event already handled
+      || event.defaultPrevented
+    ) {
+      // Let the browser handle those cases.
+      return;
+    }
+
+    // Prevent the default behavior of the click event
+    event.preventDefault();
+
+    // Navigate to the link
+    navigateTo(href);
+  });
+</script>

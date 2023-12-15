@@ -1,0 +1,699 @@
+---
+title: DIY ViewTransitions component
+description: Implementing our own `<ViewTransition />` from scratch
+prev: true
+tableOfContents:
+  overviewLabel: Introduction
+  maxHeadingLevel: 4
+sidebar:
+  order: 2
+  label: Crafting your own
+  badge: NEW
+banner:
+  content: This page is part of a work in progress series. Come back later for more content!
+---
+
+import {Tabs, TabItem} from '@astrojs/starlight/components';
+import RequireViewTransition from '@require/viewTransitions.astro';
+
+<RequireViewTransition mode="guide" />
+
+In our [last article], we took a deep dive into the browser's View Transitions API and
+the problem it solves in the general case. Now, we'll start exploring what Astro has
+built on top of that API and how all it's features were implemented to work together.
+
+[last article]: /deep-dive/astro-view-transitions/browser-api/
+
+And how are we going to do that? By creating our own `<ViewTransitions />` component from
+scratch! We'll start with a simple component that intercepts navigation events and
+transitions the page to the content of the new page. Then, we'll add more features to it
+until we have a component that is as feature-complete as Astro's built-in component.
+
+You might ask, 'why would I want to build my component?' That's a valid question.
+Understanding how to create your component not only empowers you with flexibility and the
+thrill of customization but also deepens your understanding of how the process works
+under-the-hood. It's all about getting your hands dirty with code!
+
+There's no need to worry about required knowledge or experience. I'll be breaking down
+every step of the process and explaining the code snippets in detail. The full source code
+of the project at the end if this guide is also available [here on GitLab][final code].
+You can also see the code we are going to build in action on [StackBlitz][sb end].
+
+The API being replicated in this article is the work of the Astro authors and specially
+[Martin Trapp], the major author of Astro's View Transitions API. All credits go to them
+for the API, the code, and specially the ingenuity in handling multiple quirks and edge
+cases of the browser's navigation. Martin is also the author of View Transitions [Bag of
+Tricks], a collection of tips and tricks to make the most of the View Transitions API,
+and recently published the [`astro-vtbot`][vtbot] package, which provides reusable
+components with some of the tricks he demonstrates on his page.
+
+[Martin Trapp]: https://github.com/martrapp
+
+[Bag of Tricks]: https://events-3bg.pages.dev/
+
+[vtbot]: https://www.npmjs.com/package/astro-vtbot
+
+## Goals
+
+In this article, we'll build a `<ViewTransitions />` component that intercepts all
+navigation events and transitions the page to the content of the new page. In this journey
+we'll learn how to:
+
+- Intercept navigation events
+- Load and parse a page from a URL
+- Switch the page content in place
+
+## Getting started
+
+We'll build our component with the official [blog template] as a starting point. It's a
+template that includes almost every use case that we'll cove in this series, so we can
+focus on implementing the transitions component and not the page that uses it.
+
+[blog template]: https://github.com/withastro/astro/tree/main/examples/blog
+
+If you want to follow along with your own code, you can do so in any Astro project, but
+I recommend that you create a new project using the same base template. You can do so
+with the `create-astro` package:
+
+<Tabs>
+<TabItem label="npm">
+
+```sh
+npm create astro@latest -- --template blog
+```
+
+</TabItem>
+<TabItem label="pnpm">
+
+```sh
+pnpm create astro@latest -- --template blog
+```
+
+</TabItem>
+<TabItem label="Yarn">
+
+```sh
+yarn create astro@latest -- --template blog
+```
+
+</TabItem>
+</Tabs>
+
+:::tip[Follow on StackBlitz]
+If you don't want to install anything on your computer, you can use the template on
+[StackBlitz][sb start] to follow along online.
+:::
+
+## Folder structure
+
+We'll create the component in a separate folder so we can provide our constant and methods
+without polluting the Astro component file. We'll call this folder `viewTransitions` and,
+for a start, we'll create the following structure:
+
+- `index.ts`: Re-exportes of the component, all the constants and methods
+  that consumers of the component will need.
+- `component.astro`: The component itself.
+- `client/`: The client-side code will be in a separate folder for better organization.
+  - `index.ts`: Re-exports of the client-side constants and methods that consumers of
+    the component can use.
+  - `...`: Client side code.
+
+:::note[Astro source]
+This structure will allows to provide an overall API similar to Astro's built-in
+component, but it is not the same structure that Astro uses internally.
+
+Astro relies on Vite plugins to create the virtual module `astro:transition`, which
+re-exports parts of this API defined in different places in the codebase. Their structure
+makes more sense for the Astro codebase, which has multiple other utility modules and
+components, but it is not as easy to follow for a standalone component.
+
+<details>
+<summary>Astro's structure</summary>
+
+- [`/components/ViewTransitions.astro`][component source]: The component itself.
+- [`/src/transitions/index.ts`][animation source]: Builders for built-in animations.
+- [`/src/transitions/router.ts`][router source]: All the logic for navigation and page
+  loading.
+- [`/src/transitions/types.ts`][types source]: Common types used in multiple places.
+- [`/src/transitions/vite-plugin-transitions.ts`][plugin source]: The Vite plugin that
+  creates the `astro:transition` and `astro:transition/client` virtual modules.
+
+[component source]: https://github.com/withastro/astro/blob/main/packages/astro/components/ViewTransitions.astro
+
+[animation source]: https://github.com/withastro/astro/blob/main/packages/astro/src/transitions/index.ts
+
+[router source]: https://github.com/withastro/astro/blob/main/packages/astro/src/transitions/router.ts
+
+[types source]: https://github.com/withastro/astro/blob/main/packages/astro/src/transitions/types.ts
+
+[plugin source]: https://github.com/withastro/astro/blob/main/packages/astro/src/transitions/vite-plugin-transitions.ts
+</details>
+:::
+
+We'll add new files as we go. Let's complete the boilerplate code first:
+
+```ts title="src/components/viewTransitions/index.ts"
+// Re-export the component for a better DX, similar to Astro's built-in component
+export { default as ViewTransitions } from './component.astro';
+```
+
+If you are following along with the blog template, we can add our new component to every
+page by changing the following file:
+
+```astro title="src/layouts/BaseHead.astro" ins={5,12}
+---
+// Import the global.css file here so that it is included on
+// all pages through the use of the <BaseHead /> component.
+import '../styles/global.css';
+import {ViewTransitions} from './viewTransitions';
+
+// ... existing code
+---
+<!-- ... all the blog metadata -->
+<meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+<ViewTransitions />
+```
+
+## Intercepting navigation
+
+Since our goal is to provide an alternative to navigating to different pages, the first
+thing we need to do is intercept the events of those navigation actions. Those events
+can be clicking on a link, or by using the browser's back and forward functions. We'll
+start by handling just the link clicks, going back and forth in the browser history will
+cause a page reload for now.
+
+To intercept links clicks, we could listen to the `click` event on every link in the page
+that we are interested, but that would require multiple different listeners, and every
+time anything adds a new link to the page, we'd have to add a new listener. Too much work,
+too many chances for things to go wrong.
+
+Instead, we'll listen to the `click` event on the entire `document`, and look around from
+the event to see if it was on a link element:
+
+```astro title="src/components/viewTransitions/component.astro"
+<script>
+// Listen to the click event on the entire document
+document.addEventListener('click', (event) => {
+  // Check if the click was on a link
+  const link = event.target?.closest('a, area');
+  if (!link) return;
+
+  // Prevent the default behavior of the click event
+  event.preventDefault();
+
+  // Navigate to the link
+  alert(`Would navigate to: ${link.href}`);
+});
+</script>
+```
+
+Notice that we are showing an alert with the URL of the link that was clicked for now.
+Once we implement the navigation logic, we'll replace that alert with a call to our
+`navigateTo` function.
+
+But we don't want to intercept all the links in the page. We only want to intercept the
+links that are internal to our site, external links should be handled by the browser as
+usual. We can do that by checking if the link is pointing to the same origin as the
+current page:
+
+```astro title="src/components/viewTransitions/client/component.astro" ins={8-12}
+<script>
+// Listen to the click event on the entire document
+document.addEventListener('click', (event) => {
+  // Check if the click was on a link
+  const link = event.target?.closest('a, area');
+  if (!link) return;
+  
+  // Resolve relative links
+  const origin = new URL(link.href, location.href).origin;
+
+  // Check if the link is to the same origin
+  if (origin !== location.origin) return;
+
+  // Prevent the default behavior of the click event
+  event.preventDefault();
+
+  // Navigate to the link
+  alert(`Would navigate to: ${link.href}`);
+});
+</script>
+```
+
+Try it out! If you click on any internal link in the page, you'll see a message in the
+console, but the page won't change. External links will work as usual.
+
+### Link attributes
+
+Ok, we got a handle for the basics, but we are not done yet. We need to handle a few extra
+cases. Let's add them together. If the link has a `target` attribute it might be opening
+in a new tab, or escaping an iframe; we should let the browser handle those cases.
+Similarly, if the link has a `download` attribute, the page shouldn't navigate, the
+browser should start the download.
+
+```ts title="src/components/viewTransitions/client/component.astro" ins={6-18} del={4-5}
+// Resolve relative links
+const origin = new URL(link.href, location.href).origin;
+
+// Check if the link is to the same origin
+if (origin !== location.origin) return;
+if (
+  // Download links
+  link.lasAttribute('download')
+  // Links without a destination
+  || !link.href
+  // Links that don't target the current scope
+  || (link.target && link.target !== '_self')
+  // External links
+  || origin !== location.origin
+) {
+  // Let the browser handle those cases.
+  return;
+}
+```
+
+### Mouse buttons and modifier keys
+
+The user can also click on a link using the middle mouse button, or with a modifier key
+like `Ctrl` or `Cmd` to open the link in a new tab, or `Shift` to open it in a new window,
+or `Alt` to download the destination content.
+If there are any modifier keys pressed, we should let the browser handle the navigation.
+
+```ts title="src/components/viewTransitions/client/component.astro" ins={11-15}
+if (
+  link.lasAttribute('download')
+  // Links without a destination
+  || !link.href
+  // Links that don't target the current scope
+  || (link.target && link.target !== '_self')
+  // External links
+  || origin !== location.origin
+  // Middle click, or other special click
+  || event.button !== 0
+  // Clicks with modifier keys
+  || event.metaKey
+  || event.ctrlKey
+  || event.altKey
+  || event.shiftKey
+) {
+  // Let the browser handle those cases.
+  return;
+}
+```
+
+### Cooperating with other listeners
+
+Lastly, we should also check if the event was already handled by another event listener.
+If the event was already handled and the default behavior was prevented, we shouldn't
+try to navigate.
+
+```ts title="src/components/viewTransitions/client/component.astro" ins={16-17}
+if (
+  link.lasAttribute('download')
+  // Links without a destination
+  || !link.href
+  // Links that don't target the current scope
+  || (link.target && link.target !== '_self')
+  // External links
+  || origin !== location.origin
+  // Middle click, or other special click
+  || event.button !== 0
+  // Clicks with modifier keys
+  || event.metaKey
+  || event.ctrlKey
+  || event.altKey
+  || event.shiftKey
+  // Event already handled
+  || event.defaultPrevented
+) {
+  // Let the browser handle those cases.
+  return;
+}
+```
+
+### SVG links
+
+That handler will work for most links, but it won't work for SVG links. In case the user
+clicks on an `<a>` link inside an SVG, our code would break because the `target` and
+`href` properties are different in SVG elements. We can fix that by checking if the
+element is an HTML element, and if not, handle it as an SVG element:
+
+```ts title="src/components/viewTransitions/client/component.astro" ins={3-5,13} del={1-2,12}
+// Resolve relative links
+const origin = new URL(link.href, location.href).origin;
+const linkTarget = link instanceof HTMLElement ? link.target : link.target.baseVal;
+const href = link instanceof HTMLElement ? link.href : link.href.baseVal;
+const origin = new URL(href, location.href).origin;
+
+if (
+  link.hasAttribute('download')
+  // Links without a destination
+  || !link.href
+  // Links that don't target the current scope
+  || (link.target && link.target !== '_self')
+  || (linkTarget && linkTarget !== '_self')
+  // External links
+  || origin !== location.origin
+  // Middle click, or other special click
+  || event.button !== 0
+  // Clicks with modifier keys
+  || event.metaKey
+  || event.ctrlKey
+  || event.altKey
+  || event.shiftKey
+  // Event already handled
+  || event.defaultPrevented
+) {
+  // Let the browser handle those cases.
+  return;
+}
+```
+
+### TypeScript
+
+If you are using TypeScript, you'll get some errors in the code above. That's because
+TypeScript doesn't know the type of the elements involved. We can fix that by properly
+checking the type of the elements. Out entire component so far would look like this:
+
+```astro title="src/components/viewTransitions/client/component.astro" ins={6-15} del={3-5}
+<script>
+  document.addEventListener('click', (event) => {
+    // Check if the click was on a link
+    const link = event.target?.closest('a, area');
+    if (!link) return;
+    let link = event.target;
+    if (link instanceof Element) {
+      link = link.closest('a, area');
+    }
+    if (
+      !(link instanceof HTMLAnchorElement) &&
+      !(link instanceof SVGAElement) &&
+      !(link instanceof HTMLAreaElement)
+    )
+      return;
+
+    const linkTarget = link instanceof HTMLElement ? link.target : link.target.baseVal;
+    const href = link instanceof HTMLElement ? link.href : link.href.baseVal;
+    const origin = new URL(href, location.href).origin;
+    if (
+      link.hasAttribute('download')
+      // Links without a destination
+      || !link.href
+      // Links that don't target the current scope
+      || (linkTarget && linkTarget !== '_self')
+      // External links
+      || origin !== location.origin
+      // Middle click, or other special click
+      || event.button !== 0
+      // Clicks with modifier keys
+      || event.metaKey
+      || event.ctrlKey
+      || event.altKey
+      || event.shiftKey
+      // Event already handled
+      || event.defaultPrevented
+    ) {
+      // Let the browser handle those cases.
+      return;
+    }
+
+    // Prevent the default behavior of the click event
+    event.preventDefault();
+
+    // Navigate to the link
+    alert(`Would navigate to: ${href}`);
+  });
+</script>
+```
+
+:::note[Astro source]
+If you look at the [source code][click event source] for the `click` event handler in
+Astro, you'll see that it uses one extra piece of information,
+`link.dataset.astroHistory`. That is part of Astro's custom attributes that enable
+declarative changes in navigation behavior. We'll cover those in a future article.
+
+[click event source]: https://github.com/withastro/astro/blob/8a0def2b6c3d85ea8f91db8df9b17c9ea8ee3a0f/packages/astro/components/ViewTransitions.astro#L54-L93
+:::
+
+## Loading the new page
+
+Now that we have a way to intercept navigation events, we need to load the new page before
+we can transition to it. The plan is to download the new page and parse it into DOM
+elements without adding it to page just yet.
+
+### Fetching the HTML
+
+To load the page we first need to download its source. The `fetch` API has all the
+features we
+need, so let's write a little helper around it so we don't have to deal with the details
+every time:
+
+```ts title="src/components/viewTransitions/client/navigation.ts"
+type FetchedHTML = {
+  html: string;
+  mediaType: DOMParserSupportedType;
+
+  /**
+   * If there was a redirect, this will be the final URL of the page.
+   */
+  redirected?: string;
+};
+
+async function fetchHTML(href: string, init?: RequestInit): Promise<FetchedHTML | null> {
+  try {
+    const response = await fetch(href, init);
+
+    const contentType = response.headers.get('content-type') ?? '';
+
+    const mediaType = contentType.split(';', 1)[0].trim();
+
+    if (mediaType !== 'text/html' && mediaType !== 'application/xhtml+xml') {
+      // Not an HTML page that we can parse, let the browser handle it.
+      return null;
+    }
+
+    const html = await response.text();
+
+    return {
+      html,
+      mediaType,
+      redirected: response.redirected ? response.url : undefined,
+    };
+  } catch {
+    // If there is an error loading the page let the browser handle it and show the error
+    // page to the user.
+    return null;
+  }
+}
+```
+
+With this function we download the page and return if it is an HTML page. If it is not,
+we return `null` so we can then yield to the browser and let it handle it. The key parts
+of this function are:
+
+- We specifically do not test the status of the response. If the next page is a 404 page
+  or any other error page, we stil want to load it and transition to it.
+- We use the `content-type` header to determine if the page is an HTML page.
+  `content-type` encodes both a media type and multiple optional parameters, so we
+  extract the media type from it and check against the supported HTML media types.
+- If a request is redirected, we follow the redirects and return the final page with
+  the final URL. We'll use this to update the URL in the browser's address bar to what
+  it would be if the browser had handled the navigation.
+
+:::note[Astro extreme edge case bug]
+Astro's [`fetchHTML` function][fetchHTML bug] utilizes the regular expression `/;.*$/` to
+drop the parameters of the `content-type` header. Although that works for the
+_recommended_ encoding of the `content-type` header, the specification is more permissive
+than that. Here is the relevant portion of the syntax as defined on the
+[HTTP semantics RFC][http abnf]:
+
+```txt
+Content-Type = media-type
+
+OWS = *( SP / HTAB )
+
+media-type = type "/" subtype parameters
+
+subtype = token
+type = token
+
+parameter = parameter-name "=" parameter-value
+parameter-name = token
+parameter-value = ( token / quoted-string )
+parameters = *( OWS ";" OWS [ parameter ] )
+
+tchar = "!" / "#" / "$" / "%" / "&" / "'" / "*" / "+" / "-" / "." /
+ "^" / "_" / "`" / "|" / "~" / DIGIT / ALPHA
+token = 1*tchar
+```
+
+As you can see, the `parameters` segment is preceeded by a `;` _and any number of optional
+white spaces_. That means a server that sends a `content-type` header like
+`text/html ; charset=utf-8` is within the specification, but would get dropped by Astro
+as a non-html page.
+
+[http abnf]: https://www.rfc-editor.org/rfc/rfc9110#appendix-A
+
+[fetchHTML bug]: https://github.com/withastro/astro/blob/8a0def2b6c3d85ea8f91db8df9b17c9ea8ee3a0f/packages/astro/src/transitions/router.ts#L122-L125
+:::
+
+### Parsing the HTML
+
+_From this section on we'll diverge from Astro's source code to allow for a more clear
+explanation of the process. At the end we'll compare our code with Astro's and see how
+and why they differ. The basic features and the advanced features provided by Astro
+are tangled in the same code, so some parts of it will only make sense once we cover
+the advanced features in future articles._
+
+Once we have the HTML source, we need to parse it into DOM elements. We'll use the
+native `DOMParser` API for that. We can re-use the same parser for multiple pages, but
+we also don't need to instantiate it until the first time we need it, so we'll create
+it lazily:
+
+```ts title="src/components/viewTransitions/client/navigation.ts"
+let parser: DOMParser | undefined;
+
+type LoadedPage = {
+  doc: Document;
+  redirected?: string;
+};
+
+async function loadPage(href: string, init?: RequestInit): Promise<LoadedPage | null> {
+  const response = await fetchHTML(href, init);
+  if (!response) return null;
+
+  const { html, mediaType, redirected } = response;
+
+  // Initialize the parser if it wasn't initialized yet.
+  parser ??= new DOMParser();
+
+  const doc = parser.parseFromString(html, mediaType);
+
+  return { doc, redirected };
+}
+```
+
+Good. We'll just handle a quirk of how browsers handle the HTML parsing and interpreting
+differently between when the browser loads the page versus the `DOMParser` API:
+
+```ts title="src/components/viewTransitions/client/navigation.ts"
+  /// Comment from Astro's source code:
+  // The next line might look like a hack,
+  // but it is actually necessary as noscript elements
+  // and their contents are returned as markup by the parser,
+  // see https://developer.mozilla.org/en-US/docs/Web/API/DOMParser/parseFromString
+doc.querySelectorAll('noscript').forEach((el) => el.remove());
+
+return { doc, redirected };
+```
+
+## Switching the page content
+
+Now that we have the new page loaded, our last mission for this article is to switch the
+page content in place during a transition. Navigation can also be triggered by JavaScript
+code, so we need to provide a function for those cases to trigger our new navigation
+instead of the browser's navigation. We'll use the same entry point for both of those:
+
+```ts title="src/components/viewTransitions/client/index.ts"
+export async function navigateTo(url: string) {
+  const loadedPage = await loadPage(url);
+  if (!loadedPage) return;
+
+  const { doc, redirected } = loadedPage;
+
+  function updateDOM() {
+    // Add the new url to the browser's history
+    history.pushState({}, '', redirected ?? url);
+
+    document.documentElement.replaceWith(doc.documentElement);
+  }
+
+  if (!document.startViewTransition) {
+    // If the browser doesn't support startViewTransition, just update the DOM.
+    updateDOM();
+    return;
+  }
+
+  const transition = document.startViewTransition(() => updateDOM());
+
+  await transition.finished;
+}
+```
+
+We start by loading the page, and if it is not an HTML page, we just return, there is
+nothing we can do about it. If it is an HTML page, we parse it and get the new document
+and the final URL. Then, we check if the browser supports the `startViewTransition` API.
+If it doesn't, we just update the DOM and return. If it does, we start a transition and
+update the DOM within the transition.
+
+We can re-export it from our client `index.ts`:
+
+```ts title="src/components/viewTransitions/client/index.ts"
+export { navigateTo } from './navigation';
+```
+
+On our component we can now replace the `alert` call with a call to `navigateTo`:
+
+```ts title="src/components/viewTransitions/client/component.astro" ins={1,7} del={6}
+import { navigateTo } from './client';
+
+// ... existing code
+
+// Navigate to the link
+alert(`Would navigate to: ${link.href}`);
+navigateTo(href);
+```
+
+And, with that, we have a working `<ViewTransitions />` component! Try it out!
+
+The component we just implemented has all the basic functionality to work for the blog
+template. Well... at least for completely static pages, with no client-side JavaScript,
+no forms, no astro islands, no nothing. And also going back and forth in the browser
+history no longer works for the site. And it doesn't have of the interesting features
+like prefetching and persisting state between pages. But it is a start!
+
+## Spoiler: Back and forward navigation
+
+We can do quick fix at least for one of those issues before we wrap up this article. Let's
+patch up the back and forward navigation so we can explore the blog with our new
+component more easily. We can do that by listening to the `popstate` event on the
+`window` object:
+
+```ts title="src/components/viewTransitions/client/navigation.ts"
+function onPopState(ev: PopStateEvent) {
+  navigateTo(location.href);
+}
+
+if (!import.meta.env.SSR) {
+    addEventListener('popstate', onPopState);
+}
+```
+
+There is a bunch of details that we are ignoring here, but for now we'll just make our
+one use case for back and forward navigation work. We'll cover the details in the next
+article in this series.
+
+## Conclusion
+
+In this article we started building our own `<ViewTransitions />` component from scratch.
+It has the basic functionality to intercept navigation events and replace the entire page
+document with the new page. It is a good start, but it is far from feature-complete.
+
+In the next article we'll properly handle history navigation, detect and handle
+transitions between pages in the site without our component and pages with our component,
+and add somo support for Astro's control attributes for customizing the transition.
+
+The entire source code described in this article is
+available [here on GitLab][final code].
+If you want to tinker around with it, you can create a new Astro project using it as
+starting point with the following command:
+
+```bash
+<yarn|npm|pnpm> create astro -- --template Fryuni/blog/templates/diy-view-transitions-1
+```
+
+You can also tink around with the code on [StackBlitz][sb end].
+
+[final code]: https://gitlab.com/Fryuni/blog
+[sb start]: https://stackblitz.com/github/withastro/astro/tree/main/examples/blog
+[sb end]: https://stackblitz.com/github/Fryuni/blog/tree/main/templates/diy-view-transitions-1
