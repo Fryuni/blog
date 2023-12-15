@@ -37,7 +37,7 @@ Some things to look forward to in this series:
   Astro do it?
 - What happens when the browser doesn't support the View Transitions API?
   - And how does Astro provide a consistent API for both cases?
-- What can be done in while handling each lifecycle event of a transition?
+- What can be done while handling each lifecycle event of a transition?
 - How do third-party injetions in your page are affected by transitions?
 - How to persist an element transition to a page without that element?
 
