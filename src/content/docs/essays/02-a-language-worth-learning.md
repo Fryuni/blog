@@ -4,8 +4,7 @@ description: What makes a language worth learning.
 tags:
   - studying
   - philosophy
-firstPublished: 2022-06-17
-lastUpdated: 2023-06-17
+firstPublished: 2023-06-17
 tableOfContents: false
 ---
 
