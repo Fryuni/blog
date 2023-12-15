@@ -1,18 +1,37 @@
 ---
 import Aside from '@/components/Aside.astro';
+import {parse, z} from '../../utils/zod';
 
 const apiDocUrl = 'https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API';
 const compatibilityUrl = 'https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API#browser_compatibility';
+
+const schema = z.object({
+  mode: z.enum(['demo', 'guide']),
+});
+
+export type Props = z.infer<typeof schema>;
+
+const {mode} = parse(schema, Astro.props);
 ---
 
 <div style={{display: 'none'}} class="view-transition-detection">
   <Aside variant="danger" title="View Transitions API required">
-    <p>
-      The demos in this page require the <a href={apiDocUrl}>View Transitions API</a> to work.
-      <br/>
-      Your browser does not support this API. To interact with the demos, please use a
-      <a href={compatibilityUrl}>compatible browser</a> (like Chrome).
-    </p>
+    {mode === 'demo' && (
+      <p>
+        The demos in this page require the <a href={apiDocUrl}>View Transitions API</a> to work.
+        <br/>
+        Your browser does not support this API. To interact with the demos, please use a
+        <a href={compatibilityUrl}>compatible browser</a> (like Chrome).
+      </p>
+    )}
+    {mode === 'guide' && (
+      <p>
+        This guide in this page requires the <a href={apiDocUrl}>View Transitions API</a> to work.
+        <br/>
+        Your browser does not support this API. To follow along, please use a
+        <a href={compatibilityUrl}>compatible browser</a> (like Chrome).
+      </p>
+    )}
   </Aside>
 </div>
 
