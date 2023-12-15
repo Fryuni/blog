@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -exo pipefail
+
+export NODE_OPTIONS='--interpreted-frames-native-stack --perf-prof --perf-basic-prof --max-old-space-size=8192'
+
+rm -rf .perf *-v8.log jit-*.dump
+mkdir -p .perf
+cd .perf
+
+perf record -e cycles:u -g -- "$@"
+rm -rf *-v8.log jit-*.dump
+
+perf script | inferno-collapse-perf > perf.folded
+
+inferno-flamegraph -i perf.folded > perf.svg
+
+xdg-open perf.svg
+
+cd ..
+rm -rf .perf *-v8.log jit-*.dump
