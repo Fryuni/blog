@@ -4,6 +4,7 @@ dist/
 .netlify/
 .vercel/
 .perf/
+.turbo/
 
 # dependencies
 node_modules/

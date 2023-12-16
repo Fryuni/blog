@@ -1,0 +1,8 @@
+{
+  "name": "templates",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "turbo": "^1.11.2"
+  }
+}
