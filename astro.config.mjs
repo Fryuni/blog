@@ -85,7 +85,13 @@ export default defineConfig({
   vite: {
     server: {
       watch: {
-        ignored: ['**/node_modules/**', '**/dist/**', '**/.*/**'],
+        ignored: [
+          '**/node_modules/**',
+          '**/dist/**',
+          '**/.*/**',
+          '!.astro/**',
+          'templates/**',
+        ],
       },
     },
   },
