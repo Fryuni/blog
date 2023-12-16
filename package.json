@@ -31,6 +31,8 @@
     "@croct/plug": "^0.13.3",
     "@croct/sdk": "^0.14.0",
     "astro": "^4.0.6",
+    "astro-expressive-code": "^0.30.1",
+    "remark-expressive-code": "^0.30.1",
     "eslint-plugin-import": "^2.29.1",
     "markdownlint-cli": "^0.38.0",
     "squoosh": "^0.0.0",
@@ -50,10 +52,13 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0"
   },
-  "overrides": {
-    "eslint-plugin-import": "$eslint-plugin-import"
-  },
   "pnpm": {
+    "overrides": {
+      "astro": "$astro",
+      "eslint-plugin-import": "$eslint-plugin-import",
+      "astro-expressive-code": "$astro-expressive-code",
+      "remark-expressive-code": "$remark-expressive-code"
+    },
     "allowNonAppliedPatches": true,
     "patchedDependencies": {
       "astro@4.0.6": "patches/astro@4.0.5.patch",
