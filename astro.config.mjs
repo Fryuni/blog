@@ -6,6 +6,7 @@ import vercel from '@astrojs/vercel/serverless';
 import node from '@astrojs/node';
 import tailwind from '@astrojs/tailwind';
 import starlightLinksValidator from 'starlight-links-validator';
+import {remarkReadTimePlugin} from './plugins/readTimePlugin';
 
 const adapterConfig = process.env.VERCEL === '1'
   ? defineConfig({
@@ -70,6 +71,7 @@ export default defineConfig({
         Head: './src/components/Head.astro',
         Footer: './src/components/Footer.astro',
         Sidebar: './src/components/Sidebar.astro',
+        PageTitle: './src/components/PageTitle.astro',
       },
       customCss: [
         './src/tailwind.css',
@@ -82,6 +84,11 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
   ],
+  markdown: {
+    remarkPlugins: [
+      remarkReadTimePlugin,
+    ],
+  },
   vite: {
     server: {
       watch: {
@@ -90,6 +97,7 @@ export default defineConfig({
           '**/dist/**',
           '**/.*/**',
           '!.astro/**',
+          '!plugins/**',
           'templates/**',
         ],
       },

@@ -22,9 +22,12 @@ dependencies:
   '@astrojs/check':
     specifier: ^0.3.3
     version: 0.3.3(typescript@5.3.3)
+  '@astrojs/markdown-remark':
+    specifier: ^4.0.1
+    version: 4.0.1
   '@astrojs/starlight':
-    specifier: https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?08eaccc57382bd937e9adb0c1dbd2831dcf4edcc
-    version: '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?08eaccc57382bd937e9adb0c1dbd2831dcf4edcc(astro@4.0.6)'
+    specifier: https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?daf4468f40897537cfccce2a3ad6217a7da53c30
+    version: '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?daf4468f40897537cfccce2a3ad6217a7da53c30(astro@4.0.6)'
   '@astrojs/starlight-tailwind':
     specifier: ^2.0.1
     version: 2.0.1(@astrojs/starlight@0.15.0)(@astrojs/tailwind@5.0.3)(tailwindcss@3.3.6)
@@ -52,6 +55,12 @@ dependencies:
   markdownlint-cli:
     specifier: ^0.38.0
     version: 0.38.0
+  mdast-util-to-string:
+    specifier: ^4.0.0
+    version: 4.0.0
+  reading-time:
+    specifier: ^1.5.0
+    version: 1.5.0
   remark-expressive-code:
     specifier: ^0.30.1
     version: 0.30.1
@@ -253,7 +262,7 @@ packages:
       '@astrojs/tailwind': ^5.0.0
       tailwindcss: ^3.3.3
     dependencies:
-      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?08eaccc57382bd937e9adb0c1dbd2831dcf4edcc(astro@4.0.6)'
+      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?daf4468f40897537cfccce2a3ad6217a7da53c30(astro@4.0.6)'
       '@astrojs/tailwind': 5.0.3(astro@4.0.6)(tailwindcss@3.3.6)
       tailwindcss: 3.3.6
     dev: false
@@ -1166,12 +1175,12 @@ packages:
     dependencies:
       '@babel/parser': 7.23.6
       '@babel/types': 7.23.6
-      '@types/babel__generator': 7.6.7
+      '@types/babel__generator': 7.6.8
       '@types/babel__template': 7.4.4
       '@types/babel__traverse': 7.20.4
 
-  /@types/babel__generator@7.6.7:
-    resolution: {integrity: sha512-6Sfsq+EaaLrw4RmdFWE9Onp63TOUue71AWb4Gpa6JxzgTYtimbM086WnYTy2U67AofR++QKCo08ZP6pwx8YFHQ==}
+  /@types/babel__generator@7.6.8:
+    resolution: {integrity: sha512-ASsj+tpEDsEiFr1arWrlN6V3mdfjRMZt6LtK/Vp/kreFLnr5QH5+DhvD5nINYZXzwJvXeGq+05iUXcAzVrqWtw==}
     dependencies:
       '@babel/types': 7.23.6
 
@@ -5720,6 +5729,10 @@ packages:
     dependencies:
       picomatch: 2.3.1
 
+  /reading-time@1.5.0:
+    resolution: {integrity: sha512-onYyVhBNr4CmAxFsKS7bz+uTLRakypIe4R+5A824vBSkQy/hB3fZepoVEf8OVAxzLvK+H/jm9TzpI3ETSm64Kg==}
+    dev: false
+
   /reflect.getprototypeof@1.0.4:
     resolution: {integrity: sha512-ECkTw8TmJwW60lOTR+ZkODISW6RQ8+2CL3COqtiJKLd6MmB45hN51HprHFziKLGkAuTGQhBb91V8cy+KHlaCjw==}
     engines: {node: '>= 0.4'}
@@ -6219,7 +6232,7 @@ packages:
       '@astrojs/starlight': '>=0.15.0'
       astro: ^4.0.6
     dependencies:
-      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?08eaccc57382bd937e9adb0c1dbd2831dcf4edcc(astro@4.0.6)'
+      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?daf4468f40897537cfccce2a3ad6217a7da53c30(astro@4.0.6)'
       astro: 4.0.6(patch_hash=76zgkjwwmhzrg4rf6mhio72waq)(typescript@5.3.3)
       github-slugger: 2.0.0
       hast-util-from-html: 2.0.1
@@ -7238,9 +7251,9 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
-  '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?08eaccc57382bd937e9adb0c1dbd2831dcf4edcc(astro@4.0.6)':
-    resolution: {tarball: https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?08eaccc57382bd937e9adb0c1dbd2831dcf4edcc}
-    id: '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?08eaccc57382bd937e9adb0c1dbd2831dcf4edcc'
+  '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?daf4468f40897537cfccce2a3ad6217a7da53c30(astro@4.0.6)':
+    resolution: {tarball: https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?daf4468f40897537cfccce2a3ad6217a7da53c30}
+    id: '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?daf4468f40897537cfccce2a3ad6217a7da53c30'
     name: '@astrojs/starlight'
     version: 0.15.0
     peerDependencies:
