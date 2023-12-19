@@ -60,20 +60,20 @@ export default defineConfig({
             collapsed: true,
           },
         },
-        {
-          label: 'Notes',
-          autogenerate: {
-            directory: 'notes',
-            collapsed: true,
-          },
-        },
-        {
-          label: 'Microblog',
-          autogenerate: {
-            directory: 'blog',
-            collapsed: true,
-          },
-        },
+        // {
+        //   label: 'Notes',
+        //   autogenerate: {
+        //     directory: 'notes',
+        //     collapsed: true,
+        //   },
+        // },
+        // {
+        //   label: 'Microblog',
+        //   autogenerate: {
+        //     directory: 'blog',
+        //     collapsed: true,
+        //   },
+        // },
         {
           label: 'Essays',
           collapsed: true,
