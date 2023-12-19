@@ -11,14 +11,25 @@ const {props}: {props: Props} = Astro;
   import '@/utils/croctClient';
   import { isTransitionBeforeSwapEvent, TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';
 
+  function persistElementForward(selector: string, oldDocument: Document, newDocument: Document) {
+    console.log(`Persisting element ${selector} forward`);
+
+    const oldElement = oldDocument.querySelector(selector);
+    const newElement = newDocument.querySelector(selector);
+
+    if (oldElement && newElement) {
+      console.log(`Replacing element ${selector} with persisted element`);
+      newElement.replaceWith(oldElement);
+    }
+  }
+
   document.addEventListener(TRANSITION_BEFORE_SWAP, event => {
     if (!isTransitionBeforeSwapEvent(event)) return;
 
-    const currentPageSearch = document.querySelector('site-search');
-    const newPageSearch = event.newDocument.querySelector('site-search');
+    // Clear Pagefind search
+    document.querySelector('site-search input')?.reset();
 
-    if (currentPageSearch && newPageSearch) {
-      newPageSearch.replaceWith(currentPageSearch);
-    }
+    persistElementForward('site-search', document, event.newDocument);
+    persistElementForward('starlight-theme-select', document, event.newDocument);
   });
 </script>
