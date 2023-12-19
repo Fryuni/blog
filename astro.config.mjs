@@ -57,13 +57,28 @@ export default defineConfig({
           label: 'Deep Dives',
           autogenerate: {
             directory: 'deep-dive',
+            collapsed: true,
+          },
+        },
+        {
+          label: 'Notes',
+          autogenerate: {
+            directory: 'notes',
+            collapsed: true,
+          },
+        },
+        {
+          label: 'Microblog',
+          autogenerate: {
+            directory: 'blog',
+            collapsed: true,
           },
         },
         {
           label: 'Essays',
+          collapsed: true,
           autogenerate: {
             directory: 'essays',
-            collapsed: true,
           },
         },
       ],
