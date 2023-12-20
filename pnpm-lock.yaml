@@ -26,8 +26,8 @@ dependencies:
     specifier: ^4.0.1
     version: 4.0.1
   '@astrojs/starlight':
-    specifier: https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?c48ead03f3b793759cd9e8a33d3d90a99fde270c
-    version: '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?c48ead03f3b793759cd9e8a33d3d90a99fde270c(astro@4.0.6)'
+    specifier: https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f
+    version: '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f(astro@4.0.6)'
   '@astrojs/starlight-tailwind':
     specifier: ^2.0.1
     version: 2.0.1(@astrojs/starlight@0.15.0)(@astrojs/tailwind@5.0.3)(tailwindcss@3.3.6)
@@ -265,7 +265,7 @@ packages:
       '@astrojs/tailwind': ^5.0.0
       tailwindcss: ^3.3.3
     dependencies:
-      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?c48ead03f3b793759cd9e8a33d3d90a99fde270c(astro@4.0.6)'
+      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f(astro@4.0.6)'
       '@astrojs/tailwind': 5.0.3(astro@4.0.6)(tailwindcss@3.3.6)
       tailwindcss: 3.3.6
     dev: false
@@ -6240,7 +6240,7 @@ packages:
       '@astrojs/starlight': '>=0.15.0'
       astro: ^4.0.6
     dependencies:
-      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?c48ead03f3b793759cd9e8a33d3d90a99fde270c(astro@4.0.6)'
+      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f(astro@4.0.6)'
       astro: 4.0.6(patch_hash=76zgkjwwmhzrg4rf6mhio72waq)(typescript@5.3.3)
       github-slugger: 2.0.0
       hast-util-from-html: 2.0.1
@@ -7259,9 +7259,9 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
-  '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?c48ead03f3b793759cd9e8a33d3d90a99fde270c(astro@4.0.6)':
-    resolution: {tarball: https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?c48ead03f3b793759cd9e8a33d3d90a99fde270c}
-    id: '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?c48ead03f3b793759cd9e8a33d3d90a99fde270c'
+  '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f(astro@4.0.6)':
+    resolution: {tarball: https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f}
+    id: '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f'
     name: '@astrojs/starlight'
     version: 0.15.0
     peerDependencies:
