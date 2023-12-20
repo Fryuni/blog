@@ -6,6 +6,7 @@ export const collections = {
   docs: defineCollection({
     schema: docsSchema({
       extend: z.object({
+        draft: z.boolean().default(false),
         tags: z.array(z.string()).default([]),
         madeByAi: z.object({
           title: z.boolean().default(false),

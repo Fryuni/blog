@@ -9,5 +9,10 @@
       "@require/*": ["src/components/requireFeatures/*"]
     },
     "lib": ["dom"]
-  }
+  },
+  "include": [
+    "src/**/*",
+    "plugins/**/*",
+    ".astro/**/*"
+  ]
 }

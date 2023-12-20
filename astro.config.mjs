@@ -94,6 +94,7 @@ export default defineConfig({
       plugins: [
         starlightLinksValidator(),
       ],
+      hooks: './src/starlightHooks.ts',
     }),
     tailwind({
       applyBaseStyles: false,
