@@ -25,7 +25,7 @@
   "dependencies": {
     "@astrojs/check": "^0.3.3",
     "@astrojs/markdown-remark": "^4.0.1",
-    "@astrojs/starlight": "https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f",
+    "@astrojs/starlight": "https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?4ef38420a8084a5629287b8eb0b82856a881c31d",
     "@astrojs/starlight-tailwind": "^2.0.1",
     "@astrojs/tailwind": "^5.0.3",
     "@astrojs/vercel": "^6.1.0",

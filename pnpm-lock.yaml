@@ -26,11 +26,11 @@ dependencies:
     specifier: ^4.0.1
     version: 4.0.1
   '@astrojs/starlight':
-    specifier: https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f
-    version: '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f(astro@4.0.6)'
+    specifier: https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?4ef38420a8084a5629287b8eb0b82856a881c31d
+    version: '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?4ef38420a8084a5629287b8eb0b82856a881c31d(astro@4.0.6)'
   '@astrojs/starlight-tailwind':
     specifier: ^2.0.1
-    version: 2.0.1(@astrojs/starlight@0.15.0)(@astrojs/tailwind@5.0.3)(tailwindcss@3.3.6)
+    version: 2.0.1(@astrojs/starlight@0.15.1)(@astrojs/tailwind@5.0.3)(tailwindcss@3.3.6)
   '@astrojs/tailwind':
     specifier: ^5.0.3
     version: 5.0.3(astro@4.0.6)(tailwindcss@3.3.6)
@@ -72,7 +72,7 @@ dependencies:
     version: 0.0.0
   starlight-links-validator:
     specifier: ^0.5.1
-    version: 0.5.1(@astrojs/starlight@0.15.0)(astro@4.0.6)
+    version: 0.5.1(@astrojs/starlight@0.15.1)(astro@4.0.6)
   tailwindcss:
     specifier: ^3.3.6
     version: 3.3.6
@@ -258,14 +258,14 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /@astrojs/starlight-tailwind@2.0.1(@astrojs/starlight@0.15.0)(@astrojs/tailwind@5.0.3)(tailwindcss@3.3.6):
+  /@astrojs/starlight-tailwind@2.0.1(@astrojs/starlight@0.15.1)(@astrojs/tailwind@5.0.3)(tailwindcss@3.3.6):
     resolution: {integrity: sha512-niMgFcR7NHcsBVy8UAN3F2gqhmoN5v83st5Hu4YzvUL+6SNwjQmIipXppXdN9+iVneRjPr6PLGzDfI+wnjSBWQ==}
     peerDependencies:
       '@astrojs/starlight': '>=0.9.0'
       '@astrojs/tailwind': ^5.0.0
       tailwindcss: ^3.3.3
     dependencies:
-      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f(astro@4.0.6)'
+      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?4ef38420a8084a5629287b8eb0b82856a881c31d(astro@4.0.6)'
       '@astrojs/tailwind': 5.0.3(astro@4.0.6)(tailwindcss@3.3.6)
       tailwindcss: 3.3.6
     dev: false
@@ -6233,14 +6233,14 @@ packages:
     resolution: {integrity: sha512-KWvhxCF+l5UpV1oyPSZAzscR/skAvlFvcbz3G6Jxp3uNpXzcCLspqApukwFRKbkk4Xpg538rL9Zt/nWTFfP/zw==}
     dev: false
 
-  /starlight-links-validator@0.5.1(@astrojs/starlight@0.15.0)(astro@4.0.6):
+  /starlight-links-validator@0.5.1(@astrojs/starlight@0.15.1)(astro@4.0.6):
     resolution: {integrity: sha512-6iNl/bTTFN65T3fx1oMdspZltlYyonmrnno4dWjMzJuFHO79ZGKyzrtuMD59kiM9Y85eSy3MOpU1wuPoY28fMg==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       '@astrojs/starlight': '>=0.15.0'
       astro: ^4.0.6
     dependencies:
-      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f(astro@4.0.6)'
+      '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?4ef38420a8084a5629287b8eb0b82856a881c31d(astro@4.0.6)'
       astro: 4.0.6(patch_hash=76zgkjwwmhzrg4rf6mhio72waq)(typescript@5.3.3)
       github-slugger: 2.0.0
       hast-util-from-html: 2.0.1
@@ -7259,11 +7259,11 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
-  '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f(astro@4.0.6)':
-    resolution: {tarball: https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f}
-    id: '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?88237f8ac7e9a625376c956b2c5f0039ebd2b64f'
+  '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?4ef38420a8084a5629287b8eb0b82856a881c31d(astro@4.0.6)':
+    resolution: {tarball: https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?4ef38420a8084a5629287b8eb0b82856a881c31d}
+    id: '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?4ef38420a8084a5629287b8eb0b82856a881c31d'
     name: '@astrojs/starlight'
-    version: 0.15.0
+    version: 0.15.1
     peerDependencies:
       astro: ^4.0.6
     dependencies:

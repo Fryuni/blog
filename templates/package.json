@@ -2,6 +2,10 @@
   "name": "templates",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "clean": "rm -rf */dist */.astro */.turbo .turbo node_modules/.cache"
+  },
   "devDependencies": {
     "turbo": "^1.11.2"
   }
