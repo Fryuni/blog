@@ -1,9 +1,51 @@
-import {defineRouteHook} from '@astrojs/starlight/hooks';
+import {defineAllRoutesHook, defineSidebarHook} from '@astrojs/starlight/hooks';
 
-export const routeHook = defineRouteHook(route => {
-  if (import.meta.env.PROD && route.entry.data.draft) {
-    return;
+export const allRoutesHook = defineAllRoutesHook(routes => {
+  const shownRoutes = import.meta.env.DEV
+    ? routes
+    : routes.filter(route => !route.entry.data.draft);
+
+  return shownRoutes;
+});
+
+// async function buildTagsEntry(): Promise<Sidebar> {
+//   const {routes} = await import('@astrojs/starlight/routes');
+//   const tagCounter = new Map<string, number>();
+//
+//   for (const route of routes) {
+//     for (const tag of new Set<string>(route.entry.data.tags).values()) {
+//       const count = tagCounter.get(tag) ?? 0;
+//
+//       tagCounter.set(tag, count + 1);
+//     }
+//   }
+//
+//   return [{
+//     type: 'group',
+//     collapsed: false,
+//     label: 'Tags',
+//     badge: undefined,
+//     entries: Array.from(tagCounter.entries()).map(
+//       ([tag, count]) => ({
+//         type: 'link',
+//         label: `${tag} (${count})`,
+//         href: `/tags/${tag}`,
+//         badge: undefined,
+//         isCurrent: false,
+//         attrs: {},
+//       }),
+//     ),
+//   }];
+// }
+
+// const tagsEntry = LazyInstance.of(buildTagsEntry);
+
+export const sidebarHook = defineSidebarHook((route, sidebar) => {
+  if (route.entry.data.template !== 'doc') {
+    return [];
   }
 
-  return route;
+  // await tagsEntry.get();
+
+  return sidebar;
 });
