@@ -5,6 +5,13 @@ export const allRoutesHook = defineAllRoutesHook(routes => {
     ? routes
     : routes.filter(route => !route.entry.data.draft);
 
+  for (const route of shownRoutes) {
+    if (route.firstPublished === undefined && route.entry.data.firstPublished !== false) {
+      // The first published date could not be inferred, consider as just published
+      route.firstPublished = new Date();
+    }
+  }
+
   return shownRoutes;
 });
 
