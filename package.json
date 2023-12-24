@@ -29,6 +29,7 @@
     "@astrojs/starlight-tailwind": "^2.0.1",
     "@astrojs/tailwind": "^5.0.4",
     "@astrojs/vercel": "^6.1.0",
+    "@croct/md-lite": "^0.2.1",
     "@croct/plug": "^0.13.4",
     "@croct/sdk": "^0.14.0",
     "astro": "^4.0.7",

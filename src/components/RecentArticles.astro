@@ -39,7 +39,7 @@ const routesInOrder = routes
 const latest = routesInOrder.slice(0, props.limit).map(
   (route, index) => ({
     title: route.entry.data.title,
-    description: route.entry.data.description,
+    description: route.entry.data.styledDescription,
     icon: iconCycle[index % iconCycle.length],
     url: slugToPathname(route.slug),
     date: props.mode === 'created' ? route.firstPublished : route.lastUpdated,
@@ -58,7 +58,7 @@ const latest = routesInOrder.slice(0, props.limit).map(
       </p>
       <div class="body">
         <p>
-          {entry.description}
+          <Fragment set:html={entry.description}/>
         </p>
       </div>
       <div class="sl-flex mt-0 date-info">

@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  astro: ^4.0.6
+  astro: ^4.0.7
   eslint-plugin-import: ^2.29.1
   astro-expressive-code: ^0.30.1
   remark-expressive-code: ^0.30.1
@@ -37,6 +37,9 @@ dependencies:
   '@astrojs/vercel':
     specifier: ^6.1.0
     version: 6.1.0(astro@4.0.7)
+  '@croct/md-lite':
+    specifier: ^0.2.1
+    version: 0.2.1
   '@croct/plug':
     specifier: ^0.13.4
     version: 0.13.4
@@ -211,7 +214,7 @@ packages:
     resolution: {integrity: sha512-pTkUb0+aiVU8MZU6XQKA/FyXdNOKxHwq+3uCIuzWyqjZyRB9hN3G3iokmkXFJhwgxl6gilkYeAKmmciVwnpq6w==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
-      astro: ^4.0.6
+      astro: ^4.0.7
     dependencies:
       '@astrojs/markdown-remark': 4.0.1
       '@mdx-js/mdx': 3.0.0
@@ -236,7 +239,7 @@ packages:
   /@astrojs/node@7.0.2(astro@4.0.7):
     resolution: {integrity: sha512-g07KV9JBbUubfzLyu2ql+zu09dW3a7zVX1fDr6UriQdz6BvPh0Y0Qn+DqA5P8JwSKAw93mJDuChDW7JrI7CBJg==}
     peerDependencies:
-      astro: ^4.0.6
+      astro: ^4.0.7
     dependencies:
       astro: 4.0.7(typescript@5.3.3)
       send: 0.18.0
@@ -273,7 +276,7 @@ packages:
   /@astrojs/tailwind@5.0.4(astro@4.0.7)(tailwindcss@3.4.0):
     resolution: {integrity: sha512-50ImfEFRBjndtWus6xJOWQ4EVpZWB4d+hieosMPm1Tca68mNTX+Yi1/PhTMk9q/w7iZPIUK/KGBoovo15O10eQ==}
     peerDependencies:
-      astro: ^4.0.6
+      astro: ^4.0.7
       tailwindcss: ^3.0.24
     dependencies:
       astro: 4.0.7(typescript@5.3.3)
@@ -302,7 +305,7 @@ packages:
   /@astrojs/vercel@6.1.0(astro@4.0.7):
     resolution: {integrity: sha512-KcXRn8zjl48jIyBThz7QwLmqfnyqeYOcHUstvb/IVF6LErw//9FGDSG6p+o1bfv25IzbMW2PaYer4EwevSGmGw==}
     peerDependencies:
-      astro: ^4.0.6
+      astro: ^4.0.7
     dependencies:
       '@astrojs/internal-helpers': 0.2.1
       '@vercel/analytics': 1.1.1
@@ -564,6 +567,10 @@ packages:
 
   /@croct/json@2.1.0:
     resolution: {integrity: sha512-UrWfjNQVlBxN+OVcFwHmkjARMW55MBN04E9KfGac8ac8z1QnFVuiOOFtMWXCk3UwsyRqhsNaFoYLZC+xxqsVjQ==}
+    dev: false
+
+  /@croct/md-lite@0.2.1:
+    resolution: {integrity: sha512-Y+LYKOf7PWvCJC/ThuOAIxDt1/aD/Ral3gWk6SQOY/VOLiDwo7Xc2DyJKNm6PaTk/SKtugEcAHKm07X9G5WKLQ==}
     dev: false
 
   /@croct/plug@0.13.4:
@@ -1778,7 +1785,7 @@ packages:
   /astro-expressive-code@0.30.1(astro@4.0.7):
     resolution: {integrity: sha512-Dr3VbK4HvIXTT8rsvd8PuRW4uZOpfRz9J8noVSSxmx7/M7o73SBtqauBYvxXpGHnagTJPGzYOa9BQS7jDHNUVw==}
     peerDependencies:
-      astro: ^4.0.6
+      astro: ^4.0.7
     dependencies:
       astro: 4.0.7(typescript@5.3.3)
       remark-expressive-code: 0.30.1
@@ -6235,7 +6242,7 @@ packages:
     engines: {node: '>=18.14.1'}
     peerDependencies:
       '@astrojs/starlight': '>=0.15.0'
-      astro: ^4.0.6
+      astro: ^4.0.7
     dependencies:
       '@astrojs/starlight': '@gitpkg.now.sh/Fryuni/starlight/packages/starlight?4ef38420a8084a5629287b8eb0b82856a881c31d(astro@4.0.7)'
       astro: 4.0.7(typescript@5.3.3)
@@ -7262,7 +7269,7 @@ packages:
     name: '@astrojs/starlight'
     version: 0.15.1
     peerDependencies:
-      astro: ^4.0.6
+      astro: ^4.0.7
     dependencies:
       '@astrojs/mdx': 2.0.2(astro@4.0.7)
       '@astrojs/sitemap': 3.0.3

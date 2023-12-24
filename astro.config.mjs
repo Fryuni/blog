@@ -34,6 +34,7 @@ export default defineConfig({
   output: 'hybrid',
 
   trailingSlash: 'ignore',
+  compressHTML: import.meta.env.PROD,
   integrations: [
     starlight({
       title: 'Fryuni\'s web corner',

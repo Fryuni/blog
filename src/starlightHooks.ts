@@ -1,4 +1,29 @@
 import {defineAllRoutesHook, defineSidebarHook, type Sidebar} from '@astrojs/starlight/hooks';
+import {type MarkdownRenderer, parse, render} from '@croct/md-lite';
+
+const plainTextRenderer: MarkdownRenderer<string> = {
+  text: node => node.content,
+  code: node => node.content,
+  image: () => '',
+  bold: node => node.children,
+  italic: node => node.children,
+  strike: node => node.children,
+  link: node => node.children,
+  paragraph: node => node.children.join(''),
+  fragment: node => node.children.join(''),
+};
+
+const htmlRenderer: MarkdownRenderer<string> = {
+  text: node => node.content,
+  bold: node => `<b>${node.children}</b>`,
+  italic: node => `<i>${node.children}</i>`,
+  strike: node => `<s>${node.children}</s>`,
+  code: node => `<code>${node.content}</code>`,
+  link: node => `<a href="${node.href}">${node.children}</a>`,
+  image: node => `<img src="${node.src}" alt="${node.alt}">`,
+  paragraph: node => `<p>${node.children.join('')}</p>`,
+  fragment: node => node.children.join(''),
+};
 
 export const allRoutesHook = defineAllRoutesHook(routes => {
   const shownRoutes = import.meta.env.DEV
@@ -9,6 +34,17 @@ export const allRoutesHook = defineAllRoutesHook(routes => {
     if (route.firstPublished === undefined && route.entry.data.firstPublished !== false) {
       // The first published date could not be inferred, consider as just published
       route.firstPublished = new Date();
+    }
+
+    const baseDescription = route.entry.data.description;
+    const styledDescription = route.entry.data.styledDescription ?? baseDescription;
+
+    if (baseDescription !== undefined) {
+      route.entry.data.description = render(parse(baseDescription), plainTextRenderer);
+    }
+
+    if (styledDescription !== undefined) {
+      route.entry.data.styledDescription = render(parse(styledDescription), htmlRenderer);
     }
   }
 
