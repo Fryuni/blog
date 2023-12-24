@@ -1,4 +1,4 @@
-import {defineAllRoutesHook, defineSidebarHook} from '@astrojs/starlight/hooks';
+import {defineAllRoutesHook, defineSidebarHook, type Sidebar} from '@astrojs/starlight/hooks';
 
 export const allRoutesHook = defineAllRoutesHook(routes => {
   const shownRoutes = import.meta.env.DEV
@@ -40,6 +40,17 @@ export const allRoutesHook = defineAllRoutesHook(routes => {
 
 // const tagsEntry = LazyInstance.of(buildTagsEntry);
 
+function dropEmptySidebarSections(sidebar: Sidebar): Sidebar {
+  return sidebar.map(
+    section => (
+      section.type === 'group'
+        ? {...section, entries: dropEmptySidebarSections(section.entries)}
+        : section
+    ),
+  )
+    .filter(section => section.type === 'link' || section.entries.length > 0);
+}
+
 export const sidebarHook = defineSidebarHook((route, sidebar) => {
   if (route.entry.data.template !== 'doc') {
     return [];
@@ -47,5 +58,5 @@ export const sidebarHook = defineSidebarHook((route, sidebar) => {
 
   // await tagsEntry.get();
 
-  return sidebar;
+  return dropEmptySidebarSections(sidebar);
 });

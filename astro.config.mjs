@@ -54,29 +54,36 @@ export default defineConfig({
       },
       sidebar: [
         {
+          label: 'Microblog',
+          autogenerate: {
+            directory: 'blog',
+            collapsed: false,
+          },
+        },
+        {
+          label: 'Guides',
+          autogenerate: {
+            directory: 'guides',
+            collapsed: false,
+          },
+        },
+        {
           label: 'Deep Dives',
           autogenerate: {
             directory: 'deep-dive',
-            collapsed: true,
+            collapsed: false,
           },
         },
-        // {
-        //   label: 'Notes',
-        //   autogenerate: {
-        //     directory: 'notes',
-        //     collapsed: true,
-        //   },
-        // },
-        // {
-        //   label: 'Microblog',
-        //   autogenerate: {
-        //     directory: 'blog',
-        //     collapsed: true,
-        //   },
-        // },
+        {
+          label: 'Notes',
+          autogenerate: {
+            directory: 'notes',
+            collapsed: false,
+          },
+        },
         {
           label: 'Essays',
-          collapsed: true,
+          collapsed: false,
           autogenerate: {
             directory: 'essays',
           },
