@@ -1,0 +1,182 @@
+---
+title: 'Astro Project - When am I?'
+description: "How to detect at which point in Astro's lifecycle your code is running."
+draft: true
+---
+
+You can write code that runs at many different stages of an Astro project's lifecycle.
+Including, but not limited to, configuration, parsing, building, static rendering,
+server rendering, and client rendering.
+
+Knowing at which point in the lifecycle your code _can_ run and at which point it _is_
+running allows you to achieve some pretty cool things, both in terms of optimizations
+and in terms of functionality. Some code that you write is not relevant at one phase
+and can be skipped, some other code could behave differently depending on the phase.
+This is not always very obvious, so here is some quick guidance on how to navigate
+the Astro lifecycle.
+
+If you have your code inside a `<script>` tag in your page, you can be sure that it
+will run in the browser. Similarly, if your code is in the front-matter of an Astro
+component, you know it will _not_ run on the browser. A code that you write inline
+in your `astro.config.mjs` will clearly be executed during the configuration phase.
+A piece of code in a remark plugin will run during the parsing phase of Markdown and
+MDX files.
+
+But what if you have your code in an independent `.ts` file? Some code that is shared
+between different use cases. An arbitrary TS file can be imported from anywhere, be it
+a `<script>` tag in your page, the front-matter of an Astro component, an Astro `.ts`
+endpoint, an astro integration, a remark plugin, or a Vite plugin.
+
+If that code should behave the same in any scenario where it is used, then you don't need
+to worry about it. But in some cases, it might be useful to know how to identify _when_
+and _where_ you are running. Not all those cases can be diferentiated from all the others,
+but some can.
+
+## Why would I care?
+
+Knowing where and when your code is running allows you to organize your code in a way
+that is more maintainable, sharing code between different use cases by their semantic
+meaning, instead of by their technical implementation. It also allows you to optimize
+your code by skipping some code that is not relevant in some scenarios.
+
+A few examples of this are:
+
+- If you are reading data from a remote source dynamically based on user actions, you
+  need to do it in the browser. But you can share the code that reads the data between
+  the browser and the server, so the first render of the page can be done with the
+  data already available.
+- If your website utilizes authentication on multiple pages, you can move that logic to
+  your middleware. But middlewares also run for every page during static rendering. You
+  don't want to run authentication logic during static rendering, there won't ever be
+  a session to authenticate, and any session you create will be lost. So you can skip
+  that code during static rendering.
+- If you are using a UI framework like React or Preact and want to use some browser API
+  like `localStorage` or `history`, you need to do it in the browser. But you can share
+  the code that uses those APIs between the browser and the server, so the entire render
+  doesn't need to happen in the browser, an initial render can be done on the server.
+- If you are writing a library that collects its use during static rendering to avoid
+  work on request time, you need to switch between the code paths depending on the
+  phase, but you can probably share some of the work. Like if you want to implement your
+  own version of [`getImage`] and [`<Image />` component].
+
+[`getImage`]: https://docs.astro.build/en/guides/images/#generating-images-with-getimage
+[`<Image />` component]: https://docs.astro.build/en/guides/images/#image--astroassets
+
+## Vite meta variables
+
+Astro uses [Vite] to build projects, and Vite sets some variables in [`import.meta.env`]
+to identify some of the conditions. Those variables are available in any code that is
+loaded by Astro, from configuration to plusing, from build to browser code.
+
+[`import.meta.env`]: https://vitejs.dev/guide/env-and-mode.html#env-variables
+[Vite]: https://vitejs.dev/
+
+But what is set in those variables depends on the phase of the lifecycle, some not entirely
+obvious. Let's see what is set in each phase.
+
+### On Astro configuration
+
+If you check those variables inside your `astro.config.mjs` file, you'll see that they
+are set as such:
+
+While running `astro sync` and `astro dev` the following variables are set:
+
+- `import.meta.env.MODE` is set to `"development"`
+- `import.meta.env.PROD` is set to `false`
+- `import.meta.env.DEV` is set to `true`
+- `import.meta.env.SSR` is set to `true`
+
+While running `astro build`, `astro check` and `astro preview` the following variables
+are set:
+
+- `import.meta.env.MODE` is set to `"development"`
+- `import.meta.env.PROD` is set to `true`
+- `import.meta.env.DEV` is set to `false`
+- `import.meta.env.SSR` is set to `true`
+
+There are a few things to notice here already.
+
+First, `import.meta.env.MODE` is set to `"development"` in all cases. This is because
+Astro's project configuration is loaded in development mode, even when building for
+production. Your project is built in production mode, but your configuration for
+that build is itself built in development mode.
+
+Second, `import.meta.env.SSR` is set to `true` in all cases. This is because although
+the name of that variable is an acronym for "Server-Side Rendering" it _does not_ mean
+that the code is running during an SSR. It just means that the code is not running in
+the browser. This is important to keep in mind, because it means that you can't use
+that variable to check if you are on the server, your code might be running on a static
+build or on a plugin and that flag will be set.
+
+Third, `import.meta.env.PROD` and `import.meta.env.DEV` are set relative to the mode
+_your_ project will be built/validated/previewed in, not the mode your configuration
+is running in.
+
+### On a Remark plugin
+
+If you are writing a remark plugin, you can check those variables inside your plugin
+as well. You'll see that they are set as such:
+
+While running `astro dev` the following variables are set:
+
+- `import.meta.env.MODE` is set to `"development"`
+- `import.meta.env.PROD` is set to `false`
+- `import.meta.env.DEV` is set to `true`
+- `import.meta.env.SSR` is set to `true`
+
+While running `astro build` the following variables are set:
+
+- `import.meta.env.MODE` is set to `"development"`
+- `import.meta.env.PROD` is set to `true`
+- `import.meta.env.DEV` is set to `false`
+- `import.meta.env.SSR` is set to `true`
+
+Remark plugins are not invoked during `astro sync`, `astro check` or `astro preview`. So
+inside a remark plugin, `import.meta.env.PROD` and `import.meta.env.DEV` can be used to
+determine you are building for production or development.
+
+## Rendering phases
+
+Your page can be rendered in four different phases, or any combination of them:
+
+- **Static rendering**: the page is rendered at build time, and the resulting HTML
+  is saved to disk.
+- **Server rendering**: the page is rendered at request time _on the server_, and the
+  resulting HTML is sent to the client.
+- **Browser scripts**: the content of the page is built in the browser from some data.
+  In Astro this is just vanilla JS that you run on the page to change what was received
+  from the server.
+- **Hydration**: this is a special case of the browser scripts, this is when a component
+  from a UI framework like React or Svelte is hydrated in the browser inside an
+  [Astro Island][Astro Island] to become interactive.
+
+[Astro Island]: https://docs.astro.build/en/concepts/islands/
+
+### Am I in the browser?
+
+Checking if a piece of code is running in the browser is useful to know if you can
+use browser APIs, like `history` or `localStorage`, if you can use DOM APIs, or where
+is valid to track user activity in such environment. Some example scenarios where this
+is useful are
+
+- You want to modify some behavior based on the user's browser preferences, like
+  a preferred color scheme, or reduced motion.
+- You want to save the state of some incomplete user interaction.
+- You want to decide whether to report some user activity to an analytics service,
+  like tracking interactions with a form.
+
+This is probably the easiest question to answer. Astro uses [Vite] to build your project,
+and Vite sets some variables in `import.meta.env` to identify some of the conditions
+we'll talk about here. In particular, `import.meta.env.SSR` is `true` when the code is
+_not_ running in the browser and `false` when it is.
+
+### Am I on the server?
+
+Although Vite has the `import.meta.env.SSR` variable, which is an acronym for Server-Side
+Rendering, checking if that is set to `true` does not guarantee that the code is running
+in the server, or even during an SSR. It just means that the code is not running in the
+browser.
+
+So, how do we know if we are on the server? Well, we can check if we are in the browser
+
+## The pitfall of `import.meta.env.SSR`
