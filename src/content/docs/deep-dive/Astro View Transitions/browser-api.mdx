@@ -11,13 +11,13 @@ banner:
 ---
 
 import {
-  SimpleSwap,
-  SimpleSwapEager,
-  SwapWithAnimation,
-  SwapWithFlickerAnimation,
-  SwapWithTiledAnimation,
-  SwapWithSynchronizedAnimation,
-  AnimatedWithTransition
+SimpleSwap,
+SimpleSwapEager,
+SwapWithAnimation,
+SwapWithFlickerAnimation,
+SwapWithTiledAnimation,
+SwapWithSynchronizedAnimation,
+AnimatedWithTransition
 } from '@exm/browser-view-transitions';
 import RequireViewTransition from '@require/viewTransitions.astro';
 
@@ -28,8 +28,8 @@ Astro's `<ViewTransitions />` component. Its purpose is to provide an easier tra
 between two DOM states without worrying about intermediary states.
 
 Astro's `<ViewTransitions />` component is one application of this API. It provides the
-wiring to turn all navigation between static Astro pages into a transition between two DOM
-states on the same page, providing the experience of a SPA without requiring all the
+wiring to turn all navigations between static Astro pages into a transition between two
+DOM states on the same page. Providing an SPA experience without requiring all the
 complexity and piles of JavaScript that would be necessary for doing that more generally.
 
 But while Astro's component is for navigation, the browser API can be used for many more
@@ -41,7 +41,8 @@ decisions.
 
 To understand the problem this API is trying to solve, let's pretend we are tasked with
 building a component that shows one image and switches to a different image when you click
-on it. We'll gradually take care of more details in that component so we can experience
+on it.
+We will gradually take care of more details in that component, so we can experience
 the problems that arise without using the View Transitions API before we switch to using
 it.
 
@@ -93,7 +94,7 @@ import {Image} from 'astro:assets';
 
 Let's break down what is happening in that code:
 
-- We have two images, one of a jungle coast and another of a bird on a tree.
+- We have two images, one of jungle coasts and another of a bird on a tree.
 - The bird image is initially hidden.
 - We have an event listener that listens for clicks on the `#images` element that contains
   both images. When a click happens, it calls the `swapImages` function with the `#images`
@@ -150,7 +151,7 @@ new one.
 
 To do that, we can call animate on each image, passing two keyframes, one describing the
 opacity of the image before the swap and another describing the opacity after the swap. We
-can also pass an options object with the duration and easing of the animation. Let's try
+can also pass an `options` object with the duration and easing of the animation. Let's try
 this:
 
 ```ts ins={5-9,12-16}
@@ -188,13 +189,14 @@ for it; the animation doesn't run immediately (in fact, it doesn't start until J
 idle). But when we set `img.style.display = 'none'`, it hides the image immediately
 before even the assignment is completed in JavaScript.
 
-So we are hiding the image, and animating its fade out while it is already not visible.
-Definitely not what we wanted. You might even say it looks worse than without the
-animation since now it _always_ looks janky, not just on the first swap.
+So we are hiding the image, and animating its fade out while it is no longer visible.
+Definitely not what we wanted.
+You might even say it is worse than without the animation now since it _always_ looks
+janky, not just on the first swap.
 
-Ok... We can fix that! `img.animate` returns an animation object with an `onfinish`
+OK... We can fix that! `img.animate` returns an animation object with an `onfinish`
 property that is a callback for after the animation ends. We can use that to hide the
-image only after the animation has already faded out the image completely.
+image only after the animation has already faded-out the image completely.
 
 ```ts ins={17-19} ins="const animation ="
 function swapImages(parent: HTMLElement) {
@@ -308,11 +310,11 @@ entire thing breaks. Both images disappear and never come back. What happened?
 ### The user is impatient
 
 We have a people problem now. The user is the biggest force of chaos in the world.
-Whatever you didn't think of testing will be used by someone:
+There will always be someone relying on what you didn't think of testing:
 
-<center>
+<div style="text-align: center;">
 ![xkcd about workflow](https://imgs.xkcd.com/comics/workflow.png)
-</center>
+</div>
 
 In this case, the user was impatient and clicked on the image before the animation was
 finished. This triggered another set of animations to start, but the first set was not
@@ -323,11 +325,13 @@ canceled, so now we have four animations running at the same time:
 - Fading out the second image
 - Fading in the first image
 
-Since both images started a fade-out animation, they are positioned
-using `position: 'absolute'`, so there is nothing in the normal flow inside the container,
-making it collapse to zero size. At the end of those fade-out animations, both images are
-hidden completely, so the container remains collapsed. With the container collapsed, we
-can't click on it anymore (it has a size of zero), so the user can't trigger another swap.
+Since both images started a fade-out animation, they are positioned using
+`position: 'absolute'`, so there is nothing in the normal flow inside the container,
+making it collapse to zero-size.
+At the end of those fade-out animations, both images are hidden completely, so the
+container remains collapsed.
+With the container collapsed, we can't click on it anymore (it has a size of zero),
+so the user can't trigger another swap.
 
 We must prevent any new animation from starting while one is already running. To do that,
 we set a flag when we create an animation and clear it when it is finished. Before
@@ -388,7 +392,7 @@ the timing of the animations, the position of the elements, how to juggle both s
 simultaneously in the same space, how to do that without breaking everything else on the
 page, and so on. This is just a simple component with two images; imagine doing that for a
 whole page with many elements and states (that is one of the reasons the code of many SPA
-frameworks are so complicated).
+frameworks is so complicated).
 
 I am, by no means, and I do mean _no means_, an expert in CSS and animations. In fact, I'm
 not even a frontend developer; I only do backend professionally. I'm sure many things
@@ -474,22 +478,22 @@ call `document.startViewTransition`, it goes through a few steps:
 
 1. The browser immediately takes a snapshot of the entire DOM state and shows that
    snapshot on top of the real DOM as the pseudo-element `::view-transition-old(scope)`.
-2. It then calls the `updateCallback` function we passed to it. This function can update
-   the DOM however it wants, switching directly to the new state without worrying about
-   intermediary states.
+2. It then calls the `updateCallback` function we passed to it.
+   This function can freely update the DOM, switching directly to the new state without
+   worrying about intermediary states.
 3. Once that function returns (or the promise it returns resolves), the API takes another
    snapshot of the DOM and shows it on top of the page but below the old state. This
    is added with the pseudo-element `::view-transition-new(scope)`.
 4. It then starts an animation that fades out of the old state and fades in the new one.
-   You can use those pseudo-elements to style the transition however you want, be it by
-   changing the animation, the duration, the easing, or even the position of the elements
+   You can use those pseudo-elements to style the transition itself, be it by changing
+   the animation, the duration, the easing, or even the position of the elements
    in those pseudo-states.
 
 But what is that `scope` thing? It is an identifier, so you can style multiple portions of
 the DOM state transition differently. By default, any change to any element goes to
-the `root` scope, but you can style an element so it is added to a different scope. For
-example, this allows you to have one element that takes slightly longer to fade in than
-everything else on the page.
+the `root` scope, but you can style an element into a different scope. This allows you,
+for example, to have one element that takes slightly longer to fade in than
+everything else on the page. Or one that slides in while everything else fades.
 
 With that, we can see how the problems we had before are solved:
 
@@ -500,14 +504,14 @@ With that, we can see how the problems we had before are solved:
 - There can only be one running transition at a time, so we don't have to worry about the
   user clicking multiple times and breaking everything.
 - Since both pseudo-elements are independent snapshots of the entire DOM, we don't need to
-  handle the unique positioning of the elements. They are already positioned precisely
+  handle the unique positioning of the elements. They're already positioned precisely
   where they should be.
 
 ## How does this tie in with Astro?
 
 Astro's `<ViewTransitions />` component is a wrapper around this API but has a much bigger
-goal. That component is intended to make all navigation between static Astro pages behave
-like a SPA, transitioning between the pages and allowing state to persist between pages.
+goal. That component is intended to make all navigations between static Astro pages behave
+like an SPA, transitioning between the pages and allowing state to persist between pages.
 
 Then why tie them both together? What makes this API so special for Astro's use case that
 it deserves to have the component named after it?
@@ -519,12 +523,12 @@ but thanks to this API, this can be done without any flickering for the user sin
 browser will show the old state until everything is ready to be shown at once.
 
 What if we change _every_ element on the page? Like, with all the elements of _another_
-page that we `fetch`ed from the server? It's the same experience as a SPA but without all
-the complexity of a SPA.
+page that we `fetch`ed from the server? It's the same experience as an SPA but without all
+the complexity of an SPA.
 
 Those are some of the things that Astro builds on top of this API. To understand how all
 those features and others work, check back here for the following articles. In the next
-one, we'll start building a simplified version of Astro' s `<ViewTransitions />` component
+one, we'll start building a simplified version of Astro's `<ViewTransitions />` component
 from scratch, step by step, so we can understand how it does all its magic.
 
 [source code]: https://gitlab.com/Fryuni/blog/-/tree/main/src/components/examples/browser-view-transitions

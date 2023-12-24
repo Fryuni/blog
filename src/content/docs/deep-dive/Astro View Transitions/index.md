@@ -19,7 +19,7 @@ required a significant amount of JavaScript and CSS to be written for handling t
 animation, positioning, user interaction and execution of external code during the
 transition.
 
-[Astro], as an early-adopter of multiple technologies, already provides integration with
+[Astro] is an early-adopter of multiple technologies and already provides integration with
 this API for users of the framework to take advantage of.
 It also provides an abstraction on top of that API that does most of the heavy-lifting and
 wiring of the API, implements an alternative for browsers that don't yet supprot it, and
@@ -28,7 +28,7 @@ ergonomic than the lower level API from the browser.
 
 In this series of articles, we will be exploring Astro's View Transitions API and its many
 features. More specifically, we'll be looking not only at how to use it, but also how it
-works under the hood, how it was implemented, how can it be extended and the trade-offs
+works under the hood, how it is implemented, how can it be extended and the trade-offs
 of using each of the declarative directives versus writing some code yourself.
 
 Some things to look forward to in this series:
@@ -38,7 +38,7 @@ Some things to look forward to in this series:
 - What happens when the browser doesn't support the View Transitions API?
   - And how does Astro provide a consistent API for both cases?
 - What can be done while handling each lifecycle event of a transition?
-- How do third-party injetions in your page are affected by transitions?
+- How do transitions affect scripts injected in your page by third-parties?
 - How to persist an element transition to a page without that element?
 
 While the focus of this series is on the details and inner workings of Astro's View
@@ -54,8 +54,8 @@ own project, you can check out:
 
 _This series is my first time publishing such deep dives, I normally write them for myself
 and keep them in my notes. I'm still figuring out the best way to structure and write
-these so it is clear and understandable for everyone. If you have any feedback, please let
-me know!_
+these to make the content clear and understandable for everyone. If you have any feedback,
+please let me know!_
 
 [MDN docs]: https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API
 [compat table]: https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API#browser_compatibility

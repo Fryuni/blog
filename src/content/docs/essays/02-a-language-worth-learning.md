@@ -8,7 +8,7 @@ firstPublished: 2023-06-17
 tableOfContents: false
 ---
 
-> A language that doesn't affect the way you think about programming, is not worth
+> A language that doesn't affect the way you think about programming is not worth
 > knowing.
 >
 > -- _Alan J. Perlis, 1982[^1]_
@@ -18,7 +18,8 @@ SIGPLAN Not. 17, 9 (September 1982), 7–13. <https://doi.org/10.1145/947955.108
 
 I found this quote when reading the
 excellent [article](http://www.norvig.com/21-days.html) by Peter Norvig about the path of
-learning how to program. It is right in the beggining, setting the stage for his post.
+learning how to program.
+It is right in the beginning, setting the stage for his post.
 This post here is independent of Peter's post, but do check it out as well.
 
 His article presents this quote in the context of an example. A programmer versed in BASIC
@@ -42,9 +43,8 @@ completing a task in that language. It gives you a more diverse repertory of exi
 solutions to tap into when solving a new problem, even in languages you were already
 profoundly versed in, maybe even considered an expert.
 
-I recently
-A recent example of this exact effect that I participated in first-hand was when a
-colleague was working on our File Storage abstraction. He was tasked with optimizing a
+I recently participated in a prime example of this exact effect.
+A colleague was working on our File Storage abstraction, he was tasked with optimizing a
 feature that would, as part of its workflow, make a copy of a file.
 
 The existing abstractions were just this:
@@ -71,7 +71,7 @@ Copying is already perfectly possible with this; you just read the file from one
 save it to the new place; this fits perfectly with the workflow that was being added:
 
 1. Component A gets the Blob of a file from storage X and gives it to component B.
-1. Component B checks what to do with the Blob it received and decides to write its
+2. Component B checks what to do with the Blob it received and decides to write its
    content into storage Y.
 
 There is a clear general solution, read the source file and write it to the destination
@@ -107,7 +107,7 @@ compile-time check for the optimization was not a positive addition since the
 implementation to be used was chosen dynamically, and although we know that it currently
 never mixes storage systems, that is entirely possible by changing just the configuration.
 This means we require a runtime check anyway, so why not make the implementations
-specialize themselves without the caller even having to be aware of it?
+specialize themselves, without the caller even having to be aware of it.
 
 We reverted everything back to the initial interface and made the optimization change only
 on the `save` implementation of the storage systems that could benefit from it. One of
@@ -147,9 +147,10 @@ export class GcsFileStorage implements FileStorage {
 Simple, right? Well... although the solution is short and straightforward, that doesn't
 mean it is obvious.
 
-Is my colleague not thoughtful for not seeing this? No, he is wicked smart but was new to
-the code base, and none of the projects he worked on involved making an internal
-specialization like this, so he had no reference to ground his work.
+Is my colleague not thoughtful for not seeing this?
+No, he is brilliant but was new to the code base, and none of the projects he worked on
+involved making an internal specialization like this, so he had no reference to ground his
+work.
 
 Am I a genius for solving the problem in such a simple way?
 Hell no! I take no credit for this. I just replicated it from somewhere else.
@@ -175,7 +176,7 @@ From a WebSocket to a raw unix socket?
 From an API request to an in-memory buffer?
 From a TCP socket to a file?
 You can do it all with the same function, `io.Copy`.
-If they can specialize for your scenario, they will, and they do:
+If they can specialize in your use case, they will, and they do:
 
 - Copying from one file to another specializes to [`copy` syscalls][file-to-file].
 - Copying from a TCP or Unix socket to a TCP connection specializes
@@ -190,7 +191,7 @@ entirely transparent for the caller.
 Creating that is the work of multiple distinguished minds that collectively built Go. I
 just read it and copied a small piece of it. It might seem impressive at first glance if
 you've had no contact with it before, but copying others is not remarkable. It is positive
-to know what is out there and when to copy it to save your and your team's time; that is
+to know what is out there, and when to copy it to save your and your team's time. That is
 indeed a skill, but a very different skill than creating something from scratch.
 
 The point here is that knowing a language/framework/library can help you solve problems
@@ -216,10 +217,12 @@ mode. Thoughts are formed by language, and knowing how to architect your thought
 multiple structures enables you to think more diversely.
 
 This is one of the reasons why I didn't choose French or Italian when I was picking a new
-language to study. Although clearly distinct, they share much with the languages I already
-know. I was more inclined to learn Japanese, Korean, or Thai because they differ entirely
-from everything I knew, which meant more to understand and improve. I am currently
-studying Thai, and loving all the process.
+language to study.
+Although clearly distinct, they share much of their structure and ancestry with the
+languages I already know.
+I was more inclined to learn Japanese, Korean, or Thai because they differ entirely from
+everything I knew, which meant more to understand and improve.
+I am currently studying Thai and loving all the process.
 
 [io.Copy src]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/io/io.go;l=373-385;drc=dc8e2a6a8ec94f2c98ba20edd57932eba284efb1
 
