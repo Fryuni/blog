@@ -8,6 +8,7 @@
     "build": "rm -rf dist .astro && astro build",
     "dev": "rm -rf node_modules/.vite && astro dev",
     "format": "eslint . --fix",
+    "postinstall": "node post-install.mjs",
     "lint": "eslint .",
     "prepare": "husky install",
     "preview": "astro preview",
