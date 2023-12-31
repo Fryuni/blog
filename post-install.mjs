@@ -1,21 +1,20 @@
-import {exec} from 'node:child_process';
+import {spawn} from 'node:child_process';
 
 function runCmd(command) {
   return new Promise((resolve, reject) => {
-    exec(
-      command,
-      {
-        cwd: process.cwd(),
-        stdio: 'inherit',
-      },
-      error => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve();
-        }
-      },
-    );
+    const child = spawn(command, [], {
+      shell: true,
+      stdio: 'inherit',
+    });
+
+    child.on('error', reject);
+    child.on('exit', code => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`Command "${command}" exited with code ${code}`));
+      }
+    });
   });
 }
 
