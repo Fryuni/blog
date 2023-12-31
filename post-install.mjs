@@ -51,11 +51,13 @@ async function prepareVercel() {
 
   const commitRef = vendor.GIT_COMMIT_REF;
 
+  await runCmd('git rev-list --count HEAD');
+
   await runCmd(`git remote add --no-tags -t ${commitRef} upstream https://gitlab.com/Fryuni/blog.git`);
   await runCmd(`git fetch --unshallow upstream ${commitRef}`);
   await runCmd(`git reset --soft upstream/${commitRef}`);
 
-  throw new Error('This is a test error');
+  await runCmd('git rev-list --count HEAD');
 }
 
-await vercelEnv();
+await prepareVercel();
