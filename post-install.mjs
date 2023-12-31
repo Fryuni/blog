@@ -1,7 +1,9 @@
-import {spawn} from 'node:child_process';
+import { spawn } from 'node:child_process';
 
 function runCmd(command) {
   return new Promise((resolve, reject) => {
+    console.log('Running command: ' + command);
+
     const child = spawn(command, [], {
       shell: true,
       stdio: 'inherit',
@@ -25,6 +27,7 @@ async function vercelEnv() {
   }
 
   await runCmd('git remote -v');
+  await runCmd('git branch -av');
 
   throw new Error('This is a test error');
 }
