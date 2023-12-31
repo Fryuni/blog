@@ -26,6 +26,7 @@ async function vercelEnv() {
     return;
   }
 
+  await runCmd('git status');
   await runCmd('git remote -v');
   await runCmd('git branch -av');
 
