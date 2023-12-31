@@ -1,4 +1,5 @@
 import { spawn } from 'node:child_process';
+import { inspect } from 'node:util';
 
 function runCmd(command) {
   return new Promise((resolve, reject) => {
@@ -25,6 +26,8 @@ async function vercelEnv() {
     // Do nothing when not deploying to Vercel
     return;
   }
+
+  console.log('process.env', inspect(process.env, { depth: null }));
 
   await runCmd('git status');
   await runCmd('git remote -v');
