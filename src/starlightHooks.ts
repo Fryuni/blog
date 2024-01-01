@@ -1,5 +1,12 @@
-import {defineAllRoutesHook, defineSidebarHook, type Sidebar} from '@astrojs/starlight/hooks';
+import {
+  defineAllRoutesHook,
+  definePreSidebarRoutesHook,
+  defineSidebarHook,
+  type Sidebar,
+} from '@astrojs/starlight/hooks';
+import type {Route} from '@astrojs/starlight/routes';
 import {type MarkdownRenderer, parse, render} from '@croct/md-lite';
+import {Heap, Ordering} from './utils/heap';
 
 const plainTextRenderer: MarkdownRenderer<string> = {
   text: node => node.content,
@@ -82,6 +89,45 @@ export const allRoutesHook = defineAllRoutesHook(routes => {
 // }
 
 // const tagsEntry = LazyInstance.of(buildTagsEntry);
+
+export const preSidebarRoutesHook = definePreSidebarRoutesHook(inputRoutes => {
+  const routes: Route[] = [];
+
+  const blogRoutes = Heap.of<Route>(
+    (a, b) => {
+      const aDate = a.entry
+        .firstPublished
+        ?.valueOf() ?? 0;
+      const bDate = b.entry
+        .firstPublished
+        ?.valueOf() ?? 0;
+
+      if (aDate > bDate) return Ordering.LEFT;
+
+      if (aDate < bDate) return Ordering.RIGHT;
+
+      return Ordering.EQUAL;
+    },
+  );
+
+  for (const route of inputRoutes) {
+    if (route.entry.collection === 'blog') {
+      blogRoutes.insert(route);
+    } else {
+      routes.push(route);
+    }
+  }
+
+  for (let i = 0; i < blogRoutes.size; i++) {
+    const note = blogRoutes.pop();
+
+    if (note === undefined) break;
+
+    routes.push(note);
+  }
+
+  return routes;
+});
 
 function dropEmptySidebarSections(sidebar: Sidebar): Sidebar {
   return sidebar.map(
