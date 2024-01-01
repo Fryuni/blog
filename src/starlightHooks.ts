@@ -35,7 +35,7 @@ const htmlRenderer: MarkdownRenderer<string> = {
 export const allRoutesHook = defineAllRoutesHook(routes => {
   const shownRoutes = import.meta.env.DEV
     ? routes
-    : routes.filter(route => !route.entry.data.draft);
+    : routes.filter(route => route.entry.data.draft !== true);
 
   for (const route of shownRoutes) {
     if (route.firstPublished === undefined && route.entry.data.firstPublished !== false) {
@@ -118,7 +118,7 @@ export const preSidebarRoutesHook = definePreSidebarRoutesHook(inputRoutes => {
     }
   }
 
-  for (let i = 0; i < blogRoutes.size; i++) {
+  for (let i = 0; i < 8; i++) {
     const note = blogRoutes.pop();
 
     if (note === undefined) break;
