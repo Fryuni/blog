@@ -9,6 +9,8 @@ type Comparison<T> = (a: T, b: T) => Ordering;
 export class Heap<T> {
   private readonly heap: T[] = [];
 
+  private debugNameFn?: (value: T) => string;
+
   // eslint-disable-next-line no-useless-constructor -- private constructor
   private constructor(private readonly comparison: Comparison<T>) {
     // NOP
@@ -65,6 +67,43 @@ export class Heap<T> {
     }
 
     return value;
+  }
+
+  public setDebugger(nameFn: (value: T) => string): void {
+    this.debugNameFn = nameFn;
+  }
+
+  public debug(): void {
+    if (this.debugNameFn === undefined) {
+      console.table(
+        this.heap.map(
+          leftItem => this.heap.map(
+            rightItem => Ordering[this.comparison(leftItem, rightItem)],
+          ),
+        ),
+      );
+      return;
+    }
+
+    const nameFn = this.debugNameFn;
+
+    console.table(
+      Object.fromEntries(
+        this.heap.map(
+          leftItem => [
+            nameFn(leftItem),
+            Object.fromEntries(
+              this.heap.map(
+                rightItem => [
+                  nameFn(rightItem),
+                  Ordering[this.comparison(leftItem, rightItem)],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   private bubbleUp(): void {
@@ -126,6 +165,8 @@ export class Heap<T> {
         this.heap[childIndex] = item;
         this.heap[index] = child;
         index = childIndex;
+      } else {
+        break;
       }
     }
   }
