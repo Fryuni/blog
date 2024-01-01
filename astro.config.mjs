@@ -96,7 +96,6 @@ export default defineConfig({
         Sidebar: './src/components/Sidebar.astro',
         PageTitle: './src/components/PageTitle.astro',
       },
-      collectionNames: ['root', 'guides', 'notes', 'blog', 'deep-dive', 'essays'],
       customCss: [
         './src/tailwind.css',
       ],

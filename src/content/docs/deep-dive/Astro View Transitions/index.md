@@ -1,7 +1,6 @@
 ---
 title: Astro View Transitions
 description: An introduction to View Transitions API, Astro's implementation and goal of this series.
-firstPublished: 2023-12-10
 tableOfContents: false
 next: true
 sidebar:

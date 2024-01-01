@@ -1,10 +1,10 @@
 ---
 title: A Language Worth Learning
 description: What makes a language worth learning.
-firstPublished: 2023-06-17
 tags:
   - studying
   - philosophy
+firstPublished: 2023-06-17
 tableOfContents: false
 ---
 

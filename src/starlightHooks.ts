@@ -111,7 +111,7 @@ export const preSidebarRoutesHook = definePreSidebarRoutesHook(inputRoutes => {
   );
 
   for (const route of inputRoutes) {
-    if (route.entry.collection === 'blog') {
+    if (route.slug.startsWith('blog/')) {
       blogRoutes.insert(route);
     } else {
       routes.push(route);

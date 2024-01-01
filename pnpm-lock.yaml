@@ -17,9 +17,6 @@ patchedDependencies:
   astro@4.0.8:
     hash: 76zgkjwwmhzrg4rf6mhio72waq
     path: patches/astro@4.0.5.patch
-  starlight-links-validator@0.5.1:
-    hash: lnfpn22gnqihbq3tytcr4pcxbm
-    path: patches/starlight-links-validator@0.5.1.patch
 
 dependencies:
   '@astrojs/check':
@@ -78,7 +75,7 @@ dependencies:
     version: 0.0.0
   starlight-links-validator:
     specifier: ^0.5.1
-    version: 0.5.1(patch_hash=lnfpn22gnqihbq3tytcr4pcxbm)(@astrojs/starlight@0.15.1)(astro@4.0.8)
+    version: 0.5.1(@astrojs/starlight@0.15.1)(astro@4.0.8)
   tailwindcss:
     specifier: ^3.4.0
     version: 3.4.0
@@ -6142,7 +6139,7 @@ packages:
     resolution: {integrity: sha512-KWvhxCF+l5UpV1oyPSZAzscR/skAvlFvcbz3G6Jxp3uNpXzcCLspqApukwFRKbkk4Xpg538rL9Zt/nWTFfP/zw==}
     dev: false
 
-  /starlight-links-validator@0.5.1(patch_hash=lnfpn22gnqihbq3tytcr4pcxbm)(@astrojs/starlight@0.15.1)(astro@4.0.8):
+  /starlight-links-validator@0.5.1(@astrojs/starlight@0.15.1)(astro@4.0.8):
     resolution: {integrity: sha512-6iNl/bTTFN65T3fx1oMdspZltlYyonmrnno4dWjMzJuFHO79ZGKyzrtuMD59kiM9Y85eSy3MOpU1wuPoY28fMg==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
@@ -6158,7 +6155,6 @@ packages:
       mdast-util-to-string: 4.0.0
       unist-util-visit: 5.0.0
     dev: false
-    patched: true
 
   /statuses@2.0.1:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}

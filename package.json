@@ -68,8 +68,7 @@
     "allowNonAppliedPatches": true,
     "patchedDependencies": {
       "astro@4.0.8": "patches/astro@4.0.5.patch",
-      "@croct/eslint-plugin@0.7.1": "patches/@croct__eslint-plugin@0.7.1.patch",
-      "starlight-links-validator@0.5.1": "patches/starlight-links-validator@0.5.1.patch"
+      "@croct/eslint-plugin@0.7.1": "patches/@croct__eslint-plugin@0.7.1.patch"
     }
   }
 }
