@@ -5,11 +5,37 @@ import StarlightHead from '@astrojs/starlight/components/Head.astro';
 
 const {props}: {props: Props} = Astro;
 ---
+<script is:inline>
+  function fixHistoryFunctionPatching(name) {
+    const original = window.history[name];
+
+    let recursion = false;
+
+    // Ensure all history patches are applied by looping through all of them twice.
+    window.history[name] = function() {
+      if (recursion) {
+        original.apply(this, arguments);
+      } else {
+        recursion = true;
+        window.history[name].apply(this, arguments);
+        recursion = false;
+      }
+    };
+  }
+
+  if (!window.historyPatched) {
+    window.historyPatched = true;
+
+    fixHistoryFunctionPatching('pushState');
+    fixHistoryFunctionPatching('replaceState');
+    fixHistoryFunctionPatching('popState');
+  }
+</script>
 <StarlightHead {...props}/>
 <ViewTransitions fallback="swap"/>
 <script>
-  import '@/utils/croctClient';
   import { isTransitionBeforeSwapEvent, TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';
+  import '@/utils/croctClient';
 
   function persistElementForward(selector: string, oldDocument: Document, newDocument: Document) {
     console.log(`Persisting element ${selector} forward`);
