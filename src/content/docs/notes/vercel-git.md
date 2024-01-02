@@ -131,7 +131,7 @@ pull from the remote without adding the remote:
 
 ```sh
 git init --initial-branch=master
-git pull --depth=10 <your repo url> master:<commit that triggered the build>
+git pull --depth=10 <your repo url> <commit that triggered the build>:master
 ```
 
 :::
