@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2024.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 import {spawn} from 'node:child_process';
 import {inspect} from 'node:util';
 
@@ -49,13 +60,11 @@ async function prepareVercel() {
 
   console.log('process.env', inspect(vendor, {depth: null}));
 
-  const commitRef = vendor.GIT_COMMIT_REF;
+  const commitRef = vendor.GIT_COMMIT_SHA;
 
   await runCmd('git rev-list --count HEAD');
 
-  await runCmd(`git remote add --no-tags -t ${commitRef} upstream https://gitlab.com/Fryuni/blog.git`);
-  await runCmd(`git fetch --unshallow upstream ${commitRef}`);
-  await runCmd(`git reset --soft upstream/${commitRef}`);
+  await runCmd(`git pull --unshallow https://gitlab.com/Fryuni/blog.git master:${commitRef}`);
 
   await runCmd('git rev-list --count HEAD');
 }
