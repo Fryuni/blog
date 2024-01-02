@@ -64,7 +64,7 @@ async function prepareVercel() {
 
   await runCmd('git rev-list --count HEAD');
 
-  await runCmd(`git pull --unshallow https://gitlab.com/Fryuni/blog.git master:${commitRef}`);
+  await runCmd(`git pull --unshallow https://gitlab.com/Fryuni/blog.git ${commitRef}:master`);
 
   await runCmd('git rev-list --count HEAD');
 }

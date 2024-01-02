@@ -87,7 +87,7 @@ To retrieve the full history up to the commit that triggered the build, you need
 from your repository explicitly. Going the long way around, you can do this:
 
 ```sh
-git pull --unshallow <your repo git url> master:<commit that triggered the build>
+git pull --unshallow <your repo git url> <commit that triggered the build>:master
 ```
 
 This will pull from your remote repo and point the local `master` branch to the commit
@@ -102,7 +102,7 @@ command:
 ```sh
 git pull --unshallow \
   "https://${PUBLIC_VERCEL_GIT_PROVIDER}.com/${PUBLIC_VERCEL_GIT_REPO_OWNER}/${PUBLIC_VERCEL_GIT_REPO_SLUG}.git" \
-  master:${PUBLIC_VERCEL_GIT_COMMIT_SHA}
+  ${PUBLIC_VERCEL_GIT_COMMIT_SHA}:master
 ```
 
 [1]: https://vercel.com/guides/how-do-i-use-the-ignored-build-step-field-on-vercel#debugging-commands-locally
