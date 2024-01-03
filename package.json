@@ -27,37 +27,37 @@
   "dependencies": {
     "@astrojs/check": "^0.3.4",
     "@astrojs/markdown-remark": "^4.0.1",
+    "@astrojs/node": "^7.0.4",
     "@astrojs/starlight": "https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?5603a5f78dbdad9d74cd13fd073b0b419023b58e",
     "@astrojs/starlight-tailwind": "^2.0.1",
     "@astrojs/tailwind": "^5.1.0",
-    "@astrojs/vercel": "^6.1.1",
+    "@astrojs/vercel": "^6.1.2",
     "@croct/md-lite": "^0.2.1",
     "@croct/plug": "^0.13.4",
     "@croct/sdk": "^0.14.0",
-    "astro": "^4.0.8",
+    "astro": "^4.0.9",
     "astro-expressive-code": "^0.30.1",
-    "eslint-plugin-import": "^2.29.1",
-    "markdownlint-cli": "^0.38.0",
     "mdast-util-to-string": "^4.0.0",
     "nanostores": "^0.9.5",
     "reading-time": "^1.5.0",
     "remark-expressive-code": "^0.30.1",
     "squoosh": "^0.0.0",
-    "starlight-links-validator": "^0.5.1",
-    "tailwindcss": "^3.4.0",
-    "typescript": "^5.3.3"
+    "tailwindcss": "^3.4.0"
   },
   "devDependencies": {
-    "@astrojs/node": "^7.0.3",
     "@croct/eslint-plugin": "^0.7.1",
     "@dword-design/eslint-plugin-import-alias": "^4.0.9",
-    "@typescript-eslint/parser": "^6.16.0",
+    "@typescript-eslint/parser": "^6.17.0",
     "astro-eslint-parser": "^0.16.0",
     "eslint": "^8.56.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-astro": "^0.31.0",
+    "eslint-plugin-import": "^2.29.1",
     "husky": "^8.0.3",
-    "lint-staged": "^15.2.0"
+    "lint-staged": "^15.2.0",
+    "markdownlint-cli": "^0.38.0",
+    "starlight-links-validator": "^0.5.1",
+    "typescript": "^5.3.3"
   },
   "pnpm": {
     "overrides": {
@@ -68,7 +68,7 @@
     },
     "allowNonAppliedPatches": true,
     "patchedDependencies": {
-      "astro@4.0.8": "patches/astro@4.0.5.patch",
+      "astro@4.0.9": "patches/astro@4.0.5.patch",
       "@croct/eslint-plugin@0.7.1": "patches/@croct__eslint-plugin@0.7.1.patch"
     }
   }
