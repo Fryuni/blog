@@ -1,6 +1,8 @@
 ---
 title: 'Git on Vercel'
 description: 'How Vercel handles git repositories'
+sidebar:
+  badge: NEW
 ---
 
 Ever wrote a project that relied on the git history for some of its features? I did, and
