@@ -53,6 +53,13 @@ export const allRoutesHook = defineAllRoutesHook(routes => {
     if (styledDescription !== undefined) {
       route.entry.data.styledDescription = render(parse(styledDescription), htmlRenderer);
     }
+
+    const heroTagline = route.entry.data.hero?.tagline;
+
+    if (route.entry.data.hero !== undefined && heroTagline !== undefined) {
+      console.log(heroTagline);
+      route.entry.data.hero.tagline = render(parse(heroTagline), htmlRenderer);
+    }
   }
 
   return shownRoutes;

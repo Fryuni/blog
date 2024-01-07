@@ -37,7 +37,7 @@ export default defineConfig({
   compressHTML: import.meta.env.PROD,
   integrations: [
     starlight({
-      title: 'Fryuni\'s web corner',
+      title: 'Logical Elixirs',
       social: {
         github: 'https://github.com/Fryuni',
         gitlab: 'https://gitlab.com/Fryuni',
@@ -48,10 +48,10 @@ export default defineConfig({
       pagefind: true,
       pagination: false,
       publicationDates: true,
-      favicon: '/logo/logo-no-text-dark.svg',
+      favicon: '/logo/simple-color.png',
       logo: {
-        light: './public/logo/logo-no-text.svg',
-        dark: './public/logo/logo-no-text-dark.svg',
+        light: './public/logo/simple-dark.svg',
+        dark: './public/logo/simple-light.svg',
       },
       sidebar: [
         {
