@@ -9,17 +9,19 @@ hero:
     Brewing Insights into Technology
 
     Exploring the world of software with a touch of logic and curiosity.
-
-    <br/>
-    _Any sufficiently advanced technology is indistinguishable from magic._
-
-    -- _Arthur C. Clark_
   image:
     file: ../../../public/logo/fancy.png
 ---
 
 import { CardGrid } from '@astrojs/starlight/components';
 import RecentArticles from '@/components/RecentArticles.astro';
+import './_index.css';
+
+<div class="top-quote">
+
+> _Any sufficiently advanced technology is indistinguishable from magic._  
+> -- Arthur C. Clarke
+</div>
 
 ## Recent articles
 
