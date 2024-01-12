@@ -9,28 +9,22 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 import {OGImageRoute} from 'astro-og-canvas';
+import {getCollection} from 'astro:content';
 
 export const prerender = true;
 
-// const paths: any[] = [];
+const paths = await getCollection('docs');
 
-const pages = Object.fromEntries(
-  (await import('@astrojs/starlight/routes')).paths
-    .map(
-      ({params, props}) => {
-        const slug = (params.slug != null && params.slug !== '') ? params.slug : 'index';
-
-        return [slug, props.entry];
-      },
-    ),
-);
+const pages = Object.fromEntries(paths.map(
+  ({id, data}) => [id, data],
+));
 
 export const {getStaticPaths, GET} = OGImageRoute({
   pages,
   param: 'slug',
   getImageOptions: (_path, page: (typeof pages)[number]) => ({
-    title: page.data.title,
-    description: page.data.styledDescription ?? page.data.description,
+    title: page.title,
+    description: page.description,
     logo: {
       path: './public/logo/fancy.png',
       size: [250, 250],
