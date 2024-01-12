@@ -4,6 +4,11 @@ import {ViewTransitions} from 'astro:transitions';
 import StarlightHead from '@astrojs/starlight/components/Head.astro';
 
 const {props}: {props: Props} = Astro;
+
+const ogImageUrl = new URL(
+  `/og/${props.slug === '' ? 'index' : props.slug}.png`,
+  Astro.url,
+);
 ---
 <script is:inline>
   function fixHistoryFunctionPatching(name) {
@@ -32,6 +37,9 @@ const {props}: {props: Props} = Astro;
   }
 </script>
 <StarlightHead {...props}/>
+<!-- Render the <meta/> tags for the Open Graph images. -->
+<meta property="og:image" content={ogImageUrl} />
+<meta name="twitter:image" content={ogImageUrl} />
 <ViewTransitions fallback="swap"/>
 <script>
   import { isTransitionBeforeSwapEvent, TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';

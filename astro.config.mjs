@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2024.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 /* eslint-disable import/no-default-export -- required by Astro */
 
 import {defineConfig} from 'astro/config';
@@ -6,6 +17,7 @@ import vercel from '@astrojs/vercel/serverless';
 import node from '@astrojs/node';
 import tailwind from '@astrojs/tailwind';
 import starlightLinksValidator from 'starlight-links-validator';
+import astroMetaTags from 'astro-meta-tags';
 import {remarkReadTimePlugin} from './plugins/readTimePlugin';
 
 const adapterConfig = process.env.VERCEL === '1'
@@ -32,6 +44,10 @@ export default defineConfig({
   ...adapterConfig,
   site: 'https://fryuni.dev',
   output: 'hybrid',
+
+  devToolbar: {
+    enabled: true,
+  },
 
   trailingSlash: 'ignore',
   compressHTML: import.meta.env.PROD,
@@ -107,6 +123,7 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
+    astroMetaTags(),
   ],
   markdown: {
     remarkPlugins: [
