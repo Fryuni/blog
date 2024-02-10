@@ -13,6 +13,7 @@ banner:
 ---
 
 import {Tabs, TabItem} from '@astrojs/starlight/components';
+import Aside from '@/components/Aside.astro';
 import RequireViewTransition from '@require/viewTransitions.astro';
 
 In our [last article], we took a deep dive into the browser's View Transitions API and
@@ -498,6 +499,11 @@ of this function are:
   it would be if the browser had handled the navigation.
 
 :::note[Astro extreme edge case bug]
+
+<Aside variant="tip" title="FIXED">
+  Edit: The bug below was fixed after this post, but the message is left here as a curiosity.
+</Aside>
+
 Astro's [`fetchHTML` function][fetchHTML bug] utilizes the regular expression `/;.*$/` to
 drop the parameters of the `content-type` header. Although that works for the
 _recommended_ encoding of the `content-type` header, the specification is more permissive
