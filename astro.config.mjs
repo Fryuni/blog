@@ -139,12 +139,14 @@ export default defineConfig({
         ignored: [
           '**/node_modules/**',
           '**/dist/**',
-          '**/.*/**',
           '!.astro/**',
           '!plugins/**',
           'templates/**',
         ],
       },
     },
+  },
+  experimental: {
+    globalRoutePriority: true,
   },
 });
