@@ -25,7 +25,7 @@ const adapterConfig = process.env.VERCEL === '1'
   ? defineConfig({
     adapter: vercel({
       functionPerRoute: false,
-      imageService: false,
+      imageService: true,
       edgeMiddleware: false,
       webAnalytics: {enabled: true},
       speedInsights: {enabled: true},
