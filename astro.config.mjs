@@ -18,24 +18,26 @@ import node from '@astrojs/node';
 import tailwind from '@astrojs/tailwind';
 import starlightLinksValidator from 'starlight-links-validator';
 import astroMetaTags from 'astro-meta-tags';
+import {imageService} from '@unpic/astro/service';
 import {remarkReadTimePlugin} from './plugins/readTimePlugin';
 
 const adapterConfig = process.env.VERCEL === '1'
   ? defineConfig({
     adapter: vercel({
       functionPerRoute: false,
-      imageService: true,
+      imageService: false,
       edgeMiddleware: false,
       webAnalytics: {enabled: true},
       speedInsights: {enabled: true},
     }),
+    image: {
+      service: imageService(),
+    },
   })
   : defineConfig({
     adapter: node({mode: 'standalone'}),
     image: {
-      service: {
-        entrypoint: 'astro/assets/services/squoosh',
-      },
+      service: imageService(),
     },
   });
 

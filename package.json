@@ -35,6 +35,7 @@
     "@croct/md-lite": "^0.2.1",
     "@croct/plug": "^0.13.4",
     "@croct/sdk": "^0.14.0",
+    "@unpic/astro": "^0.0.43",
     "astro": "^4.3.6",
     "astro-expressive-code": "^0.32.4",
     "astro-og-canvas": "^0.4.2",
