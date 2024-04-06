@@ -131,9 +131,6 @@ export default defineConfig({
     ],
   },
   vite: {
-    build: {
-      sourcemap: true,
-    },
     server: {
       watch: {
         ignored: [
