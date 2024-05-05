@@ -7,6 +7,6 @@
     "clean": "rm -rf */dist */.astro */.turbo .turbo node_modules/.cache"
   },
   "devDependencies": {
-    "turbo": "^1.12.3"
+    "turbo": "^1.13.2"
   }
 }
