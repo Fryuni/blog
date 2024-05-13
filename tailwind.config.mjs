@@ -10,7 +10,7 @@ export default {
     extend: {
       colors: {
         accent: colors.teal,
-        white: colors.zinc,
+        white: colors.zinc[200],
         gray: colors.black,
       },
       fontFamily: {
