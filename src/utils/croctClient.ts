@@ -8,6 +8,7 @@ croct.plug({
     window.location.href,
   ).toString(),
 
+  token: null,
   baseEndpointUrl: 'https://beta.api.croct.io',
 });
 
@@ -21,18 +22,18 @@ setTimeout(async () => {
   let counter = 0;
 
   const interval = setInterval(async () => {
-    if (counter++ > 10) {
+    if (counter++ > 5) {
       clearInterval(interval);
     }
 
     try {
-      const readTag = await croct.evaluate("user's tag", { timeout: 2000 });
+      const session = await croct.evaluate("user.tag", { timeout: 2000 });
 
-      console.log({ readTag, expectedTag: currentTag });
+      console.log({ session, expectedTag: currentTag, matching: session === currentTag });
     } catch (err) {
       console.error(err);
     }
-  }, 2000);
+  }, 500);
 }, 2000);
 
 export { croct };
