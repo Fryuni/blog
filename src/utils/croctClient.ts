@@ -16,20 +16,22 @@ window.croct = croct;
 
 setTimeout(async () => {
   const currentTag = Date();
-
-  await croct.user.edit().set('custom.tag', currentTag).save();
+  await croct.user.edit()
+    .set('custom.tag', currentTag)
+    // .unset('custom.tag')
+    .save();
 
   let counter = 0;
 
   const interval = setInterval(async () => {
-    if (counter++ > 5) {
+    if (++counter > 5) {
       clearInterval(interval);
     }
 
     try {
-      const session = await croct.evaluate("user.tag", { timeout: 2000 });
+      const { content } = await croct.fetch('home-intro@2', { timeout: 2000 });
 
-      console.log({ session, expectedTag: currentTag, matching: session === currentTag });
+      console.log(content);
     } catch (err) {
       console.error(err);
     }
