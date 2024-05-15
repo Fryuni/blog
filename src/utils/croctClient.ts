@@ -9,6 +9,7 @@ croct.plug({
   ).toString(),
 
   token: null,
+  track: false,
   baseEndpointUrl: 'https://beta.api.croct.io',
 });
 
@@ -30,8 +31,9 @@ setTimeout(async () => {
 
     try {
       const { content } = await croct.fetch('home-intro@2', { timeout: 2000 });
+      const location = await croct.evaluate('location', { timeout: 2000 });
 
-      console.log(content);
+      console.log(content, location);
     } catch (err) {
       console.error(err);
     }
