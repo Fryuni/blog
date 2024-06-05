@@ -54,6 +54,9 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Logical Elixirs',
+      // I'm not using the built-in credits footer but I for sure want this to be here
+      // ❤️ Starlight
+      // credits: true
       social: {
         github: 'https://github.com/Fryuni',
         gitlab: 'https://gitlab.com/Fryuni',
