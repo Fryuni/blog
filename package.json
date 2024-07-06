@@ -8,21 +8,14 @@
     "astro": "astro",
     "build": "rm -rf dist .astro && astro build",
     "dev": "rm -rf node_modules/.vite && astro dev",
-    "format": "eslint . --fix",
+    "format": "prettier -w \"**/*\" --ignore-unknown --cache",
     "postinstall": "node post-install.mjs",
-    "lint": "eslint .",
-    "prepare": "husky",
     "preview": "astro preview",
     "start": "astro dev",
     "validate": "astro check && tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,astro}": [
-      "eslint --fix"
-    ],
-    "*.{md,mdx}": [
-      "markdownlint --fix"
-    ]
+    "*.{js,ts,jsx,tsx,astro,json,md,mdx}": "prettier --write"
   },
   "dependencies": {
     "@astrojs/check": "^0.7.0",
@@ -47,18 +40,13 @@
     "tailwindcss": "^3.4.4"
   },
   "devDependencies": {
-    "@croct/eslint-plugin": "^0.7.1",
     "@croct/json": "^2.1.0",
-    "@dword-design/eslint-plugin-import-alias": "^5.0.0",
-    "@typescript-eslint/parser": "^7.15.0",
     "astro-eslint-parser": "^1.0.2",
     "astro-meta-tags": "^0.3.0",
-    "eslint": "^9.6.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-astro": "^1.2.2",
-    "eslint-plugin-import": "^2.29.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
+    "prettier": "^3.3.2",
+    "prettier-plugin-astro": "^0.14.0",
     "markdownlint-cli": "^0.41.0",
     "starlight-links-validator": "^0.9.1",
     "typescript": "^5.5.3"
@@ -66,9 +54,6 @@
   "pnpm": {
     "overrides": {
       "astro": "$astro",
-      "eslint": "$eslint",
-      "@typescript-eslint/parser": "$@typescript-eslint/parser",
-      "eslint-plugin-import": "$eslint-plugin-import",
       "astro-expressive-code": "$astro-expressive-code",
       "remark-expressive-code": "$remark-expressive-code"
     },
