@@ -139,7 +139,5 @@ git pull --depth=10 <your repo url> <commit that triggered the build>:master
 :::
 
 [astro]: https://astro.build/
-
 [starlight]: https://starlight.astro.build/
-
 [sl-lastUpdated]: https://starlight.astro.build/reference/configuration/#lastupdated

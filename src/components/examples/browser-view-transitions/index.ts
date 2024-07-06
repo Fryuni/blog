@@ -7,11 +7,11 @@ import SwapWithSynchronizedAnimation from './SwapWithSynchronizedAnimation.astro
 import SwapWithTiledAnimation from './SwapWithTiledAnimation.astro';
 
 export {
-  SimpleSwap,
-  SimpleSwapEager,
-  SwapWithFlickerAnimation,
-  SwapWithTiledAnimation,
-  SwapWithAnimation,
-  SwapWithSynchronizedAnimation,
-  AnimatedWithTransition,
+	SimpleSwap,
+	SimpleSwapEager,
+	SwapWithFlickerAnimation,
+	SwapWithTiledAnimation,
+	SwapWithAnimation,
+	SwapWithSynchronizedAnimation,
+	AnimatedWithTransition,
 };

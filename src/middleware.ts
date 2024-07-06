@@ -1,17 +1,17 @@
-import {defineMiddleware} from 'astro:middleware';
-import {getClientId, getCroctPreview} from './utils/cookies';
+import { defineMiddleware } from 'astro:middleware';
+import { getClientId, getCroctPreview } from './utils/cookies';
 
 export const config = {
-  matcher: '*',
+	matcher: '*',
 };
 
 export const onRequest = defineMiddleware((context, next) => {
-  const {locals} = context;
+	const { locals } = context;
 
-  locals.clientId = getClientId(context);
-  locals.croctPreview = getCroctPreview(context);
+	locals.clientId = getClientId(context);
+	locals.croctPreview = getCroctPreview(context);
 
-  return next();
+	return next();
 });
 
 // eslint-disable-next-line import/no-default-export -- Seems required for Vercel Edge Middleware

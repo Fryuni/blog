@@ -12,7 +12,7 @@ banner:
   content: This page is part of a work in progress series. Come back later for more content!
 ---
 
-import {Tabs, TabItem} from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 import Aside from '@/components/Aside.astro';
 import RequireViewTransition from '@require/viewTransitions.astro';
 
@@ -46,9 +46,7 @@ and recently published the [`astro-vtbot`][vtbot] package, which provides reusab
 components with some of the tricks he demonstrates on his page.
 
 [Martin Trapp]: https://github.com/martrapp
-
 [Bag of Tricks]: https://events-3bg.pages.dev/
-
 [vtbot]: https://www.npmjs.com/package/astro-vtbot
 
 ## Goals
@@ -137,14 +135,11 @@ components, but it is not as easy to follow for a standalone component.
   creates the `astro:transition` and `astro:transition/client` virtual modules.
 
 [component source]: https://github.com/withastro/astro/blob/main/packages/astro/components/ViewTransitions.astro
-
 [animation source]: https://github.com/withastro/astro/blob/main/packages/astro/src/transitions/index.ts
-
 [router source]: https://github.com/withastro/astro/blob/main/packages/astro/src/transitions/router.ts
-
 [types source]: https://github.com/withastro/astro/blob/main/packages/astro/src/transitions/types.ts
-
 [plugin source]: https://github.com/withastro/astro/blob/main/packages/astro/src/transitions/vite-plugin-transitions.ts
+
 </details>
 :::
 
@@ -163,10 +158,11 @@ page by changing the following file:
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
-import {ViewTransitions} from './viewTransitions';
+import { ViewTransitions } from './viewTransitions';
 
 // ... existing code
 ---
+
 <!-- ... all the blog metadata -->
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
@@ -191,18 +187,18 @@ the event to see if it was on a link element:
 
 ```astro title="src/components/viewTransitions/component.astro"
 <script>
-// Listen to the click event on the entire document
-document.addEventListener('click', (event) => {
-  // Check if the click was on a link
-  const link = event.target?.closest('a, area');
-  if (!link) return;
+	// Listen to the click event on the entire document
+	document.addEventListener('click', (event) => {
+		// Check if the click was on a link
+		const link = event.target?.closest('a, area');
+		if (!link) return;
 
-  // Prevent the default behavior of the click event
-  event.preventDefault();
+		// Prevent the default behavior of the click event
+		event.preventDefault();
 
-  // Navigate to the link
-  alert(`Would navigate to: ${link.href}`);
-});
+		// Navigate to the link
+		alert(`Would navigate to: ${link.href}`);
+	});
 </script>
 ```
 
@@ -217,24 +213,24 @@ current page:
 
 ```astro title="src/components/viewTransitions/client/component.astro" ins={8-12}
 <script>
-// Listen to the click event on the entire document
-document.addEventListener('click', (event) => {
-  // Check if the click was on a link
-  const link = event.target?.closest('a, area');
-  if (!link) return;
-  
-  // Resolve relative links
-  const origin = new URL(link.href, location.href).origin;
+	// Listen to the click event on the entire document
+	document.addEventListener('click', (event) => {
+		// Check if the click was on a link
+		const link = event.target?.closest('a, area');
+		if (!link) return;
 
-  // Check if the link is to the same origin
-  if (origin !== location.origin) return;
+		// Resolve relative links
+		const origin = new URL(link.href, location.href).origin;
 
-  // Prevent the default behavior of the click event
-  event.preventDefault();
+		// Check if the link is to the same origin
+		if (origin !== location.origin) return;
 
-  // Navigate to the link
-  alert(`Would navigate to: ${link.href}`);
-});
+		// Prevent the default behavior of the click event
+		event.preventDefault();
+
+		// Navigate to the link
+		alert(`Would navigate to: ${link.href}`);
+	});
 </script>
 ```
 
@@ -256,17 +252,17 @@ const origin = new URL(link.href, location.href).origin;
 // Check if the link is to the same origin
 if (origin !== location.origin) return;
 if (
-  // Download links
-  link.lasAttribute('download')
-  // Links without a destination
-  || !link.href
-  // Links that don't target the current scope
-  || (link.target && link.target !== '_self')
-  // External links
-  || origin !== location.origin
+	// Download links
+	link.lasAttribute('download') ||
+	// Links without a destination
+	!link.href ||
+	// Links that don't target the current scope
+	(link.target && link.target !== '_self') ||
+	// External links
+	origin !== location.origin
 ) {
-  // Let the browser handle those cases.
-  return;
+	// Let the browser handle those cases.
+	return;
 }
 ```
 
@@ -279,23 +275,23 @@ If there are any modifier keys pressed, we should let the browser handle the nav
 
 ```ts title="src/components/viewTransitions/client/component.astro" ins={11-15}
 if (
-  link.lasAttribute('download')
-  // Links without a destination
-  || !link.href
-  // Links that don't target the current scope
-  || (link.target && link.target !== '_self')
-  // External links
-  || origin !== location.origin
-  // Middle click, or other special click
-  || event.button !== 0
-  // Clicks with modifier keys
-  || event.metaKey
-  || event.ctrlKey
-  || event.altKey
-  || event.shiftKey
+	link.lasAttribute('download') ||
+	// Links without a destination
+	!link.href ||
+	// Links that don't target the current scope
+	(link.target && link.target !== '_self') ||
+	// External links
+	origin !== location.origin ||
+	// Middle click, or other special click
+	event.button !== 0 ||
+	// Clicks with modifier keys
+	event.metaKey ||
+	event.ctrlKey ||
+	event.altKey ||
+	event.shiftKey
 ) {
-  // Let the browser handle those cases.
-  return;
+	// Let the browser handle those cases.
+	return;
 }
 ```
 
@@ -307,25 +303,25 @@ try to navigate.
 
 ```ts title="src/components/viewTransitions/client/component.astro" ins={16-17}
 if (
-  link.lasAttribute('download')
-  // Links without a destination
-  || !link.href
-  // Links that don't target the current scope
-  || (link.target && link.target !== '_self')
-  // External links
-  || origin !== location.origin
-  // Middle click, or other special click
-  || event.button !== 0
-  // Clicks with modifier keys
-  || event.metaKey
-  || event.ctrlKey
-  || event.altKey
-  || event.shiftKey
-  // Event already handled
-  || event.defaultPrevented
+	link.lasAttribute('download') ||
+	// Links without a destination
+	!link.href ||
+	// Links that don't target the current scope
+	(link.target && link.target !== '_self') ||
+	// External links
+	origin !== location.origin ||
+	// Middle click, or other special click
+	event.button !== 0 ||
+	// Clicks with modifier keys
+	event.metaKey ||
+	event.ctrlKey ||
+	event.altKey ||
+	event.shiftKey ||
+	// Event already handled
+	event.defaultPrevented
 ) {
-  // Let the browser handle those cases.
-  return;
+	// Let the browser handle those cases.
+	return;
 }
 ```
 
@@ -344,26 +340,26 @@ const href = link instanceof HTMLElement ? link.href : link.href.baseVal;
 const origin = new URL(href, location.href).origin;
 
 if (
-  link.hasAttribute('download')
-  // Links without a destination
-  || !link.href
-  // Links that don't target the current scope
-  || (link.target && link.target !== '_self')
-  || (linkTarget && linkTarget !== '_self')
-  // External links
-  || origin !== location.origin
-  // Middle click, or other special click
-  || event.button !== 0
-  // Clicks with modifier keys
-  || event.metaKey
-  || event.ctrlKey
-  || event.altKey
-  || event.shiftKey
-  // Event already handled
-  || event.defaultPrevented
+	link.hasAttribute('download') ||
+	// Links without a destination
+	!link.href ||
+	// Links that don't target the current scope
+	(link.target && link.target !== '_self') ||
+	(linkTarget && linkTarget !== '_self') ||
+	// External links
+	origin !== location.origin ||
+	// Middle click, or other special click
+	event.button !== 0 ||
+	// Clicks with modifier keys
+	event.metaKey ||
+	event.ctrlKey ||
+	event.altKey ||
+	event.shiftKey ||
+	// Event already handled
+	event.defaultPrevented
 ) {
-  // Let the browser handle those cases.
-  return;
+	// Let the browser handle those cases.
+	return;
 }
 ```
 
@@ -375,52 +371,52 @@ checking the type of the elements. Out entire component so far would look like t
 
 ```astro title="src/components/viewTransitions/client/component.astro" ins={6-15} del={3-5}
 <script>
-  document.addEventListener('click', (event) => {
-    // Check if the click was on a link
-    const link = event.target?.closest('a, area');
-    if (!link) return;
-    let link = event.target;
-    if (link instanceof Element) {
-      link = link.closest('a, area');
-    }
-    if (
-      !(link instanceof HTMLAnchorElement) &&
-      !(link instanceof SVGAElement) &&
-      !(link instanceof HTMLAreaElement)
-    )
-      return;
+	document.addEventListener('click', (event) => {
+		// Check if the click was on a link
+		const link = event.target?.closest('a, area');
+		if (!link) return;
+		let link = event.target;
+		if (link instanceof Element) {
+			link = link.closest('a, area');
+		}
+		if (
+			!(link instanceof HTMLAnchorElement) &&
+			!(link instanceof SVGAElement) &&
+			!(link instanceof HTMLAreaElement)
+		)
+			return;
 
-    const linkTarget = link instanceof HTMLElement ? link.target : link.target.baseVal;
-    const href = link instanceof HTMLElement ? link.href : link.href.baseVal;
-    const origin = new URL(href, location.href).origin;
-    if (
-      link.hasAttribute('download')
-      // Links without a destination
-      || !link.href
-      // Links that don't target the current scope
-      || (linkTarget && linkTarget !== '_self')
-      // External links
-      || origin !== location.origin
-      // Middle click, or other special click
-      || event.button !== 0
-      // Clicks with modifier keys
-      || event.metaKey
-      || event.ctrlKey
-      || event.altKey
-      || event.shiftKey
-      // Event already handled
-      || event.defaultPrevented
-    ) {
-      // Let the browser handle those cases.
-      return;
-    }
+		const linkTarget = link instanceof HTMLElement ? link.target : link.target.baseVal;
+		const href = link instanceof HTMLElement ? link.href : link.href.baseVal;
+		const origin = new URL(href, location.href).origin;
+		if (
+			link.hasAttribute('download') ||
+			// Links without a destination
+			!link.href ||
+			// Links that don't target the current scope
+			(linkTarget && linkTarget !== '_self') ||
+			// External links
+			origin !== location.origin ||
+			// Middle click, or other special click
+			event.button !== 0 ||
+			// Clicks with modifier keys
+			event.metaKey ||
+			event.ctrlKey ||
+			event.altKey ||
+			event.shiftKey ||
+			// Event already handled
+			event.defaultPrevented
+		) {
+			// Let the browser handle those cases.
+			return;
+		}
 
-    // Prevent the default behavior of the click event
-    event.preventDefault();
+		// Prevent the default behavior of the click event
+		event.preventDefault();
 
-    // Navigate to the link
-    alert(`Would navigate to: ${href}`);
-  });
+		// Navigate to the link
+		alert(`Would navigate to: ${href}`);
+	});
 </script>
 ```
 
@@ -431,6 +427,7 @@ Astro, you'll see that it uses one extra piece of information,
 declarative changes in navigation behavior. We'll cover those in a future article.
 
 [click event source]: https://github.com/withastro/astro/blob/8a0def2b6c3d85ea8f91db8df9b17c9ea8ee3a0f/packages/astro/components/ViewTransitions.astro#L54-L93
+
 :::
 
 ## Loading the new page
@@ -448,40 +445,40 @@ every time:
 
 ```ts title="src/components/viewTransitions/client/navigation.ts"
 type FetchedHTML = {
-  html: string;
-  mediaType: DOMParserSupportedType;
+	html: string;
+	mediaType: DOMParserSupportedType;
 
-  /**
-   * If there was a redirect, this will be the final URL of the page.
-   */
-  redirected?: string;
+	/**
+	 * If there was a redirect, this will be the final URL of the page.
+	 */
+	redirected?: string;
 };
 
 async function fetchHTML(href: string, init?: RequestInit): Promise<FetchedHTML | null> {
-  try {
-    const response = await fetch(href, init);
+	try {
+		const response = await fetch(href, init);
 
-    const contentType = response.headers.get('content-type') ?? '';
+		const contentType = response.headers.get('content-type') ?? '';
 
-    const mediaType = contentType.split(';', 1)[0].trim();
+		const mediaType = contentType.split(';', 1)[0].trim();
 
-    if (mediaType !== 'text/html' && mediaType !== 'application/xhtml+xml') {
-      // Not an HTML page that we can parse, let the browser handle it.
-      return null;
-    }
+		if (mediaType !== 'text/html' && mediaType !== 'application/xhtml+xml') {
+			// Not an HTML page that we can parse, let the browser handle it.
+			return null;
+		}
 
-    const html = await response.text();
+		const html = await response.text();
 
-    return {
-      html,
-      mediaType,
-      redirected: response.redirected ? response.url : undefined,
-    };
-  } catch {
-    // If there is an error loading the page let the browser handle it and show the error
-    // page to the user.
-    return null;
-  }
+		return {
+			html,
+			mediaType,
+			redirected: response.redirected ? response.url : undefined,
+		};
+	} catch {
+		// If there is an error loading the page let the browser handle it and show the error
+		// page to the user.
+		return null;
+	}
 }
 ```
 
@@ -501,7 +498,7 @@ of this function are:
 :::note[Astro extreme edge case bug]
 
 <Aside variant="tip" title="FIXED">
-  Edit: The bug below was fixed after this post, but the message is left here as a curiosity.
+	Edit: The bug below was fixed after this post, but the message is left here as a curiosity.
 </Aside>
 
 Astro's [`fetchHTML` function][fetchHTML bug] utilizes the regular expression `/;.*$/` to
@@ -536,8 +533,8 @@ white spaces_. That means a server that sends a `content-type` header like
 as a non-html page.
 
 [http abnf]: https://www.rfc-editor.org/rfc/rfc9110#appendix-A
-
 [fetchHTML bug]: https://github.com/withastro/astro/blob/8a0def2b6c3d85ea8f91db8df9b17c9ea8ee3a0f/packages/astro/src/transitions/router.ts#L122-L125
+
 :::
 
 ### Parsing the HTML
@@ -557,22 +554,22 @@ it lazily:
 let parser: DOMParser | undefined;
 
 type LoadedPage = {
-  doc: Document;
-  redirected?: string;
+	doc: Document;
+	redirected?: string;
 };
 
 async function loadPage(href: string, init?: RequestInit): Promise<LoadedPage | null> {
-  const response = await fetchHTML(href, init);
-  if (!response) return null;
+	const response = await fetchHTML(href, init);
+	if (!response) return null;
 
-  const { html, mediaType, redirected } = response;
+	const { html, mediaType, redirected } = response;
 
-  // Initialize the parser if it wasn't initialized yet.
-  parser ??= new DOMParser();
+	// Initialize the parser if it wasn't initialized yet.
+	parser ??= new DOMParser();
 
-  const doc = parser.parseFromString(html, mediaType);
+	const doc = parser.parseFromString(html, mediaType);
 
-  return { doc, redirected };
+	return { doc, redirected };
 }
 ```
 
@@ -580,11 +577,11 @@ Good. We'll just handle a quirk of how browsers handle the HTML parsing and inte
 differently between when the browser loads the page versus the `DOMParser` API:
 
 ```ts title="src/components/viewTransitions/client/navigation.ts"
-  /// Comment from Astro's source code:
-  // The next line might look like a hack,
-  // but it is actually necessary as noscript elements
-  // and their contents are returned as markup by the parser,
-  // see https://developer.mozilla.org/en-US/docs/Web/API/DOMParser/parseFromString
+/// Comment from Astro's source code:
+// The next line might look like a hack,
+// but it is actually necessary as noscript elements
+// and their contents are returned as markup by the parser,
+// see https://developer.mozilla.org/en-US/docs/Web/API/DOMParser/parseFromString
 doc.querySelectorAll('noscript').forEach((el) => el.remove());
 
 return { doc, redirected };
@@ -599,27 +596,27 @@ instead of the browser's navigation. We'll use the same entry point for both of 
 
 ```ts title="src/components/viewTransitions/client/index.ts"
 export async function navigateTo(url: string) {
-  const loadedPage = await loadPage(url);
-  if (!loadedPage) return;
+	const loadedPage = await loadPage(url);
+	if (!loadedPage) return;
 
-  const { doc, redirected } = loadedPage;
+	const { doc, redirected } = loadedPage;
 
-  function updateDOM() {
-    // Add the new url to the browser's history
-    history.pushState({}, '', redirected ?? url);
+	function updateDOM() {
+		// Add the new url to the browser's history
+		history.pushState({}, '', redirected ?? url);
 
-    document.documentElement.replaceWith(doc.documentElement);
-  }
+		document.documentElement.replaceWith(doc.documentElement);
+	}
 
-  if (!document.startViewTransition) {
-    // If the browser doesn't support startViewTransition, just update the DOM.
-    updateDOM();
-    return;
-  }
+	if (!document.startViewTransition) {
+		// If the browser doesn't support startViewTransition, just update the DOM.
+		updateDOM();
+		return;
+	}
 
-  const transition = document.startViewTransition(() => updateDOM());
+	const transition = document.startViewTransition(() => updateDOM());
 
-  await transition.finished;
+	await transition.finished;
 }
 ```
 
@@ -664,11 +661,11 @@ component more easily. We can do that by listening to the `popstate` event on th
 
 ```ts title="src/components/viewTransitions/client/navigation.ts"
 function onPopState(ev: PopStateEvent) {
-  navigateTo(location.href);
+	navigateTo(location.href);
 }
 
 if (!import.meta.env.SSR) {
-    addEventListener('popstate', onPopState);
+	addEventListener('popstate', onPopState);
 }
 ```
 

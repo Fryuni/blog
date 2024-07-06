@@ -10,10 +10,5 @@
     },
     "lib": ["dom"]
   },
-  "include": [
-    "*.ts",
-    "src/**/*",
-    "plugins/**/*",
-    ".astro/**/*"
-  ]
+  "include": ["*.ts", "src/**/*", "plugins/**/*", ".astro/**/*"]
 }
