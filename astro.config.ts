@@ -138,4 +138,7 @@ export default defineConfig({
 	experimental: {
 		globalRoutePriority: true,
 	},
+	redirects: {
+		'/viteconf': 'https://viteconf.org/24/tickets/Fryuni',
+	},
 });
