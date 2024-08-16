@@ -1,69 +1,67 @@
 ---
-import type {Props} from '@astrojs/starlight/props';
-import {ViewTransitions} from 'astro:transitions';
+import type { Props } from '@astrojs/starlight/props';
+import { ViewTransitions } from 'astro:transitions';
 import StarlightHead from '@astrojs/starlight/components/Head.astro';
 
-const {props}: {props: Props} = Astro;
+const { props }: { props: Props } = Astro;
 
-const ogImageUrl = new URL(
-  `/og/${props.slug === '' ? 'index' : props.slug}.png`,
-  Astro.url,
-);
+const ogImageUrl = new URL(`/og/${props.slug === '' ? 'index' : props.slug}.png`, Astro.url);
 ---
+
 <script is:inline>
-  function fixHistoryFunctionPatching(name) {
-    const original = window.history[name];
+	function fixHistoryFunctionPatching(name) {
+		const original = window.history[name];
 
-    let recursion = false;
+		let recursion = false;
 
-    // Ensure all history patches are applied by looping through all of them twice.
-    window.history[name] = function() {
-      if (recursion) {
-        original.apply(this, arguments);
-      } else {
-        recursion = true;
-        window.history[name].apply(this, arguments);
-        recursion = false;
-      }
-    };
-  }
+		// Ensure all history patches are applied by looping through all of them twice.
+		window.history[name] = function () {
+			if (recursion) {
+				original.apply(this, arguments);
+			} else {
+				recursion = true;
+				window.history[name].apply(this, arguments);
+				recursion = false;
+			}
+		};
+	}
 
-  if (!window.historyPatched) {
-    window.historyPatched = true;
+	if (!window.historyPatched) {
+		window.historyPatched = true;
 
-    fixHistoryFunctionPatching('pushState');
-    fixHistoryFunctionPatching('replaceState');
-    fixHistoryFunctionPatching('popState');
-  }
+		fixHistoryFunctionPatching('pushState');
+		fixHistoryFunctionPatching('replaceState');
+		fixHistoryFunctionPatching('popState');
+	}
 </script>
-<StarlightHead {...props}/>
+<StarlightHead {...props} />
 <!-- Render the <meta/> tags for the Open Graph images. -->
 <meta property="og:image" content={ogImageUrl} />
 <meta name="twitter:image" content={ogImageUrl} />
-<ViewTransitions fallback="swap"/>
+<ViewTransitions fallback="swap" />
 <script>
-  import { isTransitionBeforeSwapEvent, TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';
-  import '@/utils/croctClient';
+	import { isTransitionBeforeSwapEvent, TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';
+	import '@/utils/croctClient';
 
-  function persistElementForward(selector: string, oldDocument: Document, newDocument: Document) {
-    console.log(`Persisting element ${selector} forward`);
+	function persistElementForward(selector: string, oldDocument: Document, newDocument: Document) {
+		console.log(`Persisting element ${selector} forward`);
 
-    const oldElement = oldDocument.querySelector(selector);
-    const newElement = newDocument.querySelector(selector);
+		const oldElement = oldDocument.querySelector(selector);
+		const newElement = newDocument.querySelector(selector);
 
-    if (oldElement && newElement) {
-      console.log(`Replacing element ${selector} with persisted element`);
-      newElement.replaceWith(oldElement);
-    }
-  }
+		if (oldElement && newElement) {
+			console.log(`Replacing element ${selector} with persisted element`);
+			newElement.replaceWith(oldElement);
+		}
+	}
 
-  document.addEventListener(TRANSITION_BEFORE_SWAP, event => {
-    if (!isTransitionBeforeSwapEvent(event)) return;
+	document.addEventListener(TRANSITION_BEFORE_SWAP, (event) => {
+		if (!isTransitionBeforeSwapEvent(event)) return;
 
-    // Clear Pagefind search
-    document.querySelector('site-search input')?.reset();
+		// Clear Pagefind search
+		document.querySelector('site-search input')?.reset();
 
-    persistElementForward('site-search', document, event.newDocument);
-    // persistElementForward('starlight-theme-select', document, event.newDocument);
-  });
+		persistElementForward('site-search', document, event.newDocument);
+		// persistElementForward('starlight-theme-select', document, event.newDocument);
+	});
 </script>

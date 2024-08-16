@@ -1,5 +1,5 @@
 ---
-import type {Props} from '@astrojs/starlight/props';
+import type { Props } from '@astrojs/starlight/props';
 
 import EditLink from 'virtual:starlight/components/EditLink';
 import Pagination from 'virtual:starlight/components/Pagination';
@@ -8,66 +8,73 @@ import FooterDates from './FooterDates.astro';
 ---
 
 <footer>
-  <div class="meta sl-flex">
-    <EditLink {...Astro.props} />
-    <FooterDates {...Astro.props} />
-  </div>
-  <Pagination {...Astro.props} />
-  {!Astro.props.hasSidebar && (
-    <AstroGratitude {...Astro.props} />
-  )}
-  <div class="license">
-    <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">
-      All prose work of
-      <a property="dct:title" rel="cc:attributionURL" href="https://fryuni.dev">Logical Elixirs</a>
-      by
-      <span property="cc:attributionName">Luiz Ferraz</span>
-      is licensed under
-      <a class="license-link" href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">
-        <span>CC BY-SA 4.0</span>
-        <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1">
-      </a>
-    </p>
-    <p>
-      All the code snippets in this website is licensed under the <a href="https://opensource.org/licenses/MIT">MIT license</a>.
-    </p>
-    <p>
-      The <a href="http://gitlab.com/Fryuni/blog">source code</a> of this website is licensed under the <a href="https://opensource.org/licenses/MIT">MIT license</a>.
-    </p>
-  </div>
+	<div class="meta sl-flex">
+		<EditLink {...Astro.props} />
+		<FooterDates {...Astro.props} />
+	</div>
+	<Pagination {...Astro.props} />
+	{!Astro.props.hasSidebar && <AstroGratitude {...Astro.props} />}
+	<div class="license">
+		<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">
+			All prose work of
+			<a property="dct:title" rel="cc:attributionURL" href="https://fryuni.dev">Logical Elixirs</a>
+			by
+			<span property="cc:attributionName">Luiz Ferraz</span>
+			is licensed under
+			<a
+				class="license-link"
+				href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1"
+				target="_blank"
+				rel="license noopener noreferrer"
+				style="display:inline-block;"
+			>
+				<span>CC BY-SA 4.0</span>
+				<img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" />
+				<img src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" />
+				<img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" />
+			</a>
+		</p>
+		<p>
+			All the code snippets in this website are licensed under the <a
+				href="https://opensource.org/licenses/MIT">MIT license</a
+			>.
+		</p>
+		<p>
+			The <a href="http://gitlab.com/Fryuni/blog">source code</a> of this website is licensed under the
+			<a href="https://opensource.org/licenses/MIT">MIT license</a>.
+		</p>
+	</div>
 </footer>
 
 <style>
-    .meta {
-        gap: 0.75rem 3rem;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        margin-block: 3rem 1.5rem;
-        font-size: var(--sl-text-sm);
-        color: var(--sl-color-gray-3);
-    }
-    .meta > :global(p:only-child) {
-        margin-inline-start: auto;
-    }
+	.meta {
+		gap: 0.75rem 3rem;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		margin-block: 3rem 1.5rem;
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-3);
+	}
+	.meta > :global(p:only-child) {
+		margin-inline-start: auto;
+	}
 
-    .license {
-        text-align: center;
-        margin-block: 3rem 1.5rem;
-        font-size: var(--sl-text-sm);
-        color: var(--sl-color-gray-3);
-    }
-    .license-link {
-        text-decoration: none;
-    }
-    .license-link span {
-        text-decoration: underline;
-    }
-    .license-link img {
-        height: 22px!important;
-        margin-left: 3px;
-        vertical-align: middle;
-        text-decoration: none;
-    }
+	.license {
+		text-align: center;
+		margin-block: 3rem 1.5rem;
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-3);
+	}
+	.license-link {
+		text-decoration: none;
+	}
+	.license-link span {
+		text-decoration: underline;
+	}
+	.license-link img {
+		height: 22px !important;
+		margin-left: 3px;
+		vertical-align: middle;
+		text-decoration: none;
+	}
 </style>

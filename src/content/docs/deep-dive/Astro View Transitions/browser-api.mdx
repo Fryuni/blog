@@ -10,13 +10,13 @@ banner:
 ---
 
 import {
-SimpleSwap,
-SimpleSwapEager,
-SwapWithAnimation,
-SwapWithFlickerAnimation,
-SwapWithTiledAnimation,
-SwapWithSynchronizedAnimation,
-AnimatedWithTransition
+	SimpleSwap,
+	SimpleSwapEager,
+	SwapWithAnimation,
+	SwapWithFlickerAnimation,
+	SwapWithTiledAnimation,
+	SwapWithSynchronizedAnimation,
+	AnimatedWithTransition,
 } from '@exm/browser-view-transitions';
 import RequireViewTransition from '@require/viewTransitions.astro';
 
@@ -65,29 +65,28 @@ check the [source code]. Such differences will be explained in the following art
 ---
 import coast from '@/assets/jungle-coast.jpg';
 import bird from '@/assets/tree-bird.jpg';
-import {Image} from 'astro:assets';
+import { Image } from 'astro:assets';
 ---
 
 <div id="images">
-  <Image style={{margin: '0'}} alt="Jungle coast" src={coast} />
-  <Image style={{display: 'none', margin: '0'}} alt="Tree bird" src={bird} />
+	<Image style={{ margin: '0' }} alt="Jungle coast" src={coast} />
+	<Image style={{ display: 'none', margin: '0' }} alt="Tree bird" src={bird} />
 </div>
 
 <script>
-    function swapImages(parent: HTMLElement) {
-        const imgs = parent.querySelectorAll('img');
-    
-        imgs.forEach(img => {
-            img.style.display = img.style.display === 'none'
-              ? 'block' : 'none';
-        });
-    }
-    
-    const images = document.getElementById('images');
-    
-    images.addEventListener('click', () => {
-      swapImages(images);
-    });
+	function swapImages(parent: HTMLElement) {
+		const imgs = parent.querySelectorAll('img');
+
+		imgs.forEach((img) => {
+			img.style.display = img.style.display === 'none' ? 'block' : 'none';
+		});
+	}
+
+	const images = document.getElementById('images');
+
+	images.addEventListener('click', () => {
+		swapImages(images);
+	});
 </script>
 ```
 
@@ -114,6 +113,7 @@ That is good enough for a first version, but it has some problems:
 
    _Try setting a meager network speed in your browser's dev tools and clicking on the
    image again to see this effect._
+
 2. The swap is immediate. There is no transition between the two images; they just
    suddenly disappear and appear. Once both images are loaded, the image appears to
    abruptly become the other.
@@ -127,19 +127,14 @@ only the one that will be shown next.
 
 ```astro ins={7}
 <div id="images">
-  <Image style={{margin: '0'}} alt="Jungle coast" src={coast} />
-  <Image
-    style={{display: 'none', margin: '0'}}
-    alt="Tree bird"
-    src={bird}
-    loading="eager"
-  />
+	<Image style={{ margin: '0' }} alt="Jungle coast" src={coast} />
+	<Image style={{ display: 'none', margin: '0' }} alt="Tree bird" src={bird} loading="eager" />
 </div>
 ```
 
 <SimpleSwapEager>
-  The second image from here on is different, so the browser doesn't share the cache with
-  the demo above.
+	The second image from here on is different, so the browser doesn't share the cache with the demo
+	above.
 </SimpleSwapEager>
 
 ### Animating the swap
@@ -155,23 +150,23 @@ this:
 
 ```ts ins={5-9,12-16}
 function swapImages(parent: HTMLElement) {
-  parent.querySelectorAll('img').forEach(img => {
-    if (img.style.display === 'none') {
-      img.style.display = 'inline';
-      img.animate(
-        // Transition from opacity 0 to 1 over 1 second.
-        [{ opacity: 0 }, { opacity: 1 }],
-        { duration: 1000, easing: 'ease-in' },
-      );
-    } else {
-      img.style.display = 'none';
-      img.animate(
-        // Transition from opacity 1 to 0 over 1 second.
-        [{ opacity: 1 }, { opacity: 0 }],
-        { duration: 1000, easing: 'ease-out' },
-      );
-    }
-  });
+	parent.querySelectorAll('img').forEach((img) => {
+		if (img.style.display === 'none') {
+			img.style.display = 'inline';
+			img.animate(
+				// Transition from opacity 0 to 1 over 1 second.
+				[{ opacity: 0 }, { opacity: 1 }],
+				{ duration: 1000, easing: 'ease-in' }
+			);
+		} else {
+			img.style.display = 'none';
+			img.animate(
+				// Transition from opacity 1 to 0 over 1 second.
+				[{ opacity: 1 }, { opacity: 0 }],
+				{ duration: 1000, easing: 'ease-out' }
+			);
+		}
+	});
 }
 ```
 
@@ -199,26 +194,26 @@ image only after the animation has already faded-out the image completely.
 
 ```ts ins={17-19} ins="const animation ="
 function swapImages(parent: HTMLElement) {
-  parent.querySelectorAll('img').forEach(img => {
-    if (img.style.display === 'none') {
-      img.style.display = 'inline';
-      img.animate(
-        // Transition from opacity 0 to 1 over 1 second.
-        [{ opacity: 0 }, { opacity: 1 }],
-        { duration: 1000, easing: 'ease-in' },
-      );
-    } else {
-      const animation = img.animate(
-        // Transition from opacity 1 to 0 over 1 second.
-        [{ opacity: 1 }, { opacity: 0 }],
-        { duration: 1000, easing: 'ease-out' },
-      );
+	parent.querySelectorAll('img').forEach((img) => {
+		if (img.style.display === 'none') {
+			img.style.display = 'inline';
+			img.animate(
+				// Transition from opacity 0 to 1 over 1 second.
+				[{ opacity: 0 }, { opacity: 1 }],
+				{ duration: 1000, easing: 'ease-in' }
+			);
+		} else {
+			const animation = img.animate(
+				// Transition from opacity 1 to 0 over 1 second.
+				[{ opacity: 1 }, { opacity: 0 }],
+				{ duration: 1000, easing: 'ease-out' }
+			);
 
-      animation.onfinish = () => {
-        img.style.display = 'none';
-      };
-    }
-  });
+			animation.onfinish = () => {
+				img.style.display = 'none';
+			};
+		}
+	});
 }
 ```
 
@@ -240,14 +235,9 @@ so we can position the images relative to it without considering the normal elem
 of the page.
 
 ```astro ins="style={{position: 'relative'}}"
-<div id="images" style={{position: 'relative'}}>
-  <Image style={{margin: '0'}} alt="Jungle coast" src={coast} />
-  <Image
-    style={{display: 'none', margin: '0'}}
-    alt="Tree bird"
-    src={bird}
-    loading="eager"
-  />
+<div id="images" style={{ position: 'relative' }}>
+	<Image style={{ margin: '0' }} alt="Jungle coast" src={coast} />
+	<Image style={{ display: 'none', margin: '0' }} alt="Tree bird" src={bird} loading="eager" />
 </div>
 ```
 
@@ -263,40 +253,40 @@ works as expected.
 
 ```ts ins={13-15,30-32}
 function swapImages(parent: HTMLElement) {
-  parent.querySelectorAll('img').forEach(img => {
-    if (img.style.display === 'none') {
-      img.style.display = 'inline';
-      img.animate(
-        // Transition from opacity 0 to 1 over 1 second.
-        [{ opacity: 0 }, { opacity: 1 }],
-        { duration: 1000, easing: 'ease-in' },
-      );
-    } else {
-      // Restyle the image to it is positioned on top of the other one
-      // outside of the normal flow.
-      img.style.position = 'absolute';
-      img.style.top = '0';
-      img.style.left = '0';
+	parent.querySelectorAll('img').forEach((img) => {
+		if (img.style.display === 'none') {
+			img.style.display = 'inline';
+			img.animate(
+				// Transition from opacity 0 to 1 over 1 second.
+				[{ opacity: 0 }, { opacity: 1 }],
+				{ duration: 1000, easing: 'ease-in' }
+			);
+		} else {
+			// Restyle the image to it is positioned on top of the other one
+			// outside of the normal flow.
+			img.style.position = 'absolute';
+			img.style.top = '0';
+			img.style.left = '0';
 
-      const animation = img.animate(
-        // Transition from opacity 1 to 0 over 1 second.
-        [{ opacity: 1 }, { opacity: 0 }],
-        {
-          duration: 1000,
-          easing: 'ease-out',
-        },
-      );
+			const animation = img.animate(
+				// Transition from opacity 1 to 0 over 1 second.
+				[{ opacity: 1 }, { opacity: 0 }],
+				{
+					duration: 1000,
+					easing: 'ease-out',
+				}
+			);
 
-      animation.onfinish = () => {
-        // Once the animation is finished, hide the image and reset its style
-        // so the container never changes size.
-        img.style.display = 'none';
-        img.style.position = null;
-        img.style.top = null;
-        img.style.left = null;
-      };
-    }
-  });
+			animation.onfinish = () => {
+				// Once the animation is finished, hide the image and reset its style
+				// so the container never changes size.
+				img.style.display = 'none';
+				img.style.position = null;
+				img.style.top = null;
+				img.style.left = null;
+			};
+		}
+	});
 }
 ```
 
@@ -312,7 +302,7 @@ We have a people problem now. The user is the biggest force of chaos in the worl
 There will always be someone relying on what you didn't think of testing:
 
 <div style="text-align: center;">
-![xkcd about workflow](https://imgs.xkcd.com/comics/workflow.png)
+	![xkcd about workflow](https://imgs.xkcd.com/comics/workflow.png)
 </div>
 
 In this case, the user was impatient and clicked on the image before the animation was
@@ -339,45 +329,45 @@ animation.
 
 ```ts ins={2,4,37}
 function swapImages(parent: HTMLElement) {
-  if (parent.dataset.state === 'animating') return;
+	if (parent.dataset.state === 'animating') return;
 
-  parent.dataset.state = 'animating';
+	parent.dataset.state = 'animating';
 
-  parent.querySelectorAll('img').forEach(img => {
-    if (img.style.display === 'none') {
-      img.style.display = 'inline';
-      img.animate(
-        // Transition from opacity 0 to 1 over 1 second.
-        [{ opacity: 0 }, { opacity: 1 }],
-        { duration: 1000, easing: 'ease-in' },
-      );
-    } else {
-      // Restyle the image to it is positioned on top of the other one
-      // outside of the normal flow.
-      img.style.position = 'absolute';
-      img.style.top = '0';
-      img.style.left = '0';
+	parent.querySelectorAll('img').forEach((img) => {
+		if (img.style.display === 'none') {
+			img.style.display = 'inline';
+			img.animate(
+				// Transition from opacity 0 to 1 over 1 second.
+				[{ opacity: 0 }, { opacity: 1 }],
+				{ duration: 1000, easing: 'ease-in' }
+			);
+		} else {
+			// Restyle the image to it is positioned on top of the other one
+			// outside of the normal flow.
+			img.style.position = 'absolute';
+			img.style.top = '0';
+			img.style.left = '0';
 
-      const animation = img.animate(
-        // Transition from opacity 1 to 0 over 1 second.
-        [{ opacity: 1 }, { opacity: 0 }],
-        {
-          duration: 1000,
-          easing: 'ease-out',
-        },
-      );
+			const animation = img.animate(
+				// Transition from opacity 1 to 0 over 1 second.
+				[{ opacity: 1 }, { opacity: 0 }],
+				{
+					duration: 1000,
+					easing: 'ease-out',
+				}
+			);
 
-      animation.onfinish = () => {
-        // Once the animation is finished, hide the image and reset its style
-        // so the container never changes size.
-        img.style.display = 'none';
-        img.style.position = null;
-        img.style.top = null;
-        img.style.left = null;
-        parent.dataset.state = null;
-      };
-    }
-  });
+			animation.onfinish = () => {
+				// Once the animation is finished, hide the image and reset its style
+				// so the container never changes size.
+				img.style.display = 'none';
+				img.style.position = null;
+				img.style.top = null;
+				img.style.left = null;
+				parent.dataset.state = null;
+			};
+		}
+	});
 }
 ```
 
@@ -410,17 +400,17 @@ object with three promise handles:
 
 ```ts
 interface Document {
-  startViewTransition(updateCallback: () => Promise<void> | void): ViewTransition;
+	startViewTransition(updateCallback: () => Promise<void> | void): ViewTransition;
 }
 
 interface ViewTransition {
-  finished: Promise<void>;
+	finished: Promise<void>;
 
-  ready: Promise<void>;
+	ready: Promise<void>;
 
-  updateCallbackDone: Promise<void>;
+	updateCallbackDone: Promise<void>;
 
-  skipTransition(): void;
+	skipTransition(): void;
 }
 ```
 
@@ -433,34 +423,28 @@ without any animation? Let's see what happens when we wrap that in a call to
 ---
 import coast from '@/assets/jungle-coast.jpg';
 import bird from '@/assets/tree-bird.jpg';
-import {Image} from 'astro:assets';
+import { Image } from 'astro:assets';
 ---
 
 <div id="images">
-  <Image style={{margin: '0'}} alt="Jungle coast" src={coast} />
-  <Image
-    style={{display: 'none', margin: '0'}}
-    alt="Tree bird"
-    src={bird}
-    loading="eager"
-  />
+	<Image style={{ margin: '0' }} alt="Jungle coast" src={coast} />
+	<Image style={{ display: 'none', margin: '0' }} alt="Tree bird" src={bird} loading="eager" />
 </div>
 
 <script>
-    function swapImages(parent: HTMLElement) {
-        const imgs = parent.querySelectorAll('img');
-    
-        imgs.forEach(img => {
-            img.style.display = img.style.display === 'none'
-              ? 'block' : 'none';
-        });
-    }
-    
-    const images = document.getElementById('images');
-    
-    images.addEventListener('click', () => {
-      document.startViewTransition(() => swapImages(images));
-    });
+	function swapImages(parent: HTMLElement) {
+		const imgs = parent.querySelectorAll('img');
+
+		imgs.forEach((img) => {
+			img.style.display = img.style.display === 'none' ? 'block' : 'none';
+		});
+	}
+
+	const images = document.getElementById('images');
+
+	images.addEventListener('click', () => {
+		document.startViewTransition(() => swapImages(images));
+	});
 </script>
 ```
 

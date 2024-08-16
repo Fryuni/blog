@@ -8,65 +8,52 @@
     "astro": "astro",
     "build": "rm -rf dist .astro && astro build",
     "dev": "rm -rf node_modules/.vite && astro dev",
-    "format": "eslint . --fix",
+    "format": "prettier -w \"**/*\" --ignore-unknown --cache",
     "postinstall": "node post-install.mjs",
-    "lint": "eslint .",
-    "prepare": "husky",
     "preview": "astro preview",
     "start": "astro dev",
     "validate": "astro check && tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,astro}": [
-      "eslint --fix"
-    ],
-    "*.{md,mdx}": [
-      "markdownlint --fix"
-    ]
+    "*.{js,ts,jsx,tsx,astro,json,md,mdx}": "prettier --write"
   },
   "dependencies": {
-    "@astrojs/check": "^0.6.0",
-    "@astrojs/markdown-remark": "^5.1.0",
-    "@astrojs/node": "^8.2.5",
+    "@astrojs/check": "^0.7.0",
+    "@astrojs/markdown-remark": "^5.1.1",
+    "@astrojs/node": "^8.3.2",
     "@astrojs/starlight": "https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?c33ab7c53dd6dad7a67ef0be5bbaf61cdead4d5d",
-    "@astrojs/starlight-tailwind": "^2.0.2",
+    "@astrojs/starlight-tailwind": "^2.0.3",
     "@astrojs/tailwind": "^5.1.0",
-    "@astrojs/vercel": "^7.6.0",
+    "@astrojs/vercel": "^7.7.2",
     "@croct/md-lite": "^0.2.1",
     "@croct/plug": "^0.14.1",
     "@croct/sdk": "^0.16.1",
-    "astro": "^4.8.3",
+    "astro": "^4.11.5",
     "astro-expressive-code": "^0.35.3",
-    "astro-og-canvas": "^0.5.0",
+    "astro-og-canvas": "^0.5.2",
     "canvaskit-wasm": "^0.39.1",
     "mdast-util-to-string": "^4.0.0",
     "nanostores": "^0.10.3",
     "reading-time": "^1.5.0",
     "remark-expressive-code": "^0.35.3",
     "squoosh": "^0.0.0",
-    "tailwindcss": "^3.4.3"
+    "tailwindcss": "^3.4.4"
   },
   "devDependencies": {
-    "@croct/eslint-plugin": "^0.7.1",
     "@croct/json": "^2.1.0",
-    "@dword-design/eslint-plugin-import-alias": "^5.0.0",
-    "@typescript-eslint/parser": "^6.21.0",
     "astro-eslint-parser": "^1.0.2",
     "astro-meta-tags": "^0.3.0",
-    "eslint": "^8.57.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-astro": "^1.2.0",
-    "eslint-plugin-import": "^2.29.1",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "markdownlint-cli": "^0.40.0",
-    "starlight-links-validator": "^0.8.0",
-    "typescript": "^5.4.5"
+    "lint-staged": "^15.2.7",
+    "prettier": "^3.3.2",
+    "prettier-plugin-astro": "^0.14.0",
+    "markdownlint-cli": "^0.41.0",
+    "starlight-links-validator": "^0.9.1",
+    "typescript": "^5.5.3"
   },
   "pnpm": {
     "overrides": {
       "astro": "$astro",
-      "eslint-plugin-import": "$eslint-plugin-import",
       "astro-expressive-code": "$astro-expressive-code",
       "remark-expressive-code": "$remark-expressive-code"
     },
@@ -74,5 +61,6 @@
     "patchedDependencies": {
       "@croct/eslint-plugin@0.7.1": "patches/@croct__eslint-plugin@0.7.1.patch"
     }
-  }
+  },
+  "packageManager": "pnpm@9.4.0+sha512.f549b8a52c9d2b8536762f99c0722205efc5af913e77835dbccc3b0b0b2ca9e7dc8022b78062c17291c48e88749c70ce88eb5a74f1fa8c4bf5e18bb46c8bd83a"
 }

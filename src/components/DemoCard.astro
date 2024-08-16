@@ -1,93 +1,92 @@
 ---
-import {z, parse} from '@/utils/zod';
+import { z, parse } from '@/utils/zod';
 
 const propsSchema = z.object({
-  demo: z.string(),
+	demo: z.string(),
 });
 
 export type Props = z.infer<typeof propsSchema>;
 
 const props = parse(propsSchema, Astro.props);
-const {demo} = props;
+const { demo } = props;
 ---
+
 <article>
-  <fry-demo-card data-demo={demo}>
-    <slot />
-    <div class="frame-placeholder" />
-  </fry-demo-card>
+	<fry-demo-card data-demo={demo}>
+		<slot />
+		<div class="frame-placeholder"></div>
+	</fry-demo-card>
 </article>
 
 <style>
-    article {
-        border: 1px solid var(--sl-color-gray-5);
-        background-color: var(--sl-color-black);
-        padding: clamp(1rem, calc(0.125rem + 3vw), 2.5rem);
-        gap: clamp(0.5rem, calc(0.125rem + 1vw), 1rem);
-    }
+	article {
+		border: 1px solid var(--sl-color-gray-5);
+		background-color: var(--sl-color-black);
+		padding: clamp(1rem, calc(0.125rem + 3vw), 2.5rem);
+		gap: clamp(0.5rem, calc(0.125rem + 1vw), 1rem);
+	}
 </style>
 
 <script>
-  class DemoCard extends HTMLElement {
-    private iframe: HTMLIFrameElement;
+	class DemoCard extends HTMLElement {
+		private iframe: HTMLIFrameElement;
 
-    connectedCallback() {
-      const demo = this.dataset.demo;
-      const demoUrl = new URL(`/demo/${demo}/`, window.location.href).toString();
-      this.iframe = document.createElement('iframe');
-      this.iframe.src = demoUrl.toString();
-      this.iframe.style.width = '100%';
-      this.iframe.style.height = 'fit-content';
-      this.iframe.style.border = '0';
-      this.iframe.style.margin = '0';
-      this.iframe.content = 'text/html;charset=utf-8';
+		connectedCallback() {
+			const demo = this.dataset.demo;
+			const demoUrl = new URL(`/demo/${demo}/`, window.location.href).toString();
+			this.iframe = document.createElement('iframe');
+			this.iframe.src = demoUrl.toString();
+			this.iframe.style.width = '100%';
+			this.iframe.style.height = 'fit-content';
+			this.iframe.style.border = '0';
+			this.iframe.style.margin = '0';
+			this.iframe.content = 'text/html;charset=utf-8';
 
-      this.querySelector('.frame-placeholder')?.replaceWith(this.iframe);
+			this.querySelector('.frame-placeholder')?.replaceWith(this.iframe);
 
-      this.querySelectorAll('[data-demo-action]')
-        .forEach(trigger => {
-          const action = trigger.dataset.demoAction;
+			this.querySelectorAll('[data-demo-action]').forEach((trigger) => {
+				const action = trigger.dataset.demoAction;
 
-          trigger.addEventListener('click', () => {
-            this.doAction(action);
-          });
-        });
-    }
+				trigger.addEventListener('click', () => {
+					this.doAction(action);
+				});
+			});
+		}
 
-    private doAction(action: string): void {
-      switch (action) {
-        case 'back':
-          this.iframe.contentWindow?.history.back();
-          break;
-        case 'forward':
-          this.iframe.contentWindow?.history.forward();
-          break;
-        case 'reset':
-          this.iframe.src = this.iframe.src;
-          break;
-        case 'reload':
-          this.iframe.contentWindow?.location.reload();
-          break;
-      }
-    }
-  }
+		private doAction(action: string): void {
+			switch (action) {
+				case 'back':
+					this.iframe.contentWindow?.history.back();
+					break;
+				case 'forward':
+					this.iframe.contentWindow?.history.forward();
+					break;
+				case 'reset':
+					this.iframe.src = this.iframe.src;
+					break;
+				case 'reload':
+					this.iframe.contentWindow?.location.reload();
+					break;
+			}
+		}
+	}
 
-  customElements.define('fry-demo-card', DemoCard);
+	customElements.define('fry-demo-card', DemoCard);
 
-  function resizeAllIframes() {
-    console.log('resizeAllIframes');
-    setTimeout(() => {
-      document.querySelectorAll('iframe')
-        .forEach(iframe => {
-          const newHeight = iframe.contentWindow.document.body.scrollHeight;
+	function resizeAllIframes() {
+		console.log('resizeAllIframes');
+		setTimeout(() => {
+			document.querySelectorAll('iframe').forEach((iframe) => {
+				const newHeight = iframe.contentWindow.document.body.scrollHeight;
 
-          console.log('New height', newHeight);
+				console.log('New height', newHeight);
 
-          iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 5 + 'px';
-          iframe.scrolling = 'no';
-        });
-    }, 1000);
-  }
+				iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 5 + 'px';
+				iframe.scrolling = 'no';
+			});
+		}, 1000);
+	}
 
-  document.addEventListener('astro:load', resizeAllIframes);
-  document.addEventListener('DOMContentLoaded', resizeAllIframes);
+	document.addEventListener('astro:load', resizeAllIframes);
+	document.addEventListener('DOMContentLoaded', resizeAllIframes);
 </script>

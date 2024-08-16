@@ -1,4 +1,4 @@
-const {compilerOptions} = require('./tsconfig.json');
+const { compilerOptions } = require('./tsconfig.json');
 
 const pathAliases = Object.fromEntries(
   Object.entries(compilerOptions.paths).map(
@@ -7,23 +7,15 @@ const pathAliases = Object.fromEntries(
      * @param value string
      * @return {[string,string]}
      */
-    ([key, [value]]) => [
-      key.replace(/\/\*$/, ''),
-      `./src/${value.replace(/\/\*$/, '')}`,
-    ],
-  ),
+    ([key, [value]]) => [key.replace(/\/\*$/, ''), `./src/${value.replace(/\/\*$/, '')}`]
+  )
 );
 
 module.exports = {
   root: true,
   extends: ['plugin:@croct/javascript', 'plugin:astro/recommended'],
-  plugins: [
-    '@croct',
-    '@typescript-eslint',
-    '@dword-design/import-alias',
-    'astro',
-  ],
-  env: {node: true},
+  plugins: ['@croct', '@typescript-eslint', '@dword-design/import-alias', 'astro'],
+  env: { node: true },
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',

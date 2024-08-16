@@ -3,17 +3,17 @@
 /// <reference types="@astrojs/starlight/virtual" />
 
 declare namespace App {
-  interface Locals {
-    clientId?: string;
+	interface Locals {
+		clientId?: string;
 
-    croctPreview?: string;
-  }
+		croctPreview?: string;
+	}
 }
 
 interface ImportMetaEnv {
-  PUBLIC_CROCT_APP_ID: string;
+	PUBLIC_CROCT_APP_ID: string;
 
-  CROCT_API_KEY: string;
+	CROCT_API_KEY: string;
 
-  CROCT_TIMEOUT?: string;
+	CROCT_TIMEOUT?: string;
 }

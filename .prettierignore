@@ -1,0 +1,21 @@
+# Deep Directories
+**/dist
+**/smoke
+**/public
+**/node_modules
+**/fixtures
+**/vendor
+**/.vercel
+/turbo/
+
+# Directories
+.github
+.changeset
+
+*.hbs
+
+# Files
+pnpm-lock.yaml
+
+.husky
+templates/

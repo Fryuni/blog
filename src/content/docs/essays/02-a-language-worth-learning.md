@@ -13,8 +13,9 @@ tableOfContents: false
 >
 > -- _Alan J. Perlis, 1982[^1]_
 
-[^1]: 19th epigram from: Alan J. Perlis. 1982. Special Feature: Epigrams on programming.
-SIGPLAN Not. 17, 9 (September 1982), 7–13. <https://doi.org/10.1145/947955.1083808>
+[^1]:
+    19th epigram from: Alan J. Perlis. 1982. Special Feature: Epigrams on programming.
+    SIGPLAN Not. 17, 9 (September 1982), 7–13. <https://doi.org/10.1145/947955.1083808>
 
 I found this quote when reading the
 excellent [article](http://www.norvig.com/21-days.html) by Peter Norvig about the path of
@@ -225,13 +226,8 @@ everything I knew, which meant more to understand and improve.
 I am currently studying Thai and loving all the process.
 
 [io.Copy src]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/io/io.go;l=373-385;drc=dc8e2a6a8ec94f2c98ba20edd57932eba284efb1
-
 [WriterTo optimization]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/io/io.go;l=406-410;drc=dc8e2a6a8ec94f2c98ba20edd57932eba284efb1
-
 [ReaderFrom optimization]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/io/io.go;l=411-414;drc=dc8e2a6a8ec94f2c98ba20edd57932eba284efb1
-
 [file-to-file]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/os/readfrom_linux.go;l=31-45;drc=0844ff8eef81e124c1fecba82dd5843745427fa4
-
 [stream-to-tcp]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/net/splice_linux.go;l=12-44;drc=8d6a455df42b016ed2f7071e70718cad940937f9
-
 [file-to-tcp]: https://cs.opensource.google/go/go/+/refs/tags/go1.20.5:src/net/sendfile_linux.go;l=13-53;drc=27c38142756902c9a2e281ff1dd0f2e0a7273f75

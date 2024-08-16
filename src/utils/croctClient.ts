@@ -1,43 +1,42 @@
 import croct from '@croct/plug';
 
 croct.plug({
-  appId: import.meta.env.PUBLIC_CROCT_APP_ID,
-  // debug: import.meta.env.DEV,
-  cidAssignerEndpointUrl: new URL(
-    '/api/cid-assigner',
-    window.location.href,
-  ).toString(),
+	appId: import.meta.env.PUBLIC_CROCT_APP_ID,
+	// debug: import.meta.env.DEV,
+	cidAssignerEndpointUrl: new URL('/api/cid-assigner', window.location.href).toString(),
 
-  token: null,
-  track: false,
-  baseEndpointUrl: 'https://beta.api.croct.io',
+	token: null,
+	// track: false,
+	// baseEndpointUrl: 'https://beta.api.croct.io',
 });
 
 window.croct = croct;
 
 setTimeout(async () => {
-  const currentTag = Date();
-  await croct.user.edit()
-    .set('custom.tag', currentTag)
-    // .unset('custom.tag')
-    .save();
+	const currentTag = Date();
 
-  let counter = 0;
+	await croct.user
+		.edit()
+		.set('custom.tag', currentTag)
+		// .unset('custom.tag')
+		.save();
 
-  const interval = setInterval(async () => {
-    if (++counter > 5) {
-      clearInterval(interval);
-    }
+	let counter = 0;
 
-    try {
-      const { content } = await croct.fetch('home-intro@2', { timeout: 2000 });
-      const location = await croct.evaluate('location', { timeout: 2000 });
+	const interval = setInterval(async () => {
+		if (++counter > 5) {
+			clearInterval(interval);
+		}
 
-      console.log(content, location);
-    } catch (err) {
-      console.error(err);
-    }
-  }, 500);
+		try {
+			const { content } = await croct.fetch('home-intro@2', { timeout: 2000 });
+			const location = await croct.evaluate('location', { timeout: 2000 });
+
+			console.log(content, location);
+		} catch (err) {
+			console.error(err);
+		}
+	}, 500);
 }, 2000);
 
 export { croct };

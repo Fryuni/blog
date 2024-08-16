@@ -4,19 +4,20 @@ import '@astrojs/starlight/style/reset.css';
 import '@/tailwind.css';
 import ThemeProvider from '@astrojs/starlight/components/ThemeProvider.astro';
 ---
+
 <html lang={Astro.props.lang}>
-  <head>
-    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-    <meta charset="utf-8">
-    <slot name="head" />
-    <style>
-      body {
-          padding: 1rem;
-      }
-    </style>
-    <ThemeProvider />
-  </head>
-  <body>
-    <slot />
-  </body>
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<meta charset="utf-8" />
+		<slot name="head" />
+		<style>
+			body {
+				padding: 1rem;
+			}
+		</style>
+		<ThemeProvider />
+	</head>
+	<body>
+		<slot />
+	</body>
 </html>
