@@ -12,31 +12,60 @@ croct.plug({
 
 window.croct = croct;
 
+// setTimeout(async () => {
+// 	const currentTag = Date();
+//
+// 	await croct.user
+// 		.edit()
+// 		.set('custom.tag', currentTag)
+// 		// .unset('custom.tag')
+// 		.save();
+//
+// 	let counter = 0;
+//
+// 	const interval = setInterval(async () => {
+// 		if (++counter > 5) {
+// 			clearInterval(interval);
+// 		}
+//
+// 		try {
+// 			const { content } = await croct.fetch('home-intro@2', { timeout: 2000 });
+// 			const location = await croct.evaluate('location', { timeout: 2000 });
+//
+// 			console.log(content, location);
+// 		} catch (err) {
+// 			console.error(err);
+// 		}
+// 	}, 500);
+// }, 2000);
+
+const delay = (time: number) =>
+	new Promise<void>((resolve) => {
+		setTimeout(() => {
+			resolve();
+		}, time);
+	});
+
 setTimeout(async () => {
-	const currentTag = Date();
+	console.log('Initiating test of new Croct SDK');
 
-	await croct.user
-		.edit()
-		.set('custom.tag', currentTag)
-		// .unset('custom.tag')
-		.save();
+	const now = Date();
 
-	let counter = 0;
+	console.log(`Setting the property "testTime" on the user to "${now}"`);
 
-	const interval = setInterval(async () => {
-		if (++counter > 5) {
-			clearInterval(interval);
-		}
+	await croct.user.edit().set('custom.testTime', now).save();
 
-		try {
-			const { content } = await croct.fetch('home-intro@2', { timeout: 2000 });
-			const location = await croct.evaluate('location', { timeout: 2000 });
+	await delay(3000);
 
-			console.log(content, location);
-		} catch (err) {
-			console.error(err);
-		}
-	}, 500);
+	console.log('Reading the property "testTime" from the user');
+
+	const value = await croct.evaluate('user.testTime');
+
+	if (now === value) {
+		console.log('Values match, tracking is working correctly.');
+	} else {
+		console.log(`Received value "${value}". Tracking is misbehaving.`);
+	}
 }, 2000);
 
 export { croct };

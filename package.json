@@ -27,7 +27,7 @@
     "@astrojs/vercel": "^7.7.2",
     "@croct/md-lite": "^0.2.1",
     "@croct/plug": "^0.14.1",
-    "@croct/sdk": "^0.16.1",
+    "@croct/sdk": "https://pkg.pr.new/@croct/sdk@a143165",
     "astro": "^4.11.5",
     "astro-expressive-code": "^0.35.3",
     "astro-og-canvas": "^0.5.2",
@@ -53,6 +53,7 @@
   },
   "pnpm": {
     "overrides": {
+      "@croct/sdk": "$@croct/sdk",
       "astro": "$astro",
       "astro-expressive-code": "$astro-expressive-code",
       "remark-expressive-code": "$remark-expressive-code"
