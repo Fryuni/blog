@@ -18,7 +18,7 @@
     "*.{js,ts,jsx,tsx,astro,json,md,mdx}": "prettier --write"
   },
   "dependencies": {
-    "@astrojs/check": "^0.7.0",
+    "@astrojs/check": "^0.9.3",
     "@astrojs/markdown-remark": "^5.1.1",
     "@astrojs/node": "^8.3.2",
     "@astrojs/starlight": "https://gitpkg.now.sh/Fryuni/starlight/packages/starlight?c33ab7c53dd6dad7a67ef0be5bbaf61cdead4d5d",
@@ -26,9 +26,9 @@
     "@astrojs/tailwind": "^5.1.0",
     "@astrojs/vercel": "^7.7.2",
     "@croct/md-lite": "^0.2.1",
-    "@croct/plug": "^0.14.1",
-    "@croct/sdk": "https://pkg.pr.new/@croct/sdk@a143165",
-    "astro": "^4.11.5",
+    "@croct/plug": "^0.15.0",
+    "@croct/sdk": "https://pkg.pr.new/@croct/sdk@7066fdf",
+    "astro": "^4.14.2",
     "astro-expressive-code": "^0.35.3",
     "astro-og-canvas": "^0.5.2",
     "canvaskit-wasm": "^0.39.1",
@@ -45,11 +45,11 @@
     "astro-meta-tags": "^0.3.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
+    "markdownlint-cli": "^0.41.0",
     "prettier": "^3.3.2",
     "prettier-plugin-astro": "^0.14.0",
-    "markdownlint-cli": "^0.41.0",
-    "starlight-links-validator": "^0.9.1",
-    "typescript": "^5.5.3"
+    "starlight-links-validator": "^0.10.1",
+    "typescript": "^5.5.4"
   },
   "pnpm": {
     "overrides": {
