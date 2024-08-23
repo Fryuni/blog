@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@croct/sdk': https://pkg.pr.new/@croct/sdk@7066fdf
+  '@croct/sdk': https://pkg.pr.new/@croct/sdk@eeab2f8
   astro: ^4.14.2
   astro-expressive-code: ^0.35.3
   remark-expressive-code: ^0.35.3
@@ -47,8 +47,8 @@ importers:
         specifier: ^0.15.0
         version: 0.15.0
       '@croct/sdk':
-        specifier: https://pkg.pr.new/@croct/sdk@7066fdf
-        version: https://pkg.pr.new/@croct/sdk@7066fdf
+        specifier: https://pkg.pr.new/@croct/sdk@eeab2f8
+        version: https://pkg.pr.new/@croct/sdk@eeab2f8
       astro:
         specifier: ^4.14.2
         version: 4.14.2(rollup@4.21.0)(typescript@5.5.4)
@@ -301,8 +301,8 @@ packages:
   '@croct/plug@0.15.0':
     resolution: {integrity: sha512-S7ZGZrqLqKaHQrWJw0Z2NdaYzveZn06NtBk9TLpHNYanj+a30VRgiXJmBul5bQayHn+UyzrsQYHp8qW49Oo+pA==}
 
-  '@croct/sdk@https://pkg.pr.new/@croct/sdk@7066fdf':
-    resolution: {tarball: https://pkg.pr.new/@croct/sdk@7066fdf}
+  '@croct/sdk@https://pkg.pr.new/@croct/sdk@eeab2f8':
+    resolution: {tarball: https://pkg.pr.new/@croct/sdk@eeab2f8}
     version: 0.0.0-dev
     engines: {node: '>=10'}
 
@@ -3512,10 +3512,10 @@ snapshots:
   '@croct/plug@0.15.0':
     dependencies:
       '@croct/json': 2.1.0
-      '@croct/sdk': https://pkg.pr.new/@croct/sdk@7066fdf
+      '@croct/sdk': https://pkg.pr.new/@croct/sdk@eeab2f8
       tslib: 2.6.3
 
-  '@croct/sdk@https://pkg.pr.new/@croct/sdk@7066fdf':
+  '@croct/sdk@https://pkg.pr.new/@croct/sdk@eeab2f8':
     dependencies:
       '@croct/json': 2.1.0
       tslib: 2.6.3
